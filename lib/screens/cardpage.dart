@@ -35,13 +35,108 @@ class _CardPageState extends State<CardPage>{
           padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
           child: GridView.count(
             crossAxisCount: 1,
-            childAspectRatio: (40 / 15),
+            childAspectRatio: (40 / 20),
             //crossAxisSpacing: 25.0,
             mainAxisSpacing: 0.0,
             children: Value.map((item)=>Container(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(10),
               margin: EdgeInsets.all(5),
-              child: Text(item['gender'],
+              child: Stack(
+                children: [
+                  //use the positioned widget to place
+                  const Positioned(
+                    top: 0.0,
+                    left: 4.0,
+                    child: Text(
+                      "Mary Jane", //Position to Add Text
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+
+                  const Positioned(
+                    top: 25,
+                    left: 4,
+                    child: Text(
+                      "Assitant Professor",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+
+                  const Positioned(
+                    top: 50,
+                    left: 4,
+                    child: Text(
+                      "Department of Computer Science",
+                      style: TextStyle(
+                          color: Color.fromARGB(255,0,0,0),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+
+                  Positioned(
+                    bottom: 0,
+                    left: 8,
+                    child: SizedBox(
+                      width: 300,
+                      child:
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(Icons.phone),
+                                    Text(
+                                      "+91 9048904851",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Icon(Icons.email),
+                                    Text(item['email'],
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ]),
+                    ),
+                  ),
+
+                  const Positioned(
+                    right: 10,
+                    top: 4,
+                    child: Center(
+                      child: Icon(Icons.person_pin),
+                    ),
+                  )
+                ],
+              ),
+
+              /*child: Text(item['gender'],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Roboto",
@@ -49,7 +144,7 @@ class _CardPageState extends State<CardPage>{
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
+              ),*/
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),

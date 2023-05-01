@@ -100,7 +100,54 @@ class _HomePageState extends State<HomePage>{
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 5, 10),
-                child: Row(
+                child:
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.blueAccent,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.bold,
+                        ),
+                        controller: _textEditingController,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: _textEditingController.clear,
+                            icon: Icon(Icons.clear),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
+                            borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                          ),
+                          hintText: 'Selected Date',
+                          //enabled: false,
+                        ),
+                        readOnly: true,
+                      ),
+                    ),
+                    Container(
+                      height: 62 ,
+                      decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
+                      ),
+                      child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
+
+                      /*
+                    padding: EdgeInsets.zero,
+                      onPressed: _ShowDatePicker,
+                      icon: Icon(
+                        Icons.calendar_month_rounded,
+                        size: 55,
+                        color: Colors.blueAccent,
+                      ),
+                    */
+                    )
+                  ],
+                ),
+                /*Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
@@ -140,7 +187,7 @@ class _HomePageState extends State<HomePage>{
                         color: Colors.blueAccent,
                       ),
                     ),
-                    /*SizedBox(
+                    *//*SizedBox(
                       child: IconButton(
                         onPressed: _ShowDatePicker,
                         icon: Icon(Icons.calendar_month_rounded, size: 60.00,),
@@ -149,8 +196,8 @@ class _HomePageState extends State<HomePage>{
                           backgroundColor: Colors.blueAccent,
                         ),
                       ),
-                    ),*/
-                    /*Padding(
+                    ),*//*
+                    *//*Padding(
                       padding: const EdgeInsets.all(0.0),
                       child: SizedBox(
                         child: IconButton(
@@ -162,9 +209,9 @@ class _HomePageState extends State<HomePage>{
                           ),
                         ),
                       ),
-                    ),*/
+                    ),*//*
                   ],
-                ),
+                ),*/
               ),
               SizedBox(height: 15.0,),
               /*ElevatedButton.icon(
@@ -213,6 +260,52 @@ class _HomePageState extends State<HomePage>{
                     fontWeight: FontWeight.bold,),),
                 style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Colors.redAccent),
               ),
+              /*Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.blueAccent,
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      controller: _textEditingController,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: _textEditingController.clear,
+                          icon: Icon(Icons.clear),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
+                          borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                        ),
+                        hintText: 'Selected Date',
+                        //enabled: false,
+                      ),
+                      readOnly: true,
+                    ),
+                  ),
+                  Container(
+                    height: 62 ,
+                    decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
+                    ),
+                    child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
+
+                    *//*
+                    padding: EdgeInsets.zero,
+                      onPressed: _ShowDatePicker,
+                      icon: Icon(
+                        Icons.calendar_month_rounded,
+                        size: 55,
+                        color: Colors.blueAccent,
+                      ),
+                    *//*
+                  )
+                ],
+              ),*/
             ],
           ),
         ),
@@ -356,36 +449,36 @@ class _DropdownButtonExampleState extends State<DropdownList> {
       padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blueAccent, width: 2.0),
-          borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(5),
       ),
-        height: 60,
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            value: dropdownValue,
-            icon: const Icon(Icons.arrow_drop_down,size: 20.0, color: Colors.blueAccent,),
-            elevation: 16,
-            style: const TextStyle(fontSize: 18.0,
-              color: Colors.blueAccent,
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.bold,
-            ),
-            isExpanded: true,
-            onChanged: (String? value) {
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = value!;
-              });
-              // 2. Call, callback passing the selected value
-              widget.onChanged(value);
-            },
-            items: list.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+      height: 60,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: dropdownValue,
+          icon: const Icon(Icons.arrow_drop_down,size: 20.0, color: Colors.blueAccent,),
+          elevation: 16,
+          style: const TextStyle(fontSize: 18.0,
+            color: Colors.blueAccent,
+            fontFamily: "Roboto",
+            fontWeight: FontWeight.bold,
           ),
+          isExpanded: true,
+          onChanged: (String? value) {
+            // This is called when the user selects an item.
+            setState(() {
+              dropdownValue = value!;
+            });
+            // 2. Call, callback passing the selected value
+            widget.onChanged(value);
+          },
+          items: list.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         ),
+      ),
     );
   }
 }
