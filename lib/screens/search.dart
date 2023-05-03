@@ -104,14 +104,37 @@ class _CardPageState extends State<SearchPage>{
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Add'),
-                            content: Text("Do You Want to add ${suggestion}"),
+                            title: const Text('Add Item',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 1, 32, 96),
+                                fontFamily: "Roboto",
+                                fontSize: 18.0,
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            content: Text("Do You Want to add ${suggestion}?",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 1, 32, 96),
+                                fontFamily: "Roboto",
+                                fontSize: 14.0,
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             actions: <Widget>[
                               TextButton(
                                 style: TextButton.styleFrom(
                                   textStyle: Theme.of(context).textTheme.labelLarge,
                                 ),
-                                child: const Text('Ok'),
+                                child: const Text('Add',
+                                  style: TextStyle(
+                                  color: Color.fromARGB(255, 1, 32, 96),
+                                  fontFamily: "Roboto",
+                                  fontSize: 14.0,
+                                  letterSpacing: 1.0,
+                                  fontWeight: FontWeight.bold,
+                                ),),
                                 onPressed: () {
                                   setState(() {
                                     userSelected = suggestion;
@@ -124,7 +147,15 @@ class _CardPageState extends State<SearchPage>{
                                 style: TextButton.styleFrom(
                                   textStyle: Theme.of(context).textTheme.labelLarge,
                                 ),
-                                child: const Text('Cancel'),
+                                child: const Text('Cancel',
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 1, 32, 96),
+                                    fontFamily: "Roboto",
+                                    fontSize: 14.0,
+                                    letterSpacing: 1.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -148,11 +179,106 @@ class _CardPageState extends State<SearchPage>{
               padding: const EdgeInsets.all(8),
               itemCount: userSearchItems.length,
               itemBuilder: (BuildContext context, int index) {
-                return Text(userSearchItems[index]);
+                return Card(
+                  color: Color.fromARGB(255, 1, 32, 96),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    child: ListTile(
+                      title : Text(
+                        userSearchItems[index],
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontFamily: "Roboto",
+                          fontSize: 18.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      trailing: Container(
+                        width: 35,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: IconButton(
+                                onPressed: (){
+                                  showDialog<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Delete',
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 1, 32, 96),
+                                              fontFamily: "Roboto",
+                                              fontSize: 18.0,
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          content: Text("Do You Want to delete ${userSearchItems[index]}?",
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 1, 32, 96),
+                                              fontFamily: "Roboto",
+                                              fontSize: 14.0,
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: Theme.of(context).textTheme.labelLarge,
+                                              ),
+                                              child: const Text('Delete',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 1, 32, 96),
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),),
+                                              onPressed: () {
+                                                setState(() {
+                                                  userSearchItems.removeAt(index);
+                                                });
+
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: Theme.of(context).textTheme.labelLarge,
+                                              ),
+                                              child: const Text('Cancel',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 1, 32, 96),
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                  );
+                                },
+                                icon: Icon(Icons.delete, size: 30, color: Colors.white,),
+                              )
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               }
           ),),
         ),
-
+//)
     );
   }
 }
