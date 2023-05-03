@@ -27,26 +27,83 @@ class _CardPageState extends State<CardPage>{
             fontWeight: FontWeight.bold,
           ),),
         centerTitle: true,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Color.fromARGB(255, 1, 32, 96),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 1.0),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: GridView.count(
             crossAxisCount: 1,
             childAspectRatio: (40 / 20),
             //crossAxisSpacing: 25.0,
             mainAxisSpacing: 0.0,
             children: Value.map((item)=>Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(0),
               margin: EdgeInsets.all(5),
               child: Stack(
                 children: [
                   //use the positioned widget to place
-                  const Positioned(
+                  Positioned(
                     top: 0.0,
-                    left: 4.0,
+                    left: -8.0,
+                    child: Container(
+                      height: 188,
+                      width: 120,
+                      child: Center(
+                        child: new AspectRatio(
+                          aspectRatio: 250 / 450,
+                            child: new Container(
+                              decoration: new BoxDecoration(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(13),bottomLeft: Radius.circular(16)),
+                                image: new DecorationImage(
+                                  fit: BoxFit.fitWidth,
+                                  colorFilter:
+                                  ColorFilter.mode(Colors.black.withOpacity(0.2),
+                                      BlendMode.dstATop),
+                                  alignment: FractionalOffset.topCenter,
+                                  image: AssetImage('assets/images/Pic.jpg'),/*NetworkImage('https://mobios.lk/nauru/wp-content/uploads/2023/03/libra.jpg'),*/
+                                )
+                              ),
+                            ),
+                          ),
+                      /*Card(
+                        child: SizedBox(
+                          width: 60,
+                          height: 200,
+                          child: Image.asset(
+                            'assets/images/Libs.jpg',
+                            *//*height: 200,
+                            width: 120,*//*
+                            colorBlendMode: BlendMode.darken,
+                            //fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      ),*/
+                      ),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 80.0,
+                    left: -0.0,
+                    child: Container(
+                      width: 105,
+                      child: Center(
+                        child: Text(
+                          '1', //Position to Add Text
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const Positioned(
+                    top: 10.0,
+                    left: 115.0,
                     child: Text(
                       "Mary Jane", //Position to Add Text
                       style: TextStyle(
@@ -57,8 +114,8 @@ class _CardPageState extends State<CardPage>{
                   ),
 
                   const Positioned(
-                    top: 25,
-                    left: 4,
+                    top: 35,
+                    left: 115,
                     child: Text(
                       "Assitant Professor",
                       style: TextStyle(
@@ -69,8 +126,8 @@ class _CardPageState extends State<CardPage>{
                   ),
 
                   const Positioned(
-                    top: 50,
-                    left: 4,
+                    top: 55,
+                    left: 114,
                     child: Text(
                       "Department of Computer Science",
                       style: TextStyle(
@@ -81,8 +138,8 @@ class _CardPageState extends State<CardPage>{
                   ),
 
                   Positioned(
-                    bottom: 0,
-                    left: 8,
+                    bottom: 8,
+                    left: 114,
                     child: SizedBox(
                       width: 300,
                       child:
@@ -127,8 +184,8 @@ class _CardPageState extends State<CardPage>{
                   ),
 
                   const Positioned(
-                    right: 10,
-                    top: 4,
+                    right: 14,
+                    top: 8,
                     child: Center(
                       child: Icon(Icons.person_pin),
                     ),
