@@ -133,11 +133,16 @@ class _HomePageState extends State<HomePage>{
                               fontFamily: "Roboto",
                               fontWeight: FontWeight.bold,
                             ),
+
                             controller: _textEditingController,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 onPressed: _textEditingController.clear,
-                                icon: Icon(Icons.clear),
+                                icon: Icon(Icons.clear, color: Color.fromARGB(255, 1, 32, 96),),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 2, color: Color.fromARGB(255, 1, 32, 96)),
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
@@ -331,59 +336,6 @@ class _HomePageState extends State<HomePage>{
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 20.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade600,
-                    blurRadius: 4,
-                    offset: Offset(0, 1), // Shadow position
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Notify',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 1, 32, 96),
-                      fontFamily: "Roboto",
-                      fontSize: 18.0,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 15.0,),
-                  ElevatedButton.icon(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SearchPage(),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.notifications_active_outlined),
-                    label: const Text(
-                      'Notification',
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        color: Colors.white,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,),),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Color.fromARGB(255, 1, 32, 96)),
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
       drawer: Container(
@@ -459,7 +411,7 @@ class _HomePageState extends State<HomePage>{
                 applicationIcon: Icon(
                   Icons.local_play,
                 ),
-                applicationName: 'My Cool App',
+                applicationName: 'Court App',
                 applicationVersion: '1.0.25',
                 applicationLegalese: '© 2019 Company',
                 aboutBoxChildren: [

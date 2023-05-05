@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nauru_mobile_app/screens/homepage.dart';
+//import 'package:nauru_mobile_app/screens/homepage.dart';
+import 'components/bottom_navbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: BottomTabBar(),
       theme: ThemeData(primarySwatch: Colors.blue),
     );
   }
