@@ -214,7 +214,8 @@ class _HomePageState extends State<HomePage>{
                             color: Colors.blueAccent,
                           ),
                         ),
-                        *//*SizedBox(
+                        */
+                    /*SizedBox(
                           child: IconButton(
                             onPressed: _ShowDatePicker,
                             icon: Icon(Icons.calendar_month_rounded, size: 60.00,),
@@ -224,7 +225,8 @@ class _HomePageState extends State<HomePage>{
                             ),
                           ),
                         ),*//*
-                        *//*Padding(
+                        */
+                    /*Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: SizedBox(
                             child: IconButton(
@@ -320,7 +322,8 @@ class _HomePageState extends State<HomePage>{
                         ),
                         child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
 
-                        *//*
+                        */
+                  /*
                         padding: EdgeInsets.zero,
                           onPressed: _ShowDatePicker,
                           icon: Icon(
@@ -435,57 +438,175 @@ class _HomePageState extends State<HomePage>{
   //API Handler
   void ApiCaller() async{
     String Date = _textEditingController.text.trim();
-    if(!(Date.isEmpty) && (SelectedValueHolder != "- Select Person -" && SelectedValueHolder != "")){
+    if(!(Date.isEmpty) && (SelectedValueHolder != "- Select Court -" && SelectedValueHolder != "")){
       //print(DropdownList);
       print(Date);
       print(SelectedValueHolder);
 
-      const url = "https://randomuser.me/api/?results=10";
+      const url = "https://api.textware.lk/nauru/v1/api/search";
       final uri = Uri.parse(url);
-      final response = await http.get(uri); //http.post(uri, {'select':SelectedValueHolder,'date':Date}) -> Replace Here
+
       try{
-        if(response.statusCode == 200){ //Check Response is success
-          final body = response.body;
-          final json = jsonDecode(body);
-          setState(() {
-            data = json["results"];
-            print(data);
-          });
-          if(data.length != 0){
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CardPage(Data : data),
-              ),
+        if(SelectedValueHolder == "Supreme Court"){
+          final response = await http.post(
+            uri,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              'type': "SUPREMECOURT",
+              'date':Date
+            }),
+          );
+          //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
+          if(response.statusCode == 200){ //Check Response is success
+            final body = response.body;
+            final json = jsonDecode(body);
+            setState(() {
+              data = json["upcomingCaseList"];
+              print(data);
+            });
+            if(data.length != 0){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CardPage(Data : data),
+                ),
+              );
+              print("Move to the list page!");
+            }
+          }
+          else{
+            showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text('Request not Success'),
+                    actions: <Widget>[
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        child: const Text('Ok'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                }
             );
-            print("Move to the list page!");
+
           }
         }
-        else{
-          //CupertinoAlertDialog();
-          //print("Request not Success");
-          showDialog<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Error'),
-                  content: const Text('Request not Success'),
-                  actions: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      child: const Text('Ok'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              }
+        else if(SelectedValueHolder == "District Court"){
+          final response = await http.post(
+            uri,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              'type': "DISTRICTCOURT",
+              'date': Date
+            }),
           );
+          //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
+          if(response.statusCode == 200){ //Check Response is success
+            final body = response.body;
+            final json = jsonDecode(body);
+            setState(() {
+              data = json["upcomingCaseList"];
+              print(data);
+            });
+            if(data.length != 0){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CardPage(Data : data),
+                ),
+              );
+              print("Move to the list page!");
+            }
+          }
+          else{
+            showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text('Request not Success'),
+                    actions: <Widget>[
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        child: const Text('Ok'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                }
+            );
 
+          }
         }
+        else if(SelectedValueHolder == "Court of Appeal"){
+          final response = await http.post(
+            uri,
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              'type': "COURTOFAPPEAL",
+              'date':Date,
+            }),
+          );
+          //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
+          if(response.statusCode == 200){ //Check Response is success
+            final body = response.body;
+            final json = jsonDecode(body);
+            setState(() {
+              data = json["upcomingCaseList"];
+              print(data);
+            });
+            if(data.length != 0){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CardPage(Data : data),
+                ),
+              );
+              print("Move to the list page!");
+            }
+          }
+          else{
+            showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Error'),
+                    content: const Text('Request not Success'),
+                    actions: <Widget>[
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        child: const Text('Ok'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                }
+            );
+
+          }
+        }
+
       }
       catch(e){
         error = e.toString();
@@ -543,7 +664,7 @@ class _HomePageState extends State<HomePage>{
 }
 
 //DropDown List
-const List<String> list = <String>['- Select Person -','One', 'Two', 'Three', 'Four']; //DropDown Contain List
+const List<String> list = <String>['- Select Court -','Supreme Court', 'District Court', 'Court of Appeal']; //DropDown Contain List
 class DropdownList extends StatefulWidget {
   //1. required this.onChanged,
   final Function onChanged;

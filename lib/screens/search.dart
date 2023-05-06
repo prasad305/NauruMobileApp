@@ -24,7 +24,7 @@ class _CardPageState extends State<SearchPage>{
           elevation: 0.0,
           backgroundColor: Color.fromARGB(255, 1, 32, 96),
           title: Padding(
-            padding: const EdgeInsets.only(right: 0.0, top: 2, left: 0),
+            padding: const EdgeInsets.only(right: 10.0, top: 0, left: 10.0),
             child: SizedBox(
                 height: 45,
                 width: double.infinity,
@@ -181,7 +181,7 @@ class _CardPageState extends State<SearchPage>{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Visibility(
+                  /*Visibility(
                     visible: (userSearchItems.length != 0),
                     child: Stack( children: [
                       Container(
@@ -189,13 +189,13 @@ class _CardPageState extends State<SearchPage>{
                           color: Colors.white,
                           border: Border.all(width: 2, color: Color.fromARGB(255, 1, 32, 96)),
                           borderRadius: BorderRadius.circular(10),
-                          /*boxShadow: [
+                          *//*boxShadow: [
                             BoxShadow(
                               color: Colors.grey.shade600,
                               blurRadius: 4,
                               offset: Offset(0, 1), // Shadow position
                             ),
-                          ],*/
+                          ],*//*
                         ),
                         padding: const EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 20.0),
                         margin: const EdgeInsets.fromLTRB(13.0, 15.0, 13.0, 12.0),
@@ -375,7 +375,7 @@ class _CardPageState extends State<SearchPage>{
                           padding: EdgeInsets.only(bottom: 5, left: 2, right: 2),
                           color: Colors.white,
                           child: Text(
-                            'Create an account',
+                            'List Configurations',
                             style: TextStyle(
                               color: Color.fromARGB(255, 1, 32, 96),
                               fontFamily: "Roboto",
@@ -387,7 +387,7 @@ class _CardPageState extends State<SearchPage>{
                         ),
                       ),
                     ], )
-                  ),
+                  ),*/
                   Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
