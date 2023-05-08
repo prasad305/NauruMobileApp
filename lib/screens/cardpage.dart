@@ -20,7 +20,7 @@ class _CardPageState extends State<CardPage>{
     return Scaffold(
       appBar: AppBar(
         title: Text(PageHeading(),
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: "Roboto",
             letterSpacing: 1.0,
             fontSize: 22.0,

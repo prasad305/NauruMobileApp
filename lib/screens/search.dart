@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../data/state_servies.dart';
 
 class SearchPage extends StatefulWidget {
@@ -17,6 +20,70 @@ class _CardPageState extends State<SearchPage>{
   int i = 0;//List Records Counter
   String? userSelected = "";
   List<String> userSearchItems = []; //Select Item Holder
+
+  // obtain shared preferences
+
+// // set value
+//   await prefs.setInt('counter', counter);
+
+  @override
+  initState() {
+    super.initState();
+    loadUserData();
+    loadData();
+  }
+
+  List<String> name = [];
+  List<dynamic> caseList = [];
+  List<dynamic> selectedCaseList = [];
+
+  loadUserData() async {
+
+    final prefs = await SharedPreferences.getInstance();
+     // await prefs.remove('idList');
+    final counter = prefs.getString('idList') ?? "null";
+
+    if(counter!="null"){
+      // Map m = new ObjectMapper().convertValue(json, Map.class);
+      selectedCaseList = jsonDecode(counter);
+      for (var item in jsonDecode(counter)) {
+        setState(() {
+          userSearchItems.add(item['caseNo']);
+        });
+      }
+    }
+  }
+  loadData() async {
+    StateService.reloadData(name);
+    var now = new DateTime.now().toString();
+    print(now);
+    const url = "https://api.textware.lk/nauru/v1/api/case/list";
+    final uri = Uri.parse(url);
+    final response = await http.post(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'dateFrom': now.split(" ")[0]
+      }),
+    );
+    if(response.statusCode == 200){ //Check Response is success
+      final body = response.body;
+      final json = jsonDecode(body);
+
+
+      if(json['caseNameList'] != 0){
+        caseList = json['caseNameList'];
+        for (var item in json['caseNameList']) {
+          name.add(item['caseNo']);
+        }
+        StateService.reloadData(name);
+      }else{
+        StateService.reloadData(name);
+      }
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,12 +204,33 @@ class _CardPageState extends State<SearchPage>{
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                 ),),
-                                onPressed: () {
-                                  setState(() {
-                                    userSelected = suggestion;
-                                    userSearchItems.add(suggestion);
-                                  });
-                                  Navigator.of(context).pop();
+                                onPressed: () async {
+                                  final prefs = await SharedPreferences.getInstance();
+
+                                  var elementAt = caseList.elementAt(name.indexOf(suggestion));
+
+
+                                  if(userSearchItems.contains(suggestion)){
+                                    Navigator.of(context).pop();
+                                  }else{
+                                    final counter = prefs.getString('idList') ?? "null";
+                                    List<dynamic> temp = [];
+                                    if(counter=="null"){
+                                      temp.add(json.encode(elementAt).toString());
+                                      await prefs.setString('idList',temp.toString());
+                                    }else{
+                                      temp.add(counter);
+                                      temp.add(json.encode(elementAt).toString());
+                                      await prefs.setString('idList',temp.toString());
+                                    }
+                                    setState(() {
+                                      userSelected = suggestion;
+                                      userSearchItems.add(suggestion);
+                                    });
+                                    Navigator.of(context).pop();
+                                  }
+
+
                                 },
                               ),
                               TextButton(
@@ -455,7 +543,13 @@ class _CardPageState extends State<SearchPage>{
                                                           letterSpacing: 1.0,
                                                           fontWeight: FontWeight.bold,
                                                         ),),
-                                                      onPressed: () {
+                                                      onPressed: () async {
+                                                        selectedCaseList.removeAt(index);
+
+                                                        final prefs = await SharedPreferences.getInstance();
+
+                                                        await prefs.setString('idList',json.encode(selectedCaseList).toString());
+
                                                         setState(() {
                                                           userSearchItems.removeAt(index);
                                                         });

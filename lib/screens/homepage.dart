@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:nauru_mobile_app/screens/search.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'cardpage.dart';
 
@@ -20,6 +21,26 @@ class _HomePageState extends State<HomePage>{
   List<dynamic> data = []; //ApiPass Body Data Holder
   String SelectedValueHolder = ""; //Dropdown Button Selected Value Holder
 
+
+
+   openUrl(url,path) async {
+    // final uri = Uri.parse(url);
+
+    final Uri toLaunch =
+    Uri(scheme: 'https', host:url, path: path);
+
+    _launchInBrowser(toLaunch);
+
+  }
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   void _ShowDatePicker(){
     showDatePicker(
@@ -89,7 +110,7 @@ class _HomePageState extends State<HomePage>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   //First Selection
-                  Text(
+                  const Text(
                     'Select Name',
                     style: TextStyle(
                       color: Color.fromARGB(255, 1, 32, 96),
@@ -348,24 +369,25 @@ class _HomePageState extends State<HomePage>{
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
+            const SizedBox(
+            height: 130.0,
+              child: DrawerHeader(
                 decoration: BoxDecoration(
                   color: Color.fromARGB(255, 1, 32, 96),
                 ),
                 child: Text(
-                  'Select Name',
+                  'Nauru App',
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontFamily: "Roboto",
                     fontSize: 22.0,
-                    letterSpacing: 1.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+              )),
               ListTile(
                 title: const Text(
-                  'Item One',
+                  'About',
                   style: TextStyle(
                     color: Color.fromARGB(255, 1, 32, 96),
                     fontFamily: "Roboto",
@@ -374,13 +396,14 @@ class _HomePageState extends State<HomePage>{
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onTap: () {
+                onTap: () async {
+                 openUrl('naurujudiciary.gov.nr','about/');
                   Navigator.pop(context);
                 },
               ),
               ListTile(
                 title: const Text(
-                  'Item One',
+                  'The Courts',
                   style: TextStyle(
                     color: Color.fromARGB(255, 1, 32, 96),
                     fontFamily: "Roboto",
@@ -391,18 +414,15 @@ class _HomePageState extends State<HomePage>{
                 ),
                 onTap: () {
                   // Update the state of the app
+                  openUrl('naurujudiciary.gov.nr','district-court/');
                   // ...
                   // Then close the drawer
                   Navigator.pop(context);
                 },
               ),
-              AboutListTile(
-                icon: Icon(
-                  Icons.info,
-                  color: Color.fromARGB(255, 1, 32, 96),
-                ),
-                child: Text(
-                  'Item One',
+              ListTile(
+                title: const Text(
+                  'Registry',
                   style: TextStyle(
                     color: Color.fromARGB(255, 1, 32, 96),
                     fontFamily: "Roboto",
@@ -411,16 +431,90 @@ class _HomePageState extends State<HomePage>{
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                applicationIcon: Icon(
-                  Icons.local_play,
+                onTap: () {
+                  // Update the state of the app
+                  openUrl('naurujudiciary.gov.nr','registrar/');
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ), ListTile(
+                title: const Text(
+                  'Going To Court',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 1, 32, 96),
+                    fontFamily: "Roboto",
+                    fontSize: 18.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                applicationName: 'Court App',
-                applicationVersion: '1.0.25',
-                applicationLegalese: '© 2019 Company',
-                aboutBoxChildren: [
-                  ///Content goes here...
-                ],
-              )
+                onTap: () {
+                  // Update the state of the app
+                  openUrl('naurujudiciary.gov.nr','going-to-court/court-room-etiquette/');
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),ListTile(
+                title: const Text(
+                  'Publications',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 1, 32, 96),
+                    fontFamily: "Roboto",
+                    fontSize: 18.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  openUrl('naurujudiciary.gov.nr','annual-reports/');
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),ListTile(
+                title: const Text(
+                  'Contact us',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 1, 32, 96),
+                    fontFamily: "Roboto",
+                    fontSize: 18.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  // Update the state of the app
+                  openUrl('naurujudiciary.gov.nr','contact/');
+                  // ...
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+              // const AboutListTile(
+              //   // icon: Icon(
+              //   //   Icons.info,
+              //   //   color: Color.fromARGB(255, 1, 32, 96),
+              //   // ),
+              //   child: Text(
+              //     'About App',
+              //     style: TextStyle(
+              //       color: Color.fromARGB(255, 1, 32, 96),
+              //       fontFamily: "Roboto",
+              //       fontSize: 18.0,
+              //       letterSpacing: 1.0,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              //   applicationIcon: Icon(
+              //     Icons.local_play,
+              //   ),
+              //   applicationName: 'Nauru Court App',
+              //   applicationVersion: '1.0.25',
+              //   applicationLegalese: '© 2023 Company',
+              // )
             ],
           ),
         ),
@@ -440,8 +534,6 @@ class _HomePageState extends State<HomePage>{
     String Date = _textEditingController.text.trim();
     if(!(Date.isEmpty) && (SelectedValueHolder != "- Select Court -" && SelectedValueHolder != "")){
       //print(DropdownList);
-      print(Date);
-      print(SelectedValueHolder);
 
       const url = "https://api.textware.lk/nauru/v1/api/search";
       final uri = Uri.parse(url);

@@ -14,21 +14,6 @@ class BottomTabBar extends StatefulWidget {
 class _BottomTabBarState extends State<BottomTabBar> {
   int _currentIndex = 0;
 
-  final _bottomNavigationBarItems =  [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.home_filled, size: 30, color: Colors.white),
-      label: 'Home',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.notifications, size: 30, color: Colors.white),
-      label: 'Search',
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.photo_camera_front_rounded, size: 30, color: Colors.white),
-      label: 'Profile',
-    )
-  ];
-
   PageController _pageController = PageController(initialPage: 0); //Page Controller
 
   @override
@@ -67,15 +52,11 @@ class _BottomTabBarState extends State<BottomTabBar> {
                 activeIcon: Icon(Icons.home_filled, size: 30, color: Color.fromARGB(255, 246, 197, 0)),
                 label: 'Home',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.notifications, size: 30, color: Color.fromARGB(255, 255, 255, 255)),
-                activeIcon: Icon(Icons.notifications, size: 30, color: Color.fromARGB(255, 246, 197, 0)),
-                label: 'Notification',
-              ),
+
               BottomNavigationBarItem(
                 icon: Icon(Icons.photo_camera_front_rounded, size: 30, color: Color.fromARGB(255, 255, 255, 255)),
                 activeIcon: Icon(Icons.photo_camera_front_rounded, size: 30, color: Color.fromARGB(255, 246, 197, 0)),
-                label: 'Profile',
+                label: 'My Case List',
               )
             ]
         )

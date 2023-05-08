@@ -1,5 +1,6 @@
 class StateService {
-  static final List<String> states = [
+
+  static List<String> states = [
     'ANDAMAN AND NICOBAR ISLANDS',
     'ANDHRA PRADESH',
     'ARUNACHAL PRADESH',
@@ -45,4 +46,10 @@ class StateService {
     matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
     return matches;
   }
+
+  static reloadData(data){
+    states = data;
+  }
+
+
 }
