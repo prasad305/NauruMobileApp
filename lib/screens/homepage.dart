@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage>{
     ).then((value){
       setState(() {
         _textEditingController.text = DateFormat('yyyy-MM-dd').format(value!);
+        print(_textEditingController.text);
       });
     });
   }
@@ -89,101 +90,102 @@ class _HomePageState extends State<HomePage>{
         backgroundColor: Color.fromARGB(255, 1, 32, 96),
       ),
 
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 10.0),
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 25.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade600,
-                    blurRadius: 4,
-                    offset: Offset(0, 1), // Shadow position
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  //First Selection
-                  const Text(
-                    'Select Name',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 1, 32, 96),
-                      fontFamily: "Roboto",
-                      fontSize: 18.0,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 10.0),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 25.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade600,
+                      blurRadius: 4,
+                      offset: Offset(0, 1), // Shadow position
                     ),
-                  ),
-                  SizedBox(height: 10.0,), //Spacer
-                  DropdownList(
-                    onChanged: (String value) {
-                      // 3. read the selected value here and make cool things
-                      print(value);
-                      SelectedValueHolder = value;
-                    },
-                  ), //Dropdown List
-                  SizedBox(height: 18.0,), //Spacer
-
-                  //Second Selection Date Picker
-                  Text(
-                    'Select Date',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 1, 32, 96),
-                      fontFamily: "Roboto",
-                      fontSize: 18.0,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold,
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    //First Selection
+                    const Text(
+                      'Select Court',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 5, 10),
-                    child:
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: TextField(
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Color.fromARGB(255, 1, 32, 96),
-                              fontFamily: "Roboto",
-                              fontWeight: FontWeight.bold,
-                            ),
+                    SizedBox(height: 10.0,), //Spacer
+                    DropdownList(
+                      onChanged: (String value) {
+                        // 3. read the selected value here and make cool things
+                        print(value);
+                        SelectedValueHolder = value;
+                      },
+                    ), //Dropdown List
+                    SizedBox(height: 18.0,), //Spacer
 
-                            controller: _textEditingController,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                onPressed: _textEditingController.clear,
-                                icon: Icon(Icons.clear, color: Color.fromARGB(255, 1, 32, 96),),
+                    //Second Selection Date Picker
+                    Text(
+                      'Select Date',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 5, 10),
+                      child:
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextField(
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Color.fromARGB(255, 1, 32, 96),
+                                fontFamily: "Roboto",
+                                fontWeight: FontWeight.bold,
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Color.fromARGB(255, 1, 32, 96)),
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
-                                borderSide: BorderSide(color: Color.fromARGB(255, 1, 32, 96), width: 2.0),
-                              ),
-                              hintText: 'Selected Date',
-                              //enabled: false,
-                            ),
-                            readOnly: true,
-                          ),
-                        ),
-                        Container(
-                          height: 62 ,
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 1, 32, 96),
-                              borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
-                          ),
-                          child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
 
-                          /*
+                              controller: _textEditingController,
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  onPressed: _textEditingController.clear,
+                                  icon: Icon(Icons.clear, color: Color.fromARGB(255, 1, 32, 96),),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(width: 2, color: Color.fromARGB(255, 1, 32, 96)),
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
+                                  borderSide: BorderSide(color: Color.fromARGB(255, 1, 32, 96), width: 2.0),
+                                ),
+                                hintText: 'Date',
+                                //enabled: false,
+                              ),
+                              readOnly: true,
+                            ),
+                          ),
+                          Container(
+                            height: 62 ,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 1, 32, 96),
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
+                            ),
+                            child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
+
+                            /*
                         padding: EdgeInsets.zero,
                           onPressed: _ShowDatePicker,
                           icon: Icon(
@@ -192,10 +194,10 @@ class _HomePageState extends State<HomePage>{
                             color: Colors.blueAccent,
                           ),
                         */
-                        )
-                      ],
-                    ),
-                    /*Row(
+                          )
+                        ],
+                      ),
+                      /*Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
@@ -236,7 +238,7 @@ class _HomePageState extends State<HomePage>{
                           ),
                         ),
                         */
-                    /*SizedBox(
+                      /*SizedBox(
                           child: IconButton(
                             onPressed: _ShowDatePicker,
                             icon: Icon(Icons.calendar_month_rounded, size: 60.00,),
@@ -247,7 +249,7 @@ class _HomePageState extends State<HomePage>{
                           ),
                         ),*//*
                         */
-                    /*Padding(
+                      /*Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: SizedBox(
                             child: IconButton(
@@ -262,9 +264,9 @@ class _HomePageState extends State<HomePage>{
                         ),*//*
                       ],
                     ),*/
-                  ),
-                  //SizedBox(height: 10.0,),
-                  /*ElevatedButton.icon(
+                    ),
+                    //SizedBox(height: 10.0,),
+                    /*ElevatedButton.icon(
                     onPressed: _ShowDatePicker,
                     icon: Icon(Icons.calendar_month_rounded),
                     label: Text(
@@ -276,91 +278,29 @@ class _HomePageState extends State<HomePage>{
                         fontWeight: FontWeight.bold,),),
                     style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Colors.blueAccent),
                   ),*/
-                  SizedBox(height: 15.0,), //Spacer
+                    SizedBox(height: 15.0,), //Spacer
 
-                  //Submit Button
-                  ElevatedButton(
-                    onPressed: (){
-                      ApiCaller();
-                    },
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        color: Colors.white,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,),),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Color.fromARGB(255, 1, 32, 96)),
-                  ),
-                  //SizedBox(height: 10.0,),
-
-                  //Clear Button
-                  /*ElevatedButton(
-                    onPressed: (){
-                      ClearAll();
-                    },
-                    child: const Text(
-                      'Clear',
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,),),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Colors.redAccent),
-                  ),*/
-                  /*Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.blueAccent,
-                            fontFamily: "Roboto",
-                            fontWeight: FontWeight.bold,
-                          ),
-                          controller: _textEditingController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: _textEditingController.clear,
-                              icon: Icon(Icons.clear),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
-                              borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                            ),
-                            hintText: 'Selected Date',
-                            //enabled: false,
-                          ),
-                          readOnly: true,
-                        ),
-                      ),
-                      Container(
-                        height: 62 ,
-                        decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
-                        ),
-                        child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
-
-                        */
-                  /*
-                        padding: EdgeInsets.zero,
-                          onPressed: _ShowDatePicker,
-                          icon: Icon(
-                            Icons.calendar_month_rounded,
-                            size: 55,
-                            color: Colors.blueAccent,
-                          ),
-                        *//*
-                      )
-                    ],
-                  ),*/
-                ],
+                    //Submit Button
+                    ElevatedButton(
+                      onPressed: (){
+                        ApiCaller();
+                      },
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                          fontFamily: "Roboto",
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,),),
+                      style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Color.fromARGB(255, 1, 32, 96)),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       drawer: Container(
         width: MediaQuery.of(context).size.width * 0.6,
@@ -524,36 +464,38 @@ class _HomePageState extends State<HomePage>{
 
   String error = ""; //String
 
-  //Clear All
-  /*void ClearAll(){
-    _textEditingController.clear();
-  }*/
-
   //API Handler
   void ApiCaller() async{
     String Date = _textEditingController.text.trim();
+
     if(!(Date.isEmpty) && (SelectedValueHolder != "- Select Court -" && SelectedValueHolder != "")){
-      //print(DropdownList);
+      print("Date ${Date}");
+      print("Selected Value Holder ${SelectedValueHolder}");
 
       const url = "https://api.textware.lk/nauru/v1/api/search";
       final uri = Uri.parse(url);
 
       try{
-        if(SelectedValueHolder == "Supreme Court"){
+        if(SelectedValueHolder.trim() == "Supreme Court"){
+          final json = jsonEncode(<String, String>{
+            'type': "SUPREMECOURT",
+            'date': Date
+          });
           final response = await http.post(
             uri,
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode(<String, String>{
-              'type': "SUPREMECOURT",
-              'date':Date
-            }),
+            body: json
           );
+
+          print("Response ${response.statusCode}");
+
           //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
           if(response.statusCode == 200){ //Check Response is success
             final body = response.body;
             final json = jsonDecode(body);
+            print("Supreme Court : ${response.statusCode}");
             setState(() {
               data = json["upcomingCaseList"];
               print(data);
@@ -566,6 +508,51 @@ class _HomePageState extends State<HomePage>{
                 ),
               );
               print("Move to the list page!");
+            }
+            else{
+              showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Warning',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 32, 96),
+                          fontFamily: "Roboto",
+                          fontSize: 18.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      content: Text("Cases are not available!",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 32, 96),
+                          fontFamily: "Roboto",
+                          fontSize: 14.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          child: const Text('Ok',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 1, 32, 96),
+                              fontFamily: "Roboto",
+                              fontSize: 14.0,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  }
+              );
             }
           }
           else{
@@ -593,15 +580,16 @@ class _HomePageState extends State<HomePage>{
           }
         }
         else if(SelectedValueHolder == "District Court"){
+          final json = jsonEncode(<String, String>{
+            'type': "DISTRICTCOURT",
+            'date': Date
+          });
           final response = await http.post(
             uri,
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode(<String, String>{
-              'type': "DISTRICTCOURT",
-              'date': Date
-            }),
+            body: json
           );
           //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
           if(response.statusCode == 200){ //Check Response is success
@@ -619,6 +607,51 @@ class _HomePageState extends State<HomePage>{
                 ),
               );
               print("Move to the list page!");
+            }
+            else{
+              showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Warning',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 32, 96),
+                          fontFamily: "Roboto",
+                          fontSize: 18.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      content: Text("Cases are not available!",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 32, 96),
+                          fontFamily: "Roboto",
+                          fontSize: 14.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          child: const Text('Ok',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 1, 32, 96),
+                              fontFamily: "Roboto",
+                              fontSize: 14.0,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  }
+              );
             }
           }
           else{
@@ -646,15 +679,16 @@ class _HomePageState extends State<HomePage>{
           }
         }
         else if(SelectedValueHolder == "Court of Appeal"){
+          final json = jsonEncode(<String, String>{
+            'type': "COURTOFAPPEAL",
+            'date':Date,
+          });
           final response = await http.post(
             uri,
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode(<String, String>{
-              'type': "COURTOFAPPEAL",
-              'date':Date,
-            }),
+            body: json
           );
           //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
           if(response.statusCode == 200){ //Check Response is success
@@ -673,14 +707,75 @@ class _HomePageState extends State<HomePage>{
               );
               print("Move to the list page!");
             }
+            else{
+              showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Warning',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 32, 96),
+                          fontFamily: "Roboto",
+                          fontSize: 18.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      content: Text("Cases are not available!",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 1, 32, 96),
+                          fontFamily: "Roboto",
+                          fontSize: 14.0,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          child: const Text('Ok',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 1, 32, 96),
+                              fontFamily: "Roboto",
+                              fontSize: 14.0,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  }
+              );
+            }
           }
           else{
             showDialog<void>(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('Request not Success'),
+                    title: const Text('Error',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    content: const Text("Request not success!",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 14.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     actions: <Widget>[
                       TextButton(
                         style: TextButton.styleFrom(
@@ -708,8 +803,24 @@ class _HomePageState extends State<HomePage>{
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Error'),
-                content: Text(error),
+                title: const Text('Error',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 1, 32, 96),
+                    fontFamily: "Roboto",
+                    fontSize: 18.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: Text(error,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 1, 32, 96),
+                    fontFamily: "Roboto",
+                    fontSize: 14.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 actions: <Widget>[
                   TextButton(
                     style: TextButton.styleFrom(

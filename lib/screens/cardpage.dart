@@ -35,151 +35,22 @@ class _CardPageState extends State<CardPage>{
 
   ShowWidget(){
     if(Value[0]['type'] == "COURTOFAPPEAL"){
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 1.0),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-          child: GridView.count(
+      return SingleChildScrollView(
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
-            childAspectRatio: (40 / 14.5),
-            //crossAxisSpacing: 25.0,
-            mainAxisSpacing: 0.0,
-            children: Value.map((item)=>Container(
-              padding: EdgeInsets.all(0),
-              margin: EdgeInsets.all(5),
-              child: Stack(
-                children: [
-                  //use the positioned widget to place
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(13),bottomLeft: Radius.circular(13)),
-                        //color: Colors.red,
-                          image: new DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            colorFilter:
-                            ColorFilter.mode(Colors.black.withOpacity(0.14),
-                                BlendMode.dstATop),
-                            alignment: FractionalOffset.center,
-                            image: AssetImage('assets/images/Pic.jpg'),/*NetworkImage('https://mobios.lk/nauru/wp-content/uploads/2023/03/libra.jpg'),*/
-                          )
-                      ),
-                      //height: 10,
-                      padding: const EdgeInsets.all(0),
-                      height: 132,
-                      width: 125,
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 40.0,
-                    left: 0.0,
-                    child: Container(
-                      width: 125,
-                      //color: Colors.red,
-                      child: Center(
-                        child: Text(
-                          'Case No: \n${item['caseNo']}',
-                          textAlign: TextAlign.center,//Position to Add Text
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 10.0,
-                    left: 130.0,
-                    child: Text(
-                      "Counsel  :", //Position to Add Text
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 10.0,
-                    left: 205.0,
-                    child: Text(
-                      "${item['counsel']}", //Position to Add Text
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 35,
-                    left: 130,
-                    child: Text(
-                      "Parties : ",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 35,
-                    left: 195,
-                    child: Container(
-                      //color: Colors.orange,
-                      width: 150,
-                      height: 60,
-                      child: Text(
-                        "${item['parties']}",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 100,
-                    left: 130,
-                    child: Text(
-                      "Status of Cases : ",
-                      style: TextStyle(
-                          color: Color.fromARGB(255,0,0,0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 100,
-                    left: 255,
-                    child: Text(
-                      "${item['statusOfCases']}",
-                      style: TextStyle(
-                        color: Color.fromARGB(255,0,0,0),
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    right: 14,
-                    top: 8,
-                    child: Center(
-                      child: Icon(Icons.menu_book_rounded),
-                    ),
-                  )
-
-                ],
-              ),
+            mainAxisExtent: 190,
+          ),
+          itemCount: Value.length,
+          itemBuilder: (_, index) {
+            return Container(
+              height: 100,
+              margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(13),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade600,
@@ -187,162 +58,175 @@ class _CardPageState extends State<CardPage>{
                     offset: Offset(0, 1), // Shadow position
                   ),
                 ],
-                //shape: Size.fromHeight(10),
               ),
-            )).toList(),
-          ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12.0),
+                              bottomLeft: Radius.circular(12.0),
+                            ),
+                            child: Image.asset("assets/images/Pic.png",
+                              color: Colors.white.withOpacity(0.75),
+                              colorBlendMode: BlendMode.modulate,
+                              /*height: 120,
+                      width: double.infinity,*/
+                              //color: Colors.black.withOpacity(0.14),
+                              height: double.infinity,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Center(
+                              child: Container(
+                                width: 120,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Case No : ",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w700
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      "${Value.elementAt(index)['caseNo']}",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Parties : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['parties'].replaceAll("\n", " v ")}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Counsel : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                  width: 230,
+                                //color: Colors.red,
+                                child: Text(
+                                  "${Value.elementAt(index)['counsel']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Status of Cases : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['caseStatus']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
-
       );
     }
     else if (Value[0]['type'] == "DISTRICTCOURT"){
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 1.0),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0.0),
-          child: GridView.count(
+      return SingleChildScrollView(
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
-            childAspectRatio: (40 / 19),
-            //crossAxisSpacing: 25.0,
-            mainAxisSpacing: 0.0,
-            children: Value.map((item)=>Container(
-              padding: EdgeInsets.all(0),
-              margin: EdgeInsets.all(5),
-              child: Stack(
-                children: [
-                  //use the positioned widget to place
-                  Positioned(
-                    top: 0.0,
-                    left: 0.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(13),bottomLeft: Radius.circular(13)),
-                        //color: Colors.red,
-                          image: new DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            colorFilter:
-                            ColorFilter.mode(Colors.black.withOpacity(0.14),
-                                BlendMode.dstATop),
-                            alignment: FractionalOffset.center,
-                            image: AssetImage('assets/images/Pic.jpg'),/*NetworkImage('https://mobios.lk/nauru/wp-content/uploads/2023/03/libra.jpg'),*/
-                          )
-                      ),
-                      padding: const EdgeInsets.all(0),
-                      height: 176,
-                      width: 110,
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 60.0,
-                    left: 0.0,
-                    child: Container(
-                      //color: Colors.orange,
-                      width: 105,
-                      child: Center(
-                        child: Text(
-                          'Case No: \n${item['caseNo']}',
-                          textAlign: TextAlign.center,//Position to Add Text
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 15.0,
-                    left: 115.0,
-                    child: Text(
-                      "Case Titele :", //Position to Add Text
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 15.0,
-                    left: 210.0,
-                    child: Container(
-                      width: 140,
-                      height: 80,
-                      //color: Colors.red,
-                      child: Text(
-                        "${item['parties']}", //Position to Add Text
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 95,
-                    left: 115,
-                    child: Text(
-                      "Counsels :",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 95,
-                    left: 195,
-                    child: Container(
-                      width: 175,
-                      height: 40,
-                      //color: Colors.orange,
-                      child: Text(
-                        "${item['counsel']}",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 135,
-                    left: 114,
-                    child: Text(
-                      "Case Status : ",
-                      style: TextStyle(
-                          color: Color.fromARGB(255,0,0,0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 135,
-                    left: 215,
-                    child: Text(
-                      "${item['statusOfCases']}",
-                      style: TextStyle(
-                          color: Color.fromARGB(255,0,0,0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-
-                  Positioned(
-                    right: 14,
-                    top: 8,
-                    child: Center(
-                      child: Icon(Icons.menu_book_rounded),
-                    ),
-                  )
-                ],
-              ),
+            mainAxisExtent: 220,
+          ),
+          itemCount: Value.length,
+          itemBuilder: (_, index) {
+            return Container(
+              height: 100,
+              margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(13),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade600,
@@ -350,222 +234,174 @@ class _CardPageState extends State<CardPage>{
                     offset: Offset(0, 1), // Shadow position
                   ),
                 ],
-                //shape: Size.fromHeight(10),
               ),
-            )).toList(),
-          ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12.0),
+                              bottomLeft: Radius.circular(12.0),
+                            ),
+                            child: Image.asset("assets/images/Pic.png",
+                              color: Colors.white.withOpacity(0.2),
+                              colorBlendMode: BlendMode.modulate,
+                              /*height: 120,
+                      width: double.infinity,*/
+                              //color: Colors.black.withOpacity(0.14),
+                              height: double.infinity,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Center(
+                              child: Container(
+                                width: 120,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Case No : ",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w700
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      "${Value.elementAt(index)['caseNo']}",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Case Title : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['parties']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Counsel : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['counsel']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Case Status : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['caseStatus']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
-
       );
     }
     else if (Value[0]['type'] == "SUPREMECOURT"){
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 1.0, 0.0, 1.0),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-          child: GridView.count(
+      return SingleChildScrollView(
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
-            childAspectRatio: (40 / 24),
-            //crossAxisSpacing: 25.0,
-            mainAxisSpacing: 0.0,
-            children: Value.map((item)=>Container(
-              padding: EdgeInsets.all(0),
-              margin: EdgeInsets.all(5),
-              child: Stack(
-                children: [
-                  //use the positioned widget to place
-                  Positioned(
-                    top: 0.0,
-                    left: -0.0,
-                    child: Container(
-                      decoration: new BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(13),bottomLeft: Radius.circular(13)),
-                          image: new DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            colorFilter:
-                            ColorFilter.mode(Colors.black.withOpacity(0.14),
-                                BlendMode.dstATop),
-                            alignment: FractionalOffset.center,
-                            image: AssetImage('assets/images/Pic.jpg'),/*NetworkImage('https://mobios.lk/nauru/wp-content/uploads/2023/03/libra.jpg'),*/
-                          )
-                      ),
-                      height: 225,
-                      width: 130,
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 85.0,
-                    left: -0.0,
-                    child: Container(
-                      //color: Colors.deepOrange,
-                      width: 130,
-                      child: Center(
-                        child: Text(
-                          'Case No: \n${item['caseNo']}',
-                          textAlign: TextAlign.center,//Position to Add Text
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0),
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 10.0,
-                    left: 135.0,
-                    child: Text(
-                      "Parties :", //Position to Add Text
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 10.0,
-                    left: 200.0,
-                    child: Container(
-                      //color: Colors.orange,
-                      height: 60,
-                      width: 142,
-                      child: Text(
-                        "${item['parties']}", //Position to Add Text
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 75,
-                    left: 135,
-                    child: Text(
-                      "Pleaders :",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 75,
-                    left: 210,
-                    child: Container(
-                      //color: Colors.orange,
-                      width: 165,
-                      height: 40,
-                      child: Text(
-                        "${item['pleaders']}",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 115,
-                    left: 135,
-                    child: Text(
-                      "Status of Case :",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 115,
-                    left: 255,
-                    child: Container(
-                      //color: Colors.orange,
-                      width: 120,
-                      height: 40,
-                      child: Text(
-                        "${item['statusOfCase']}",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 155,
-                    left: 135,
-                    child: Text(
-                      "Status of Def :",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 155,
-                    left: 245,
-                    child: Container(
-                      height: 20,
-                      width: 125,
-                      //color: Colors.orange,
-                      child: Text(
-                        "${item['statusOfDef']}",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 180,
-                    left: 135,
-                    child: Text(
-                      "Judge Assigned :",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Positioned(
-                    top: 180,
-                    left: 265,
-                    child: Container(
-                      //color: Colors.orange,
-                      height: 40,
-                      width: 110,
-                      child: Text(
-                        "${item['judgeAssigned']}",
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-
-                  Positioned(
-                    right: 14,
-                    top: 8,
-                    child: Center(
-                      child: Icon(Icons.menu_book_rounded),
-                    ),
-                  )
-
-                ],
-              ),
+            mainAxisExtent: 280,
+          ),
+          itemCount: Value.length,
+          itemBuilder: (_, index) {
+            return Container(
+              height: 100,
+              margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(13),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade600,
@@ -573,13 +409,210 @@ class _CardPageState extends State<CardPage>{
                     offset: Offset(0, 1), // Shadow position
                   ),
                 ],
-                //shape: Size.fromHeight(10),
               ),
-            )).toList(),
-
-          ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12.0),
+                              bottomLeft: Radius.circular(12.0),
+                            ),
+                            child: Image.asset("assets/images/Pic.png",
+                              color: Colors.white.withOpacity(0.13),
+                              colorBlendMode: BlendMode.modulate,
+                              /*height: 120,
+                      width: double.infinity,*/
+                              //color: Colors.black.withOpacity(0.14),
+                              height: double.infinity,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Center(
+                              child: Container(
+                                width: 120,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Case No : ",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w700
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Text(
+                                      "${Value.elementAt(index)['caseNo']}",
+                                      style: TextStyle(
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              )
+                          )
+                        ],
+                      )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Parties : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['parties']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Pleaders : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                //color: Colors.red,
+                                child: Text(
+                                  "${Value.elementAt(index)['pleaders']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Status of Cases : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['statusOfCases']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Status of Def : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['statusOfDef']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Judge Assigned : ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700
+                                ),
+                              ),
+                              Container(
+                                width: 230,
+                                child: Text(
+                                  "${Value.elementAt(index)['judgeAssigned']}",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
-
       );
     }
   }
