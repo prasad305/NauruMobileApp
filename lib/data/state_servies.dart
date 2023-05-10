@@ -53,3 +53,8 @@ class StateService {
 
 
 }
+//https://api.textware.lk/nauru/v1/api/case/check
+//{
+//     "dateFrom":"2022-01-01",
+//     "idList":[1]
+// }

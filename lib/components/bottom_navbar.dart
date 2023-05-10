@@ -20,6 +20,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: PageView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
             onPageChanged: (index){
               //_pageController.animateToPage(index, duration: Duration(microseconds: 1000), curve: Curves.ease);

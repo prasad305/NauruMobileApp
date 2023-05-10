@@ -4,10 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:nauru_mobile_app/screens/search.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:nauru_mobile_app/screens/webview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 
+import '../components/custom_button.dart';
+import '../components/home_line_card.dart';
+import '../components/rounded_clickable_icon.dart';
 import 'cardpage.dart';
+import 'notifications.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,31 +21,27 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
-  TextEditingController _textEditingController = TextEditingController(); //Text of TextField
+class _HomePageState extends State<HomePage> {
+  TextEditingController _textEditingController =
+      TextEditingController(); //Text of TextField
   List<dynamic> data = []; //ApiPass Body Data Holder
-  String SelectedValueHolder = ""; //Dropdown Button Selected Value Holder
+  String  SelectedValueHolder = "DISTRICTCOURT";
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  var isWebView = false;
 
+  var dcSelected = true;
+  var scSelected = false;
+  var coaSelected = false;
+  late Widget webView;
+  var currentUrl = "google.com";
+  late WebViewXController webviewController;
 
-   openUrl(url,path) async {
-    // final uri = Uri.parse(url);
-
-    final Uri toLaunch =
-    Uri(scheme: 'https', host:url, path: path);
-
-    _launchInBrowser(toLaunch);
-
+  openUrl(url, path) async {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => WebViewPage(url:"https://"+url+'/'+path)));
   }
 
-  Future<void> _launchInBrowser(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
 
   void _ShowDatePicker(){
     showDatePicker(
@@ -49,24 +50,22 @@ class _HomePageState extends State<HomePage>{
         initialDate: DateTime.now(),
         firstDate: DateTime(1990),
         lastDate: DateTime(2050),
-        builder: (context, child)=> (
-          Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.light(
-                primary: Color.fromARGB(255, 1, 32, 96),
-                onPrimary: Color.fromARGB(255, 255, 255, 255),
-                onSurface: Color.fromARGB(255, 1, 32, 96),
-              ),
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  primary: Color.fromARGB(255, 1, 32, 96), // button text color
+        builder: (context, child) => (Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: Color.fromARGB(255, 1, 32, 96),
+                  onPrimary: Color.fromARGB(255, 255, 255, 255),
+                  onSurface: Color.fromARGB(255, 1, 32, 96),
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    primary:
+                        Color.fromARGB(255, 1, 32, 96), // button text color
+                  ),
                 ),
               ),
-            ),
-            child: child!,
-          )
-        )
-    ).then((value){
+              child: child!,
+            ))).then((value) {
       setState(() {
         _textEditingController.text = DateFormat('yyyy-MM-dd').format(value!);
       });
@@ -74,27 +73,81 @@ class _HomePageState extends State<HomePage>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     //TextEditingController _textEditingController = TextEditingController(); //Text of TextField
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Checking App",
-          style: TextStyle(
-            fontFamily: "Roboto",
-            letterSpacing: 1.0,
-            fontSize: 22.0,
-            fontWeight: FontWeight.bold,
-          ),),
-        centerTitle: true,
+        centerTitle: false,
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only( left:0.0,right: 10.0),
+              child: Image.asset(
+                "assets/images/logo.png",
+                scale:4.5,
+              ),
+            ),
+            SizedBox(width: 1,),
+            const Text(
+              "Nauru Judiciary",
+              style: TextStyle(
+                fontFamily: "Roboto",
+                letterSpacing: 1.0,
+                fontSize: 20.0,
+                color: Color(0xFFffc000),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: Color.fromARGB(255, 1, 32, 96),
+        actions: [
+          RoundedClickableIcon(
+            color: Color(0xFFffc000),
+            icon: Icons.notifications,
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Notifiation()));
+            },
+            showNotification: false,
+          ),
+          IconButton(
+              icon: new Icon(Icons.menu, color: Color(0xFFffc000),),
+              onPressed: () {
+                _scaffoldKey.currentState?.openEndDrawer();
+              })
+        ],
       ),
-
-      body: Column(
+      body:isWebView ? webView : SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child:Column(
         children: [
+          SizedBox(height: 5,),
+          Text(
+            'Ekamowir omo ',
+            style: TextStyle(
+              color: Color(0xFFffc000),
+              fontFamily: "Roboto",
+              fontSize: 20.0,
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            'Welcome to Nauru Judiciary',
+            style: TextStyle(
+              color: Color.fromARGB(255, 0, 23, 147),
+              fontFamily: "Roboto",
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 10.0),
+            padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
             child: Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 25.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 25.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
@@ -107,67 +160,90 @@ class _HomePageState extends State<HomePage>{
                 ],
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   //First Selection
-                  const Text(
-                    'Select Name',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 1, 32, 96),
-                      fontFamily: "Roboto",
-                      fontSize: 18.0,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  //Spacer
+
+                  const Text("Check the upcoming cases"),
+                  SizedBox(height: 5,),
+                  Row(
+                    children:  [
+                      CustomButton(title: "District Court",selected: dcSelected,onClick: (){
+
+                        setState(() {
+                          dcSelected = true;
+                          scSelected = false;
+                          coaSelected= false;
+                          SelectedValueHolder = "DISTRICTCOURT";
+                        });
+
+                      },),
+                      SizedBox(width: 5,),
+                      CustomButton(title: "Supreme Court",selected: scSelected,onClick: (){
+                        setState(() {
+                          dcSelected = false;
+                          scSelected = true;
+                          coaSelected= false;
+                          SelectedValueHolder = "SUPREMECOURT";
+                        });
+
+                      }),
+                      SizedBox(width: 5,),
+                      CustomButton(title: "Court of Appeal ",selected: coaSelected,onClick: (){
+                        setState(() {
+                          dcSelected = false;
+                          scSelected = false;
+                          coaSelected= true;
+                          SelectedValueHolder = "COURTOFAPPEAL";
+                        });
+                      })
+                    ],
                   ),
-                  SizedBox(height: 10.0,), //Spacer
-                  DropdownList(
-                    onChanged: (String value) {
-                      // 3. read the selected value here and make cool things
-                      print(value);
-                      SelectedValueHolder = value;
-                    },
-                  ), //Dropdown List
-                  SizedBox(height: 18.0,), //Spacer
+
+
+                  SizedBox(
+                    height: 10.0,
+                  ), //Spacer
 
                   //Second Selection Date Picker
-                  Text(
-                    'Select Date',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 1, 32, 96),
-                      fontFamily: "Roboto",
-                      fontSize: 18.0,
-                      letterSpacing: 1.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 5, 10),
-                    child:
-                    Row(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    child: Row(
                       children: <Widget>[
                         Expanded(
                           child: TextField(
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               color: Color.fromARGB(255, 1, 32, 96),
                               fontFamily: "Roboto",
                               fontWeight: FontWeight.bold,
                             ),
-
                             controller: _textEditingController,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 onPressed: _textEditingController.clear,
-                                icon: Icon(Icons.clear, color: Color.fromARGB(255, 1, 32, 96),),
+                                icon: Icon(
+                                  Icons.clear,
+                                  color: Color.fromARGB(255, 1, 32, 96),
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2, color: Color.fromARGB(255, 1, 32, 96)),
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
+                                borderSide: BorderSide(
+                                    width: 2,
+                                    color: Color.fromARGB(255, 1, 32, 96)),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(6),
+                                    bottomLeft: Radius.circular(6)),
                               ),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
-                                borderSide: BorderSide(color: Color.fromARGB(255, 1, 32, 96), width: 2.0),
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(6),
+                                    bottomLeft: Radius.circular(6)),
+                                borderSide: BorderSide(
+                                    color: Color.fromARGB(255, 1, 32, 96),
+                                    width: 2.0),
                               ),
                               hintText: 'Selected Date',
                               //enabled: false,
@@ -176,215 +252,113 @@ class _HomePageState extends State<HomePage>{
                           ),
                         ),
                         Container(
-                          height: 62 ,
+                          height: 55,
                           decoration: BoxDecoration(
                               color: Color.fromARGB(255, 1, 32, 96),
-                              borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
-                          ),
-                          child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
-
-                          /*
-                        padding: EdgeInsets.zero,
-                          onPressed: _ShowDatePicker,
-                          icon: Icon(
-                            Icons.calendar_month_rounded,
-                            size: 55,
-                            color: Colors.blueAccent,
-                          ),
-                        */
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(6),
+                                  bottomRight: Radius.circular(6))),
+                          child: IconButton(
+                              icon: Icon(
+                                Icons.calendar_month_rounded,
+                                size: 30,
+                                color: Colors.white,
+                              ),
+                              onPressed: _ShowDatePicker),
                         )
                       ],
                     ),
-                    /*Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: SizedBox(
-                            width: 280.0,
-                            child: TextField(
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.blueAccent,
-                                fontFamily: "Roboto",
-                                fontWeight: FontWeight.bold,
-                              ),
-                              controller: _textEditingController,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  onPressed: _textEditingController.clear,
-                                  icon: Icon(Icons.clear),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                                ),
-                                hintText: 'Selected Date',
-                                //enabled: false,
-                              ),
-                              readOnly: true,
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: _ShowDatePicker,
-                          icon: Icon(
-                            Icons.calendar_month_rounded,
-                            size: 55,
-                            color: Colors.blueAccent,
-                          ),
-                        ),
-                        */
-                    /*SizedBox(
-                          child: IconButton(
-                            onPressed: _ShowDatePicker,
-                            icon: Icon(Icons.calendar_month_rounded, size: 60.00,),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size.fromHeight(40),
-                              backgroundColor: Colors.blueAccent,
-                            ),
-                          ),
-                        ),*//*
-                        */
-                    /*Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: SizedBox(
-                            child: IconButton(
-                              onPressed: _ShowDatePicker,
-                              icon: Icon(Icons.calendar_month_rounded, size: 60.00,),
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50),
-                                backgroundColor: Colors.blueAccent,
-                              ),
-                            ),
-                          ),
-                        ),*//*
-                      ],
-                    ),*/
                   ),
                   //SizedBox(height: 10.0,),
-                  /*ElevatedButton.icon(
-                    onPressed: _ShowDatePicker,
-                    icon: Icon(Icons.calendar_month_rounded),
-                    label: Text(
-                      'Choose a Date',
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 18.0,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,),),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Colors.blueAccent),
-                  ),*/
-                  SizedBox(height: 15.0,), //Spacer
+
+                  SizedBox(
+                    height: 10.0,
+                  ), //Spacer
 
                   //Submit Button
-                  ElevatedButton(
-                    onPressed: (){
-                      ApiCaller();
-                    },
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        color: Colors.white,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,),),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Color.fromARGB(255, 1, 32, 96)),
-                  ),
-                  //SizedBox(height: 10.0,),
-
-                  //Clear Button
-                  /*ElevatedButton(
-                    onPressed: (){
-                      ClearAll();
-                    },
-                    child: const Text(
-                      'Clear',
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontSize: 20.0,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,),),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(50), backgroundColor: Colors.redAccent),
-                  ),*/
-                  /*Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.blueAccent,
-                            fontFamily: "Roboto",
-                            fontWeight: FontWeight.bold,
-                          ),
-                          controller: _textEditingController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: _textEditingController.clear,
-                              icon: Icon(Icons.clear),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(6),bottomLeft: Radius.circular(6)),
-                              borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
-                            ),
-                            hintText: 'Selected Date',
-                            //enabled: false,
-                          ),
-                          readOnly: true,
+                  Container(
+                    width: MediaQuery.of(context).size.width / 100 * 100,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF164280), Color(0xFF012557)],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ApiCaller();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent, elevation: 0),
+                      child: const Text(
+                        'Search',
+                        style: TextStyle(
+                          fontFamily: "Roboto",
+                          fontSize: 18.0,
+                          color: Colors.white,
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Container(
-                        height: 62 ,
-                        decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            borderRadius: BorderRadius.only(topRight: Radius.circular(6),bottomRight: Radius.circular(6))
-                        ),
-                        child: IconButton(icon: Icon(Icons.calendar_month_rounded, size: 30, color: Colors.white,), onPressed: _ShowDatePicker),
-
-                        */
-                  /*
-                        padding: EdgeInsets.zero,
-                          onPressed: _ShowDatePicker,
-                          icon: Icon(
-                            Icons.calendar_month_rounded,
-                            size: 55,
-                            color: Colors.blueAccent,
-                          ),
-                        *//*
-                      )
-                    ],
-                  ),*/
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
+
+
+          Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
+          Text(
+            'Our mission is to provide accessible justice to the people of Nauru through a fair, efficient, and effective court system. We are committed to upholding the rule of law and ensuring that everyone who comes before our courts is treated with respect and dignity. Our website provides information about our services, court procedures, and resources for court users.',
+            style: TextStyle(
+              color: Color.fromARGB(255, 135, 135, 135),
+              fontFamily: "Roboto",
+              fontSize: 13.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
+
+
+          HomeCard(title: "Court room etiquette"),
+          HomeCard(title: "Understanding bail"),
+          HomeCard(title: "Family disputes"),
+          HomeCard(title: "Money claims"),
+          HomeCard(title: "Domestic and Family violence"),
+          HomeCard(title: "Land disputes"),
+          HomeCard(title: "Appealing a decision"),
+          HomeCard(title: "Legal advice"),
+          HomeCard(title: "Practice directions for lawyers"),
+
+
+
         ],
-      ),
-      drawer: Container(
+      )),
+      endDrawer: Container(
         width: MediaQuery.of(context).size.width * 0.6,
         child: Drawer(
           child: ListView(
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-            const SizedBox(
-            height: 130.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 1, 32, 96),
-                ),
-                child: Text(
-                  'Nauru App',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontFamily: "Roboto",
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )),
+              const SizedBox(
+                  height: 100.0,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFffc000),
+                    ),
+                    child: Text(
+                      'Nauru Judiciary',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 0, 23, 147),
+                        fontFamily: "Roboto",
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )),
               ListTile(
                 title: const Text(
                   'About',
@@ -397,8 +371,9 @@ class _HomePageState extends State<HomePage>{
                   ),
                 ),
                 onTap: () async {
-                 openUrl('naurujudiciary.gov.nr','about/');
                   Navigator.pop(context);
+                  openUrl('naurujudiciary.gov.nr', 'about/');
+
                 },
               ),
               ListTile(
@@ -413,11 +388,12 @@ class _HomePageState extends State<HomePage>{
                   ),
                 ),
                 onTap: () {
+                  Navigator.pop(context);
                   // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr','district-court/');
+                  openUrl('naurujudiciary.gov.nr', 'district-court/');
                   // ...
                   // Then close the drawer
-                  Navigator.pop(context);
+
                 },
               ),
               ListTile(
@@ -432,13 +408,14 @@ class _HomePageState extends State<HomePage>{
                   ),
                 ),
                 onTap: () {
+                  Navigator.pop(context);
                   // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr','registrar/');
+                  openUrl('naurujudiciary.gov.nr', 'registrar/');
                   // ...
                   // Then close the drawer
-                  Navigator.pop(context);
                 },
-              ), ListTile(
+              ),
+              ListTile(
                 title: const Text(
                   'Going To Court',
                   style: TextStyle(
@@ -451,12 +428,14 @@ class _HomePageState extends State<HomePage>{
                 ),
                 onTap: () {
                   // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr','going-to-court/court-room-etiquette/');
+                  Navigator.pop(context);
+                  openUrl('naurujudiciary.gov.nr',
+                      'going-to-court/court-room-etiquette/');
                   // ...
                   // Then close the drawer
-                  Navigator.pop(context);
                 },
-              ),ListTile(
+              ),
+              ListTile(
                 title: const Text(
                   'Publications',
                   style: TextStyle(
@@ -469,12 +448,12 @@ class _HomePageState extends State<HomePage>{
                 ),
                 onTap: () {
                   // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr','annual-reports/');
-                  // ...
-                  // Then close the drawer
                   Navigator.pop(context);
+                  openUrl('naurujudiciary.gov.nr', 'annual-reports/');
+                  // ...
                 },
-              ),ListTile(
+              ),
+              ListTile(
                 title: const Text(
                   'Contact us',
                   style: TextStyle(
@@ -487,10 +466,10 @@ class _HomePageState extends State<HomePage>{
                 ),
                 onTap: () {
                   // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr','contact/');
+                  Navigator.pop(context);
+                  openUrl('naurujudiciary.gov.nr', 'contact/');
                   // ...
                   // Then close the drawer
-                  Navigator.pop(context);
                 },
               ),
               // const AboutListTile(
@@ -530,55 +509,90 @@ class _HomePageState extends State<HomePage>{
   }*/
 
   //API Handler
-  void ApiCaller() async{
+
+  Future<void> checkAll() async {
+    DateTime now = new DateTime.now();
+
+    List<dynamic> notificationList = [];
+    List<int> caseIdList = [];
+    final prefs = await SharedPreferences.getInstance();
+    final counter = prefs.getString('idList') ?? "null";
+
+    if(counter!="null"){
+      for (var item in jsonDecode(counter)) {
+        caseIdList.add(item['id'] as int);
+      }
+    }
+
+    final response = await http.post(Uri.parse("https://api.textware.lk/nauru/v1/api/case/check"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+          <String, String>{'dateFrom': now.toString().split(" ")[0], 'date': caseIdList.toString()}),
+    );
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+
+
+      if (json['upcomingCaseList'] != 0) {
+        for (var item in json['upcomingCaseList']) {
+
+          notificationList.add(jsonEncode(item));
+        }
+        print(notificationList.toString());
+        prefs.setString("notification", notificationList.toString());
+      }
+    }
+  }
+
+  void ApiCaller() async {
+
     String Date = _textEditingController.text.trim();
-    if(!(Date.isEmpty) && (SelectedValueHolder != "- Select Court -" && SelectedValueHolder != "")){
-      //print(DropdownList);
+    if (!(Date.isEmpty) &&
+        (SelectedValueHolder != "- Select Court -" &&
+            SelectedValueHolder != "")) {
 
       const url = "https://api.textware.lk/nauru/v1/api/search";
       final uri = Uri.parse(url);
 
-      try{
-        if(SelectedValueHolder == "Supreme Court"){
-          final response = await http.post(
-            uri,
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, String>{
-              'type': "SUPREMECOURT",
-              'date':Date
-            }),
-          );
-          //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
-          if(response.statusCode == 200){ //Check Response is success
-            final body = response.body;
-            final json = jsonDecode(body);
-            setState(() {
-              data = json["upcomingCaseList"];
-              print(data);
-            });
-            if(data.length != 0){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CardPage(Data : data),
-                ),
-              );
-              print("Move to the list page!");
-            }
-          }
-          else{
+      try {
+        final response = await http.post(
+          uri,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(
+              <String, String>{'type': SelectedValueHolder, 'date': Date}),
+        );
+        //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
+        if (response.statusCode == 200) {
+          //Check Response is success
+          final body = response.body;
+          final json = jsonDecode(body);
+          setState(() {
+            data = json["upcomingCaseList"];
+            print(data);
+          });
+          if (data.length != 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CardPage(Data: data),
+              ),
+            );
+            print("Move to the list page!");
+          }else{
             showDialog<void>(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('Request not Success'),
+                    title: const Text('Warning'),
+                    content: Text("No cases found"),
                     actions: <Widget>[
                       TextButton(
                         style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
+                          textStyle: Theme.of(context).textTheme.labelMedium,
                         ),
                         child: const Text('Ok'),
                         onPressed: () {
@@ -587,123 +601,31 @@ class _HomePageState extends State<HomePage>{
                       ),
                     ],
                   );
-                }
-            );
-
+                });
           }
-        }
-        else if(SelectedValueHolder == "District Court"){
-          final response = await http.post(
-            uri,
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, String>{
-              'type': "DISTRICTCOURT",
-              'date': Date
-            }),
-          );
-          //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
-          if(response.statusCode == 200){ //Check Response is success
-            final body = response.body;
-            final json = jsonDecode(body);
-            setState(() {
-              data = json["upcomingCaseList"];
-              print(data);
-            });
-            if(data.length != 0){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CardPage(Data : data),
-                ),
-              );
-              print("Move to the list page!");
-            }
-          }
-          else{
-            showDialog<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('Request not Success'),
-                    actions: <Widget>[
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        child: const Text('Ok'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+        } else {
+          showDialog<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text('Request not Success'),
+                  actions: <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.labelLarge,
                       ),
-                    ],
-                  );
-                }
-            );
-
-          }
+                      child: const Text('Ok'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              });
         }
-        else if(SelectedValueHolder == "Court of Appeal"){
-          final response = await http.post(
-            uri,
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, String>{
-              'type': "COURTOFAPPEAL",
-              'date':Date,
-            }),
-          );
-          //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
-          if(response.statusCode == 200){ //Check Response is success
-            final body = response.body;
-            final json = jsonDecode(body);
-            setState(() {
-              data = json["upcomingCaseList"];
-              print(data);
-            });
-            if(data.length != 0){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CardPage(Data : data),
-                ),
-              );
-              print("Move to the list page!");
-            }
-          }
-          else{
-            showDialog<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('Request not Success'),
-                    actions: <Widget>[
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        child: const Text('Ok'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                }
-            );
-
-          }
-        }
-
-      }
-      catch(e){
+      } catch (e) {
         error = e.toString();
-        print("Error : " + error);
-
         showDialog<void>(
             context: context,
             builder: (BuildContext context) {
@@ -722,19 +644,16 @@ class _HomePageState extends State<HomePage>{
                   ),
                 ],
               );
-            }
-        );
-
+            });
       }
-    }
-    else{
+    } else {
       //print("Not Selected!");
       showDialog<void>(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text('Warning'),
-              content: const Text('Not Selected!'),
+              content: const Text('Please Select Date!'),
               actions: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
@@ -745,26 +664,34 @@ class _HomePageState extends State<HomePage>{
                     Navigator.of(context).pop();
                   },
                 ),
-
               ],
             );
-          }
-      );
-
+          });
     }
   }
 }
 
 //DropDown List
-const List<String> list = <String>['- Select Court -','Supreme Court', 'District Court', 'Court of Appeal']; //DropDown Contain List
+const List<String> list = <String>[
+  '- Select Court -',
+  'Supreme Court',
+  'District Court',
+  'Court of Appeal'
+]; //DropDown Contain List
+
 class DropdownList extends StatefulWidget {
   //1. required this.onChanged,
   final Function onChanged;
-  const DropdownList({Key? key, required this.onChanged,}): super(key: key);
+
+  const DropdownList({
+    Key? key,
+    required this.onChanged,
+  }) : super(key: key);
 
   @override
   State<DropdownList> createState() => _DropdownButtonExampleState();
 }
+
 //List Creater
 class _DropdownButtonExampleState extends State<DropdownList> {
   String dropdownValue = list.first;
@@ -777,13 +704,18 @@ class _DropdownButtonExampleState extends State<DropdownList> {
         border: Border.all(color: Color.fromARGB(255, 1, 32, 96), width: 2.0),
         borderRadius: BorderRadius.circular(5),
       ),
-      height: 60,
+      height: 55,
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: dropdownValue,
-          icon: const Icon(Icons.arrow_drop_down,size: 24.0, color: Color.fromARGB(255, 1, 32, 96),),
+          icon: const Icon(
+            Icons.arrow_drop_down,
+            size: 24.0,
+            color: Color.fromARGB(255, 1, 32, 96),
+          ),
           elevation: 16,
-          style: const TextStyle(fontSize: 18.0,
+          style: const TextStyle(
+            fontSize: 14.0,
             color: Color.fromARGB(255, 1, 32, 96),
             fontFamily: "Roboto",
             fontWeight: FontWeight.bold,
@@ -808,4 +740,3 @@ class _DropdownButtonExampleState extends State<DropdownList> {
     );
   }
 }
-

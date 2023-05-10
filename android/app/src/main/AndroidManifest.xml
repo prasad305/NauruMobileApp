@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nr.gov.naurujudiciary.nauru_mobile_app">
+    <!-- Add below permission inside 'manifest' tag -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="nauru_mobile_app"
         android:name="${applicationName}"

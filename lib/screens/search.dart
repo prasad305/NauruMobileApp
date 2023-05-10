@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -40,15 +39,17 @@ class _CardPageState extends State<SearchPage>{
   loadUserData() async {
 
     final prefs = await SharedPreferences.getInstance();
-     // await prefs.remove('idList');
+// prefs.remove('idList');
     final counter = prefs.getString('idList') ?? "null";
 
     if(counter!="null"){
-      // Map m = new ObjectMapper().convertValue(json, Map.class);
       selectedCaseList = jsonDecode(counter);
+      print("jsonDecode(counter))");
+      print(jsonDecode(counter));
       for (var item in jsonDecode(counter)) {
+        print(item);
         setState(() {
-          userSearchItems.add(item['caseNo']);
+          userSearchItems.add(item['caseNo'] as String);
         });
       }
     }
@@ -209,28 +210,32 @@ class _CardPageState extends State<SearchPage>{
 
                                   var elementAt = caseList.elementAt(name.indexOf(suggestion));
 
+                                  print("elementAt");
+                                  print(elementAt);
 
                                   if(userSearchItems.contains(suggestion)){
                                     Navigator.of(context).pop();
                                   }else{
-                                    final counter = prefs.getString('idList') ?? "null";
+
+                                    var counter = prefs.getString('idList') ?? "null";
                                     List<dynamic> temp = [];
                                     if(counter=="null"){
                                       temp.add(json.encode(elementAt).toString());
                                       await prefs.setString('idList',temp.toString());
                                     }else{
+                                      counter = counter.replaceAll("[", "");
+                                      counter = counter.replaceAll("]", "");
                                       temp.add(counter);
                                       temp.add(json.encode(elementAt).toString());
                                       await prefs.setString('idList',temp.toString());
                                     }
+                                    selectedCaseList.add(elementAt);
                                     setState(() {
                                       userSelected = suggestion;
                                       userSearchItems.add(suggestion);
                                     });
                                     Navigator.of(context).pop();
                                   }
-
-
                                 },
                               ),
                               TextButton(
@@ -269,213 +274,7 @@ class _CardPageState extends State<SearchPage>{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  /*Visibility(
-                    visible: (userSearchItems.length != 0),
-                    child: Stack( children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(width: 2, color: Color.fromARGB(255, 1, 32, 96)),
-                          borderRadius: BorderRadius.circular(10),
-                          *//*boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.shade600,
-                              blurRadius: 4,
-                              offset: Offset(0, 1), // Shadow position
-                            ),
-                          ],*//*
-                        ),
-                        padding: const EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 20.0),
-                        margin: const EdgeInsets.fromLTRB(13.0, 15.0, 13.0, 12.0),
-                        //height: 10,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-                              icon: Icon(Icons.fact_check),
-                              onPressed: (){
-                                showDialog<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Delete',
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 1, 32, 96),
-                                            fontFamily: "Roboto",
-                                            fontSize: 18.0,
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        content: Text("Check the list?",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 1, 32, 96),
-                                            fontFamily: "Roboto",
-                                            fontSize: 14.0,
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              textStyle: Theme.of(context).textTheme.labelLarge,
-                                            ),
-                                            child: const Text('Check',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(255, 1, 32, 96),
-                                                fontFamily: "Roboto",
-                                                fontSize: 14.0,
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              textStyle: Theme.of(context).textTheme.labelLarge,
-                                            ),
-                                            child: const Text('Cancel',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(255, 1, 32, 96),
-                                                fontFamily: "Roboto",
-                                                fontSize: 14.0,
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                );
-                              },
-                              label: const Text(
-                                'Check',
-                                style: TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  letterSpacing: 1.0,
-                                  fontWeight: FontWeight.bold,),),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 1, 32, 96),
-                                padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                              ),
-                            ),
-                            ElevatedButton.icon(
-                              icon: Icon(Icons.delete),
-                              onPressed: (){
-                                showDialog<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Delete',
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 1, 32, 96),
-                                            fontFamily: "Roboto",
-                                            fontSize: 18.0,
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        content: Text("Do You Want to delete all list?",
-                                          style: TextStyle(
-                                            color: Color.fromARGB(255, 1, 32, 96),
-                                            fontFamily: "Roboto",
-                                            fontSize: 14.0,
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              textStyle: Theme.of(context).textTheme.labelLarge,
-                                            ),
-                                            child: const Text('Delete',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(255, 1, 32, 96),
-                                                fontFamily: "Roboto",
-                                                fontSize: 14.0,
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),),
-                                            onPressed: () {
-                                              setState(() {
-                                                userSearchItems.clear();
-                                              });
 
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              textStyle: Theme.of(context).textTheme.labelLarge,
-                                            ),
-                                            child: const Text('Cancel',
-                                              style: TextStyle(
-                                                color: Color.fromARGB(255, 1, 32, 96),
-                                                fontFamily: "Roboto",
-                                                fontSize: 14.0,
-                                                letterSpacing: 1.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                );
-                              },
-                              label: const Text(
-                                'Delete',
-                                style: TextStyle(
-                                  fontFamily: "Roboto",
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  letterSpacing: 1.0,
-                                  fontWeight: FontWeight.bold,),),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 1, 32, 96),
-                                padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        left: 25,
-                        top: 8,
-                        child: Container(
-                          padding: EdgeInsets.only(bottom: 5, left: 2, right: 2),
-                          color: Colors.white,
-                          child: Text(
-                            'List Configurations',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 1, 32, 96),
-                              fontFamily: "Roboto",
-                              fontSize: 14.0,
-                              letterSpacing: 1.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ], )
-                  ),*/
                   Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -544,11 +343,18 @@ class _CardPageState extends State<SearchPage>{
                                                           fontWeight: FontWeight.bold,
                                                         ),),
                                                       onPressed: () async {
+                                                        print("selectedCaseList");
+                                                        print(selectedCaseList);
                                                         selectedCaseList.removeAt(index);
 
                                                         final prefs = await SharedPreferences.getInstance();
 
-                                                        await prefs.setString('idList',json.encode(selectedCaseList).toString());
+                                                        if(selectedCaseList.length==0){
+                                                          await prefs.remove('idList');
+                                                        }else{
+                                                          await prefs.setString('idList',json.encode(selectedCaseList).toString());
+
+                                                        }
 
                                                         setState(() {
                                                           userSearchItems.removeAt(index);
