@@ -4,6 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+import 'package:nauru_mobile_app/screens/contact.dart';
+import 'package:nauru_mobile_app/screens/courtofappeal.dart';
+import 'package:nauru_mobile_app/screens/districtcourt.dart';
+import 'package:nauru_mobile_app/screens/registry.dart';
+import 'package:nauru_mobile_app/screens/supremecourt.dart';
 import 'package:nauru_mobile_app/screens/webview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
@@ -11,6 +16,7 @@ import 'package:webviewx_plus/webviewx_plus.dart';
 import '../components/custom_button.dart';
 import '../components/home_line_card.dart';
 import '../components/rounded_clickable_icon.dart';
+import 'about.dart';
 import 'cardpage.dart';
 import 'notifications.dart';
 
@@ -359,6 +365,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   )),
+
               ListTile(
                 title: const Text(
                   'About',
@@ -370,13 +377,21 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onTap: () async {
-                  Navigator.pop(context);
-                  openUrl('naurujudiciary.gov.nr', 'about/');
+                onTap: ()  {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AboutPage(),
+                    ),
+                  );
 
                 },
               ),
-              ListTile(
+              ExpansionTile(
+                iconColor: Color.fromARGB(255, 1, 32, 96),
+                collapsedIconColor: Color.fromARGB(255, 1, 32, 96),
+                childrenPadding: EdgeInsets.only(left: 20.0),
+                expandedCrossAxisAlignment: CrossAxisAlignment.end,
                 title: const Text(
                   'The Courts',
                   style: TextStyle(
@@ -387,14 +402,70 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr', 'district-court/');
-                  // ...
-                  // Then close the drawer
+                children: <Widget>[
+                  ListTile(
+                    title: const Text(
+                      'District Court',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DistrictCourtPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text(
+                      'Supreme Court',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SupremeCourtPage(),
+                        ),
+                      );
 
-                },
+                    },
+                  ),
+                  ListTile(
+                    title: const Text(
+                      'Court of Appeal',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CourtOfAppealPage(),
+                        ),
+                      );
+
+                    },
+                  ),
+                ],
               ),
               ListTile(
                 title: const Text(
@@ -408,11 +479,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
-                  // Update the state of the app
-                  openUrl('naurujudiciary.gov.nr', 'registrar/');
-                  // ...
-                  // Then close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegistryPage(),
+                    ),
+                  );
                 },
               ),
               ListTile(
@@ -465,11 +537,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 onTap: () {
-                  // Update the state of the app
-                  Navigator.pop(context);
-                  openUrl('naurujudiciary.gov.nr', 'contact/');
-                  // ...
-                  // Then close the drawer
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactPage(),
+                    ),
+                  );
                 },
               ),
               // const AboutListTile(
