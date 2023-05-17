@@ -69,7 +69,9 @@ class _CardPageState extends State<SearchPage>{
         'dateFrom': now.split(" ")[0]
       }),
     );
-    if(response.statusCode == 200){ //Check Response is success
+    if(response.statusCode == 200){
+      print("response");//Check Response is success
+      print(response.body);//Check Response is success
       final body = response.body;
       final json = jsonDecode(body);
 

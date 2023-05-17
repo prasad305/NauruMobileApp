@@ -150,6 +150,17 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
+          Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
+          Text(
+            'Our mission is to provide accessible justice to the people of Nauru through a fair, efficient, and effective court system. We are committed to upholding the rule of law and ensuring that everyone who comes before our courts is treated with respect and dignity. Our website provides information about our services, court procedures, and resources for court users.',
+            style: TextStyle(
+              color: Color.fromARGB(255, 135, 135, 135),
+              fontFamily: "Roboto",
+              fontSize: 13.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
+
           Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
             child: Container(
@@ -315,19 +326,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-
-          Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
-          Text(
-            'Our mission is to provide accessible justice to the people of Nauru through a fair, efficient, and effective court system. We are committed to upholding the rule of law and ensuring that everyone who comes before our courts is treated with respect and dignity. Our website provides information about our services, court procedures, and resources for court users.',
-            style: TextStyle(
-              color: Color.fromARGB(255, 135, 135, 135),
-              fontFamily: "Roboto",
-              fontSize: 13.0,
-              fontWeight: FontWeight.bold,
-            ),
-          )),
-
-
           HomeCard(title: "Court room etiquette"),
           HomeCard(title: "Understanding bail"),
           HomeCard(title: "Family disputes"),
@@ -487,44 +485,44 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              ListTile(
-                title: const Text(
-                  'Going To Court',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 1, 32, 96),
-                    fontFamily: "Roboto",
-                    fontSize: 18.0,
-                    letterSpacing: 1.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  Navigator.pop(context);
-                  openUrl('naurujudiciary.gov.nr',
-                      'going-to-court/court-room-etiquette/');
-                  // ...
-                  // Then close the drawer
-                },
-              ),
-              ListTile(
-                title: const Text(
-                  'Publications',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 1, 32, 96),
-                    fontFamily: "Roboto",
-                    fontSize: 18.0,
-                    letterSpacing: 1.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onTap: () {
-                  // Update the state of the app
-                  Navigator.pop(context);
-                  openUrl('naurujudiciary.gov.nr', 'annual-reports/');
-                  // ...
-                },
-              ),
+              // ListTile(
+              //   title: const Text(
+              //     'Going To Court',
+              //     style: TextStyle(
+              //       color: Color.fromARGB(255, 1, 32, 96),
+              //       fontFamily: "Roboto",
+              //       fontSize: 18.0,
+              //       letterSpacing: 1.0,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              //   onTap: () {
+              //     // Update the state of the app
+              //     Navigator.pop(context);
+              //     openUrl('naurujudiciary.gov.nr',
+              //         'going-to-court/court-room-etiquette/');
+              //     // ...
+              //     // Then close the drawer
+              //   },
+              // ),
+              // ListTile(
+              //   title: const Text(
+              //     'Publications',
+              //     style: TextStyle(
+              //       color: Color.fromARGB(255, 1, 32, 96),
+              //       fontFamily: "Roboto",
+              //       fontSize: 18.0,
+              //       letterSpacing: 1.0,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              //   onTap: () {
+              //     // Update the state of the app
+              //     Navigator.pop(context);
+              //     openUrl('naurujudiciary.gov.nr', 'annual-reports/');
+              //     // ...
+              //   },
+              // ),
               ListTile(
                 title: const Text(
                   'Contact us',
