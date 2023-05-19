@@ -42,8 +42,9 @@ class _BottomTabBarState extends State<BottomTabBar> {
             currentIndex: _currentIndex,
             onTap: (index) {
               setState(() {
-                _pageController.animateToPage(index, duration: Duration(microseconds: 400000), curve: Curves.ease);
-                //_pageController.jumpToPage(index);
+                // _pageController.animateToPage(index, duration: Duration(microseconds: 400000), curve: Curves.ease);
+                _pageController.jumpToPage(index);
+                // _pageController.jumpToPage(index);
                 // _currentIndex = index;
               });
             },
@@ -58,7 +59,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.newspaper_rounded, size: 30, color: Color.fromARGB(255, 255, 255, 255)),
                 activeIcon: Icon(Icons.newspaper_rounded, size: 30, color: Color.fromARGB(255, 246, 197, 0)),
-                label: 'News and Feed',
+                label: 'News',
               ),BottomNavigationBarItem(
                 icon: Icon(Icons.photo_camera_front_rounded, size: 30, color: Color.fromARGB(255, 255, 255, 255)),
                 activeIcon: Icon(Icons.photo_camera_front_rounded, size: 30, color: Color.fromARGB(255, 246, 197, 0)),

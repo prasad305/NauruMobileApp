@@ -37,7 +37,7 @@ class _AboutPageState extends State<AboutPage>{
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -54,6 +54,12 @@ class _AboutPageState extends State<AboutPage>{
                 ),
               ),
               SizedBox(height:20,),
+              Container(
+                height: 15,
+                width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
+                color: Color.fromARGB(255, 255, 213, 0),
+              ),
               Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,8 +94,9 @@ class _AboutPageState extends State<AboutPage>{
               ),
               SizedBox(height:10,),
               Container(
-                height: 5,
+                height: 15,
                 width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
                 color: Color.fromARGB(255, 255, 213, 0),
               ),
               SizedBox(height:15,),
@@ -126,8 +133,9 @@ class _AboutPageState extends State<AboutPage>{
               ),
               SizedBox(height:10,),
               Container(
-                height: 5,
+                height: 15,
                 width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
                 color: Color.fromARGB(255, 255, 213, 0),
               ),
               SizedBox(height:15,),
@@ -164,8 +172,9 @@ class _AboutPageState extends State<AboutPage>{
               ),
               SizedBox(height: 10,),
               Container(
-                height: 5,
+                height: 15,
                 width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
                 color: Color.fromARGB(255, 255, 213, 0),
               ),
               SizedBox(height:15,),
@@ -202,8 +211,9 @@ class _AboutPageState extends State<AboutPage>{
               ),
               SizedBox(height: 10,),
               Container(
-                height: 5,
+                height: 15,
                 width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
                 color: Color.fromARGB(255, 255, 213, 0),
               ),
               SizedBox(height:15,),
@@ -240,8 +250,9 @@ class _AboutPageState extends State<AboutPage>{
               ),
               SizedBox(height: 10,),
               Container(
-                height: 5,
+                height: 15,
                 width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
                 color: Color.fromARGB(255, 255, 213, 0),
               ),
               SizedBox(height:15,),
@@ -278,8 +289,9 @@ class _AboutPageState extends State<AboutPage>{
               ),
               SizedBox(height: 10,),
               Container(
-                height: 5,
+                height: 15,
                 width: double.infinity,
+                margin: EdgeInsets.only(left:8,right: 8),
                 color: Color.fromARGB(255, 255, 213, 0),
               ),
               SizedBox(height:15,),

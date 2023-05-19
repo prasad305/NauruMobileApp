@@ -32,8 +32,6 @@ void main() {
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     DateTime now = new DateTime.now();
-    // DateTime date = new DateTime(now.year, now.month, now.day,6,0,0);
-    // DateTime midnight = new DateTime(now.year, now.month, now.day,1,0,0);
 
     if (now.hour == 11) {
       List<dynamic> notificationList = [];
@@ -54,7 +52,7 @@ void callbackDispatcher() {
         },
         body: jsonEncode(<String, String>{
           'dateFrom': now.toString().split(" ")[0],
-          'date': caseIdList.toString()
+          'idList': caseIdList.toString()
         }),
       );
       if (response.statusCode == 200) {

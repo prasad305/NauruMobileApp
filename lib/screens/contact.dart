@@ -35,7 +35,7 @@ class _ContactPageState extends State<ContactPage>{
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
@@ -49,6 +49,25 @@ class _ContactPageState extends State<ContactPage>{
                         ),
                       ),
                     ],
+                  ),
+                ),
+                SizedBox(height:15,),
+                Container(
+                  height: 15,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(left:8,right: 8),
+                  color: Color.fromARGB(255, 255, 213, 0),
+                ),
+                SizedBox(height:15,),
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text("We are here to help!",
+                    style: const TextStyle(
+                      fontFamily: "Roboto",
+                      letterSpacing: 1.0,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 SizedBox(height:15,),
@@ -68,7 +87,8 @@ class _ContactPageState extends State<ContactPage>{
                           ),
                         ),
                       ),
-                      SizedBox(height: 5,),
+
+                      SizedBox(height: 10,),
                       Container(
                         child: Row(
                           children: [

@@ -11,7 +11,7 @@ class _RegistryPageState extends State<RegistryPage>{
   Widget build(BuildContext context){
     return Scaffold(
         appBar: AppBar(
-          title: Text("Registry",
+          title: Text("Registrar",
             style: const TextStyle(
               fontFamily: "Roboto",
               letterSpacing: 1.0,
@@ -36,11 +36,11 @@ class _RegistryPageState extends State<RegistryPage>{
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: Text("Registry",
+                        child: Text("Registrar ",
                           style: const TextStyle(
                             fontFamily: "Roboto",
                             letterSpacing: 1.0,
@@ -54,6 +54,11 @@ class _RegistryPageState extends State<RegistryPage>{
                   ),
                 ),
                 SizedBox(height: 15,),
+                Container(
+                  height: 15,
+                  width: double.infinity,
+                  color: Color.fromARGB(255, 255, 213, 0),
+                ),
                 Container(
                   padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                   child: Text("REGISTRAR - RONALD NAVIN PRAKASH",

@@ -8,6 +8,7 @@ import 'package:nauru_mobile_app/screens/contact.dart';
 import 'package:nauru_mobile_app/screens/courtofappeal.dart';
 import 'package:nauru_mobile_app/screens/districtcourt.dart';
 import 'package:nauru_mobile_app/screens/registry.dart';
+import 'package:nauru_mobile_app/screens/staffpage.dart';
 import 'package:nauru_mobile_app/screens/supremecourt.dart';
 import 'package:nauru_mobile_app/screens/webview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -136,7 +137,6 @@ class _HomePageState extends State<HomePage> {
               color: Color(0xFFffc000),
               fontFamily: "Roboto",
               fontSize: 20.0,
-              decoration: TextDecoration.underline,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -152,11 +152,11 @@ class _HomePageState extends State<HomePage> {
 
           Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
           Text(
-            'Our mission is to provide accessible justice to the people of Nauru through a fair, efficient, and effective court system. We are committed to upholding the rule of law and ensuring that everyone who comes before our courts is treated with respect and dignity. Our website provides information about our services, court procedures, and resources for court users.',
+            'Our mission is to provide accessible justice to the people of Nauru through a fair, efficient, and effective court system. We are committed to upholding the rule of law and ensuring that everyone who comes before our courts is treated with respect and dignity.',
             style: TextStyle(
               color: Color.fromARGB(255, 135, 135, 135),
               fontFamily: "Roboto",
-              fontSize: 13.0,
+              fontSize: 13.5,
               fontWeight: FontWeight.bold,
             ),
           )),
@@ -348,15 +348,15 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             children: [
               const SizedBox(
-                  height: 100.0,
+                  height: 120.0,
                   child: DrawerHeader(
                     decoration: BoxDecoration(
-                      color: Color(0xFFffc000),
+                      color: Color.fromARGB(255, 0, 23, 147),
                     ),
                     child: Text(
                       'Nauru Judiciary',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 0, 23, 147),
+                        color: Color(0xFFffc000),
                         fontFamily: "Roboto",
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -465,7 +465,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              ListTile(
+
+              ExpansionTile(
+                iconColor: Color.fromARGB(255, 1, 32, 96),
+                collapsedIconColor: Color.fromARGB(255, 1, 32, 96),
+                childrenPadding: EdgeInsets.only(left: 20.0),
+                expandedCrossAxisAlignment: CrossAxisAlignment.end,
                 title: const Text(
                   'Registry',
                   style: TextStyle(
@@ -476,15 +481,50 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegistryPage(),
+                children: <Widget>[
+                  ListTile(
+                    title: const Text(
+                      'Registrar',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegistryPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text(
+                      'Staff',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 1, 32, 96),
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StaffPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
+
               // ListTile(
               //   title: const Text(
               //     'Going To Court',
@@ -600,7 +640,7 @@ class _HomePageState extends State<HomePage> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
-          <String, String>{'dateFrom': now.toString().split(" ")[0], 'date': caseIdList.toString()}),
+          <String, String>{'dateFrom': now.toString().split(" ")[0], 'idList': caseIdList.toString()}),
     );
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
