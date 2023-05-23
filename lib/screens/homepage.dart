@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
       TextEditingController(); //Text of TextField
   List<dynamic> data = []; //ApiPass Body Data Holder
   String  SelectedValueHolder = "DISTRICTCOURT";
+  String  title = "Good Morning!";
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var isWebView = false;
@@ -78,6 +79,28 @@ class _HomePageState extends State<HomePage> {
         _textEditingController.text = DateFormat('yyyy-MM-dd').format(value!);
       });
     });
+  }
+
+
+  setTitle(){
+    var today = DateTime.now();
+    var curHr = today.hour;
+
+    if (curHr < 12) {
+
+      setState(() {
+        title = 'Good Morning!';
+      });
+
+    } else if (curHr < 18) {
+      setState(() {
+        title = 'Good Afternoon!';
+      });
+    } else {
+      setState(() {
+        title = 'Good Evening!';
+      });
+    }
   }
 
   @override
@@ -143,9 +166,9 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Text(
-            'Good Morning!',
-            style: TextStyle(
+          Text(
+            title,
+            style: const TextStyle(
               color: Color.fromARGB(255, 0, 23, 147),
               fontFamily: "Roboto",
               fontSize: 20.0,
