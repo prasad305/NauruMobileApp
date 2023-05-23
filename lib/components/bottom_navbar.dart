@@ -49,7 +49,7 @@ class _BottomTabBarState extends State<BottomTabBar> {
               });
             },
 
-            backgroundColor: Color.fromARGB(255, 1, 32, 96),
+            backgroundColor: Color(0xFF006de4),
             items:[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_filled, size: 30, color: Color.fromARGB(255, 255, 255, 255)),

@@ -28,7 +28,7 @@ class NotificationCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(1.0),
                           child: Image.asset(
-                            "assets/images/libra.jpg",
+                            "assets/images/hummer.png",
                             scale: 20.0,
                           ),
                         ),

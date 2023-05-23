@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:nauru_mobile_app/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/state_servies.dart';
 
@@ -58,7 +59,7 @@ class _CardPageState extends State<SearchPage>{
     StateService.reloadData(name);
     var now = new DateTime.now().toString();
     print(now);
-    const url = "https://api.textware.lk/nauru/v1/api/case/list";
+    const url = Constant.domain+"/nauru/v1/api/case/list";
     final uri = Uri.parse(url);
     final response = await http.post(
       uri,
@@ -92,9 +93,9 @@ class _CardPageState extends State<SearchPage>{
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: Color.fromARGB(255, 1, 32, 96),
+          backgroundColor: Color(0xFF006de4),
           title: Padding(
-            padding: const EdgeInsets.only(right: 10.0, top: 0, left: 10.0),
+            padding: const EdgeInsets.only(right: 0.0, top: 0, left: 0.0),
             child: SizedBox(
                 height: 45,
                 width: double.infinity,
@@ -116,7 +117,7 @@ class _CardPageState extends State<SearchPage>{
                   textFieldConfiguration: TextFieldConfiguration(
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color.fromARGB(255, 1, 32, 96)),
+                            borderSide: BorderSide(color: Color(0xFF006de4)),
                             borderRadius: BorderRadius.circular(
                               10.0,
                             ),
@@ -129,7 +130,7 @@ class _CardPageState extends State<SearchPage>{
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10.0),
                               ),
-                              borderSide: BorderSide(color: Color.fromARGB(255, 1, 32, 96))),
+                              borderSide: BorderSide(color: Color(0xFF006de4))),
                           hintText: "Search",
                           contentPadding:
                           const EdgeInsets.only(top: 4, left: 10),
@@ -138,7 +139,7 @@ class _CardPageState extends State<SearchPage>{
                           suffixIcon: IconButton(
                               onPressed: () {},
                               icon:
-                              const Icon(Icons.search, color: Color.fromARGB(255, 1, 32, 96))),
+                              const Icon(Icons.search, color: Color(0xFF006de4))),
                           fillColor: Colors.white,
                           filled: true)),
                   suggestionsCallback: (value) {
@@ -149,14 +150,7 @@ class _CardPageState extends State<SearchPage>{
                       children: [
                         const SizedBox(
                           width: 10,
-                        ),/*,
-                        const Icon(
-                          Icons.refresh,
-                          color: Colors.grey,
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),*/
                         Flexible(
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
@@ -178,7 +172,7 @@ class _CardPageState extends State<SearchPage>{
                           return AlertDialog(
                             title: const Text('Add Item',
                               style: TextStyle(
-                                color: Color.fromARGB(255, 1, 32, 96),
+                                color: Color(0xFF006de4),
                                 fontFamily: "Roboto",
                                 fontSize: 18.0,
                                 letterSpacing: 1.0,
@@ -186,8 +180,8 @@ class _CardPageState extends State<SearchPage>{
                               ),
                             ),
                             content: Text("Do You Want to add ${suggestion}?",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 1, 32, 96),
+                              style: const TextStyle(
+                                color: Color(0xFF006de4),
                                 fontFamily: "Roboto",
                                 fontSize: 14.0,
                                 letterSpacing: 1.0,
@@ -201,7 +195,7 @@ class _CardPageState extends State<SearchPage>{
                                 ),
                                 child: const Text('Add',
                                   style: TextStyle(
-                                  color: Color.fromARGB(255, 1, 32, 96),
+                                  color: Color(0xFF006de4),
                                   fontFamily: "Roboto",
                                   fontSize: 14.0,
                                   letterSpacing: 1.0,
@@ -246,7 +240,7 @@ class _CardPageState extends State<SearchPage>{
                                 ),
                                 child: const Text('Cancel',
                                   style: TextStyle(
-                                    color: Color.fromARGB(255, 1, 32, 96),
+                                    color: Color(0xFF006de4),
                                     fontFamily: "Roboto",
                                     fontSize: 14.0,
                                     letterSpacing: 1.0,
@@ -261,40 +255,68 @@ class _CardPageState extends State<SearchPage>{
                           );
                         }
                     );
-                    /*setState(() {
-                      userSelected = suggestion;
-                      userSearchItems.add(suggestion);
-                    });*/
+
                   },
                 )),
           ),
         ),
-        body: Container(
-          padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+        body: userSearchItems.length==0? Container(
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+              child: Container(
+                child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "List your cases here to get notifications",
+                          style: TextStyle(
+                            fontFamily: "Roboto",
+                            fontSize: 14.0,
+                            letterSpacing: 1.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ]),
+                ),
+              ),
+            )
+          : Container(
+          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
           child: Container(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-
+                  Text(
+                    "My Case List ("+userSearchItems.length.toString()+")",
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontSize: 14.0,
+                      letterSpacing: 1.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 8.0),
+                      padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 8.0),
                       itemCount: userSearchItems.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
-                          color: Color.fromARGB(255, 1, 32, 96),
+                          color: const Color(0xFF006de4),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                             child: ListTile(
+                              leading:
+                                Image.asset(
+                                  "assets/images/hummer.png",
+                                  scale: 1.5,
+                                ),
                               title : Text(
                                 userSearchItems[index],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontFamily: "Roboto",
                                   fontSize: 18.0,
@@ -315,7 +337,7 @@ class _CardPageState extends State<SearchPage>{
                                                 return AlertDialog(
                                                   title: const Text('Delete',
                                                     style: TextStyle(
-                                                      color: Color.fromARGB(255, 1, 32, 96),
+                                                      color: Color(0xFF006de4),
                                                       fontFamily: "Roboto",
                                                       fontSize: 18.0,
                                                       letterSpacing: 1.0,
@@ -324,7 +346,7 @@ class _CardPageState extends State<SearchPage>{
                                                   ),
                                                   content: Text("Do You Want to delete ${userSearchItems[index]}?",
                                                     style: TextStyle(
-                                                      color: Color.fromARGB(255, 1, 32, 96),
+                                                      color: Color(0xFF006de4),
                                                       fontFamily: "Roboto",
                                                       fontSize: 14.0,
                                                       letterSpacing: 1.0,
@@ -338,7 +360,7 @@ class _CardPageState extends State<SearchPage>{
                                                       ),
                                                       child: const Text('Delete',
                                                         style: TextStyle(
-                                                          color: Color.fromARGB(255, 1, 32, 96),
+                                                          color: Color(0xFF006de4),
                                                           fontFamily: "Roboto",
                                                           fontSize: 14.0,
                                                           letterSpacing: 1.0,
@@ -371,7 +393,7 @@ class _CardPageState extends State<SearchPage>{
                                                       ),
                                                       child: const Text('Cancel',
                                                         style: TextStyle(
-                                                          color: Color.fromARGB(255, 1, 32, 96),
+                                                          color: Color(0xFF006de4),
                                                           fontFamily: "Roboto",
                                                           fontSize: 14.0,
                                                           letterSpacing: 1.0,
@@ -387,14 +409,14 @@ class _CardPageState extends State<SearchPage>{
                                               }
                                           );
                                         },
-                                        icon: Icon(Icons.delete, size: 30, color: Colors.white,),
+                                        icon: Icon(Icons.delete_forever, size: 30, color: Color(0xfffeb703)),
                                       )
                                     )
                                   ],
                                 ),
                               ),
                             ),
-                          ),
+
                         );
                       }
             ),

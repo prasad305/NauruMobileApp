@@ -27,7 +27,7 @@ class _CardPageState extends State<CardPage>{
             fontWeight: FontWeight.bold,
           ),),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 1, 32, 96),
+        backgroundColor: Color(0xFF006de4),
       ),
       body: ShowWidget(),
     );

@@ -1,4 +1,4 @@
-package nr.gov.naurujudiciary.nauru_mobile_app;
+package nr.gov.naurujudiciary.mobile;
 
 import io.flutter.embedding.android.FlutterActivity;
 

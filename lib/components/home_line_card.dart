@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../screens/webview.dart';
+
 class HomeCard extends StatelessWidget {
   final String title;
+  final String url;
 
   const HomeCard(
       {Key? key,
-      required this.title,})
+      required this.title, required this.url,})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           child: Card(
               elevation: 0,
               child: Padding(
@@ -19,17 +22,17 @@ class HomeCard extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       // Add what you want to do on tap
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => const Authenticate()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => WebViewPage(url:url)));
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(1.0),
                           child: Image.asset(
                             "assets/images/libra.jpg",
-                            scale: 20.0,
+                            scale: 10.0,
                           ),
                         ),
                         const SizedBox(

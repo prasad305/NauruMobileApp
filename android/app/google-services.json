@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "331064939493",
+    "project_id": "nauru-683d9",
+    "storage_bucket": "nauru-683d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331064939493:android:eb4b7482eb14ea6721d50c",
+        "android_client_info": {
+          "package_name": "nr.gov.naurujudiciary.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331064939493-o3v1g0bebi6vbm68fgor6cs03e4bf0ot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZGndiFoJru0bQ74eHQszeSd-J88cNwjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331064939493-o3v1g0bebi6vbm68fgor6cs03e4bf0ot.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "331064939493-ccruro1tqjp2uupqc84i9rcfjhat9651.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nr.gov.naurujudiciary.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

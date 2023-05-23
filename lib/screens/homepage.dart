@@ -14,6 +14,7 @@ import 'package:nauru_mobile_app/screens/webview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 
+import '../components/circle_loader.dart';
 import '../components/custom_button.dart';
 import '../components/home_line_card.dart';
 import '../components/rounded_clickable_icon.dart';
@@ -60,14 +61,14 @@ class _HomePageState extends State<HomePage> {
         builder: (context, child) => (Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: ColorScheme.light(
-                  primary: Color.fromARGB(255, 1, 32, 96),
+                  primary: Color(0xFF006de4),
                   onPrimary: Color.fromARGB(255, 255, 255, 255),
-                  onSurface: Color.fromARGB(255, 1, 32, 96),
+                  onSurface: Color(0xFF006de4),
                 ),
                 textButtonTheme: TextButtonThemeData(
                   style: TextButton.styleFrom(
                     primary:
-                        Color.fromARGB(255, 1, 32, 96), // button text color
+                        Color(0xFF006de4), // button text color
                   ),
                 ),
               ),
@@ -97,21 +98,21 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(width: 1,),
             const Text(
-              "Nauru Judiciary",
+              "NAURU JUDICIARY",
               style: TextStyle(
                 fontFamily: "Roboto",
                 letterSpacing: 1.0,
-                fontSize: 20.0,
-                color: Color(0xFFffc000),
+                fontSize: 18.0,
+                color: Color(0xfffeb703),
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-        backgroundColor: Color.fromARGB(255, 1, 32, 96),
+        backgroundColor: Color(0xFF006de4),
         actions: [
           RoundedClickableIcon(
-            color: Color(0xFFffc000),
+            color: Color(0xfffeb703),
             icon: Icons.notifications,
             onTap: () {
               Navigator.of(context)
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
             showNotification: false,
           ),
           IconButton(
-              icon: new Icon(Icons.menu, color: Color(0xFFffc000),),
+              icon: const Icon(Icons.menu, color: Color(0xfffeb703),),
               onPressed: () {
                 _scaffoldKey.currentState?.openEndDrawer();
               })
@@ -129,19 +130,21 @@ class _HomePageState extends State<HomePage> {
       body:isWebView ? webView : SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 5,),
-          Text(
-            'Ekamowir omo ',
+          const SizedBox(height: 5,),
+          const Text(
+            'Ekamowir omo',
             style: TextStyle(
-              color: Color(0xFFffc000),
+              color: Color(0xfffeb703),
               fontFamily: "Roboto",
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            'Welcome to Nauru Judiciary',
+          const Text(
+            'Good Morning!',
             style: TextStyle(
               color: Color.fromARGB(255, 0, 23, 147),
               fontFamily: "Roboto",
@@ -149,18 +152,17 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-
-          Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
+          const Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
           Text(
+            textAlign: TextAlign.center,
             'Our mission is to provide accessible justice to the people of Nauru through a fair, efficient, and effective court system. We are committed to upholding the rule of law and ensuring that everyone who comes before our courts is treated with respect and dignity.',
             style: TextStyle(
-              color: Color.fromARGB(255, 135, 135, 135),
+              color: Color.fromARGB(255, 0, 0, 0),
               fontFamily: "Roboto",
-              fontSize: 13.5,
+              fontSize: 14.5,
               fontWeight: FontWeight.bold,
             ),
           )),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
             child: Container(
@@ -217,23 +219,18 @@ class _HomePageState extends State<HomePage> {
                       })
                     ],
                   ),
-
-
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ), //Spacer
-
-                  //Second Selection Date Picker
-
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                     child: Row(
                       children: <Widget>[
                         Expanded(
                           child: TextField(
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14.0,
-                              color: Color.fromARGB(255, 1, 32, 96),
+                              color: Color(0xFF006de4),
                               fontFamily: "Roboto",
                               fontWeight: FontWeight.bold,
                             ),
@@ -241,28 +238,28 @@ class _HomePageState extends State<HomePage> {
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
                                 onPressed: _textEditingController.clear,
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.clear,
-                                  color: Color.fromARGB(255, 1, 32, 96),
+                                  color: Color(0xFF006de4),
                                 ),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                     width: 2,
-                                    color: Color.fromARGB(255, 1, 32, 96)),
+                                    color: Color(0xFF006de4)),
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(6),
                                     bottomLeft: Radius.circular(6)),
                               ),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(6),
                                     bottomLeft: Radius.circular(6)),
                                 borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 1, 32, 96),
+                                    color: Color(0xFF006de4),
                                     width: 2.0),
                               ),
-                              hintText: 'Selected Date',
+                              hintText: 'Select the Date',
                               //enabled: false,
                             ),
                             readOnly: true,
@@ -271,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           height: 55,
                           decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 1, 32, 96),
+                              color: Color(0xFF006de4),
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(6),
                                   bottomRight: Radius.circular(6))),
@@ -297,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                     width: MediaQuery.of(context).size.width / 100 * 100,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF164280), Color(0xFF012557)],
+                        colors: [Color(0xFF006DE4), Color(0xFF055DBD)],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ),
@@ -325,20 +322,61 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-
-          HomeCard(title: "Court room etiquette"),
-          HomeCard(title: "Understanding bail"),
-          HomeCard(title: "Family disputes"),
-          HomeCard(title: "Money claims"),
-          HomeCard(title: "Domestic and Family violence"),
-          HomeCard(title: "Land disputes"),
-          HomeCard(title: "Appealing a decision"),
-          HomeCard(title: "Legal advice"),
-          HomeCard(title: "Practice directions for lawyers"),
-
-
-
-        ],
+          Container(
+                      padding: const EdgeInsets.all(15),
+                      child: Table(//table border
+                          children: const [
+                        TableRow(children: [
+                          HomeCard(
+                            title: "Court room etiquette",
+                            url:
+                                "https://naurujudiciary.gov.nr/going-to-court/court-room-etiquette/",
+                          ),
+                          HomeCard(
+                            title: "Court room etiquette",
+                            url:
+                                "https://naurujudiciary.gov.nr/going-to-court/court-room-etiquette/",
+                          ),
+                        ]),
+                        TableRow(children: [
+                          HomeCard(
+                              title: "Family disputes",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/family-disputes/"),
+                          HomeCard(
+                              title: "Money claims",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/family-disputes/"),
+                        ]),
+                        TableRow(children: [
+                          HomeCard(
+                              title: "Domestic and Family violence",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/domestic-and-family-violence/"),
+                          HomeCard(
+                              title: "Land disputes",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                        ]),
+                        TableRow(children: [
+                          HomeCard(
+                              title: "Appealing a decision",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                          HomeCard(
+                              title: "Legal advice",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                        ]),
+                        TableRow(children: [
+                          HomeCard(
+                              title: "Practice directions for lawyers",
+                              url:
+                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                          Spacer(),
+                        ]),
+                      ])),
+                ],
       )),
       endDrawer: Container(
         width: MediaQuery.of(context).size.width * 0.6,
@@ -354,9 +392,9 @@ class _HomePageState extends State<HomePage> {
                       color: Color.fromARGB(255, 0, 23, 147),
                     ),
                     child: Text(
-                      'Nauru Judiciary',
+                      'NAURU JUDICIARY',
                       style: TextStyle(
-                        color: Color(0xFFffc000),
+                        color: Color(0xfffeb703),
                         fontFamily: "Roboto",
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -368,7 +406,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text(
                   'About',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 1, 32, 96),
+                    color: Color(0xFF006de4),
                     fontFamily: "Roboto",
                     fontSize: 18.0,
                     letterSpacing: 1.0,
@@ -386,14 +424,14 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ExpansionTile(
-                iconColor: Color.fromARGB(255, 1, 32, 96),
-                collapsedIconColor: Color.fromARGB(255, 1, 32, 96),
+                iconColor: Color(0xFF006de4),
+                collapsedIconColor: Color(0xFF006de4),
                 childrenPadding: EdgeInsets.only(left: 20.0),
                 expandedCrossAxisAlignment: CrossAxisAlignment.end,
                 title: const Text(
                   'The Courts',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 1, 32, 96),
+                    color: Color(0xFF006de4),
                     fontFamily: "Roboto",
                     fontSize: 18.0,
                     letterSpacing: 1.0,
@@ -405,7 +443,7 @@ class _HomePageState extends State<HomePage> {
                     title: const Text(
                       'District Court',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 1, 32, 96),
+                        color: Color(0xFF006de4),
                         fontFamily: "Roboto",
                         fontSize: 18.0,
                         letterSpacing: 1.0,
@@ -425,7 +463,7 @@ class _HomePageState extends State<HomePage> {
                     title: const Text(
                       'Supreme Court',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 1, 32, 96),
+                        color: Color(0xFF006de4),
                         fontFamily: "Roboto",
                         fontSize: 18.0,
                         letterSpacing: 1.0,
@@ -446,7 +484,7 @@ class _HomePageState extends State<HomePage> {
                     title: const Text(
                       'Court of Appeal',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 1, 32, 96),
+                        color: Color(0xFF006de4),
                         fontFamily: "Roboto",
                         fontSize: 18.0,
                         letterSpacing: 1.0,
@@ -467,14 +505,14 @@ class _HomePageState extends State<HomePage> {
               ),
 
               ExpansionTile(
-                iconColor: Color.fromARGB(255, 1, 32, 96),
-                collapsedIconColor: Color.fromARGB(255, 1, 32, 96),
+                iconColor: Color(0xFF006de4),
+                collapsedIconColor: Color(0xFF006de4),
                 childrenPadding: EdgeInsets.only(left: 20.0),
                 expandedCrossAxisAlignment: CrossAxisAlignment.end,
                 title: const Text(
                   'Registry',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 1, 32, 96),
+                    color: Color(0xFF006de4),
                     fontFamily: "Roboto",
                     fontSize: 18.0,
                     letterSpacing: 1.0,
@@ -486,7 +524,7 @@ class _HomePageState extends State<HomePage> {
                     title: const Text(
                       'Registrar',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 1, 32, 96),
+                        color: Color(0xFF006de4),
                         fontFamily: "Roboto",
                         fontSize: 18.0,
                         letterSpacing: 1.0,
@@ -506,7 +544,7 @@ class _HomePageState extends State<HomePage> {
                     title: const Text(
                       'Staff',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 1, 32, 96),
+                        color: Color(0xFF006de4),
                         fontFamily: "Roboto",
                         fontSize: 18.0,
                         letterSpacing: 1.0,
@@ -529,7 +567,7 @@ class _HomePageState extends State<HomePage> {
               //   title: const Text(
               //     'Going To Court',
               //     style: TextStyle(
-              //       color: Color.fromARGB(255, 1, 32, 96),
+              //       color: Color(0xFF006de4),
               //       fontFamily: "Roboto",
               //       fontSize: 18.0,
               //       letterSpacing: 1.0,
@@ -549,7 +587,7 @@ class _HomePageState extends State<HomePage> {
               //   title: const Text(
               //     'Publications',
               //     style: TextStyle(
-              //       color: Color.fromARGB(255, 1, 32, 96),
+              //       color: Color(0xFF006de4),
               //       fontFamily: "Roboto",
               //       fontSize: 18.0,
               //       letterSpacing: 1.0,
@@ -567,7 +605,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text(
                   'Contact us',
                   style: TextStyle(
-                    color: Color.fromARGB(255, 1, 32, 96),
+                    color: Color(0xFF006de4),
                     fontFamily: "Roboto",
                     fontSize: 18.0,
                     letterSpacing: 1.0,
@@ -586,12 +624,12 @@ class _HomePageState extends State<HomePage> {
               // const AboutListTile(
               //   // icon: Icon(
               //   //   Icons.info,
-              //   //   color: Color.fromARGB(255, 1, 32, 96),
+              //   //   color: Color(0xFF006de4),
               //   // ),
               //   child: Text(
               //     'About App',
               //     style: TextStyle(
-              //       color: Color.fromARGB(255, 1, 32, 96),
+              //       color: Color(0xFF006de4),
               //       fontFamily: "Roboto",
               //       fontSize: 18.0,
               //       letterSpacing: 1.0,
@@ -622,7 +660,7 @@ class _HomePageState extends State<HomePage> {
   //API Handler
 
   Future<void> checkAll() async {
-    DateTime now = new DateTime.now();
+    DateTime now = DateTime.now();
 
     List<dynamic> notificationList = [];
     List<int> caseIdList = [];
@@ -659,6 +697,7 @@ class _HomePageState extends State<HomePage> {
 
   void ApiCaller() async {
 
+
     String Date = _textEditingController.text.trim();
     if (!(Date.isEmpty) &&
         (SelectedValueHolder != "- Select Court -" &&
@@ -668,6 +707,7 @@ class _HomePageState extends State<HomePage> {
       final uri = Uri.parse(url);
 
       try {
+        CircleLoader.showCustomDialog(context);
         final response = await http.post(
           uri,
           headers: <String, String>{
@@ -678,6 +718,7 @@ class _HomePageState extends State<HomePage> {
         );
         //http.post(uri, {"dateFrom":Date,"idList":SelectedValueHolder})
         if (response.statusCode == 200) {
+          CircleLoader.hideLoader(context);
           //Check Response is success
           final body = response.body;
           final json = jsonDecode(body);
@@ -698,7 +739,7 @@ class _HomePageState extends State<HomePage> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Warning'),
+                    title: const Text('Sorry'),
                     content: Text("No cases found"),
                     actions: <Widget>[
                       TextButton(
@@ -715,11 +756,12 @@ class _HomePageState extends State<HomePage> {
                 });
           }
         } else {
+          CircleLoader.hideLoader(context);
           showDialog<void>(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: const Text('Error'),
+                  title: const Text('Sorry'),
                   content: const Text('Request not Success'),
                   actions: <Widget>[
                     TextButton(
@@ -736,12 +778,13 @@ class _HomePageState extends State<HomePage> {
               });
         }
       } catch (e) {
+        CircleLoader.hideLoader(context);
         error = e.toString();
         showDialog<void>(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Error'),
+                title: const Text('Sorry'),
                 content: Text(error),
                 actions: <Widget>[
                   TextButton(
@@ -763,7 +806,7 @@ class _HomePageState extends State<HomePage> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Warning'),
+              title: const Text('Sorry!'),
               content: const Text('Please Select Date!'),
               actions: <Widget>[
                 TextButton(
@@ -812,7 +855,7 @@ class _DropdownButtonExampleState extends State<DropdownList> {
     return Container(
       padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromARGB(255, 1, 32, 96), width: 2.0),
+        border: Border.all(color: Color(0xFF006de4), width: 2.0),
         borderRadius: BorderRadius.circular(5),
       ),
       height: 55,
@@ -822,12 +865,12 @@ class _DropdownButtonExampleState extends State<DropdownList> {
           icon: const Icon(
             Icons.arrow_drop_down,
             size: 24.0,
-            color: Color.fromARGB(255, 1, 32, 96),
+            color: Color(0xFF006de4),
           ),
           elevation: 16,
           style: const TextStyle(
             fontSize: 14.0,
-            color: Color.fromARGB(255, 1, 32, 96),
+            color: Color(0xFF006de4),
             fontFamily: "Roboto",
             fontWeight: FontWeight.bold,
           ),

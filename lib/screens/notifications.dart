@@ -69,7 +69,7 @@ class _NotifiationState extends State<Notifiation> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 1, 32, 96),
+        backgroundColor: Color(0xFF006de4),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),

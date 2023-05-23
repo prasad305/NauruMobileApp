@@ -20,7 +20,7 @@ class _DistrictCourtPageState extends State<DistrictCourtPage>{
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 1, 32, 96),
+          backgroundColor: Color(0xFF006de4),
         ),
         body: SingleChildScrollView(
           child: Container(

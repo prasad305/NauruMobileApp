@@ -22,7 +22,7 @@ class _StaffPageState extends State<StaffPage>{
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 1, 32, 96),
+          backgroundColor: Color(0xFF006de4),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -47,7 +47,7 @@ class _StaffPageState extends State<StaffPage>{
                             letterSpacing: 1.0,
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 1, 32, 96),
+                            color: Color(0xFF006de4),
                           ),
                         ),
                       ),
@@ -67,7 +67,7 @@ class _StaffPageState extends State<StaffPage>{
                             letterSpacing: 1.0,
                             fontSize: 16.0,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 1, 32, 96),
+                            color: Color(0xFF006de4),
                             height: 1.3
                           ),
                         ),
@@ -80,7 +80,7 @@ class _StaffPageState extends State<StaffPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 1, 32, 96),
+                            color: Color(0xFF006de4),
                             height: 1.3
                           ),
                         ),
@@ -93,7 +93,7 @@ class _StaffPageState extends State<StaffPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 1, 32, 96),
+                            color: Color(0xFF006de4),
                             height: 1.3
                           ),
                         ),
@@ -106,7 +106,7 @@ class _StaffPageState extends State<StaffPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 1, 32, 96),
+                            color: Color(0xFF006de4),
                             height: 1.3
                           ),
                         ),
@@ -129,7 +129,7 @@ class _StaffPageState extends State<StaffPage>{
                       letterSpacing: 1.0,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 1, 32, 96),
+                      color: Color(0xFF006de4),
                     ),
                   ),
                 ),
@@ -205,7 +205,7 @@ class _StaffPageState extends State<StaffPage>{
                       letterSpacing: 1.0,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 1, 32, 96),
+                      color: Color(0xFF006de4),
                     ),
                   ),
                 ),

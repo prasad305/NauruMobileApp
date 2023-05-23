@@ -21,7 +21,7 @@ class _CourtOfAppealPageState extends State<CourtOfAppealPage>{
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 1, 32, 96),
+          backgroundColor: Color(0xFF006de4),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -327,8 +327,8 @@ class _CourtOfAppealPageState extends State<CourtOfAppealPage>{
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("5. ",
-                                        style: const TextStyle(
+                                      const Text("5. ",
+                                        style: TextStyle(
                                             fontFamily: "Roboto",
                                             letterSpacing: 1.0,
                                             fontSize: 14.0,
@@ -338,8 +338,8 @@ class _CourtOfAppealPageState extends State<CourtOfAppealPage>{
                                       ),
                                       Container(
                                         width: 320,
-                                        child: Text("Jutice Colin Makail of Papua New Guinea; and",
-                                          style: const TextStyle(
+                                        child: const Text("Jutice Colin Makail of Papua New Guinea; and",
+                                          style: TextStyle(
                                               fontFamily: "Roboto",
                                               letterSpacing: 1.0,
                                               fontSize: 14.0,
@@ -353,8 +353,8 @@ class _CourtOfAppealPageState extends State<CourtOfAppealPage>{
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("6. ",
-                                        style: const TextStyle(
+                                      const Text("6. ",
+                                        style: TextStyle(
                                             fontFamily: "Roboto",
                                             letterSpacing: 1.0,
                                             fontSize: 14.0,
@@ -364,8 +364,8 @@ class _CourtOfAppealPageState extends State<CourtOfAppealPage>{
                                       ),
                                       Container(
                                         width: 320,
-                                        child: Text("Sir John Muria of Tuvalu.",
-                                          style: const TextStyle(
+                                        child: const Text("Sir John Muria of Tuvalu.",
+                                          style: TextStyle(
                                               fontFamily: "Roboto",
                                               letterSpacing: 1.0,
                                               fontSize: 14.0,

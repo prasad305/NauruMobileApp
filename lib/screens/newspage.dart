@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 
+import '../components/circle_loader.dart';
 import '../components/home_line_card.dart';
 import '../components/rounded_clickable_icon.dart';
 import 'cardpage.dart';
@@ -29,10 +31,20 @@ class _NewsAndFeedPageState extends State<NewsAndFeedPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late WebViewXController webviewController;
+  late Timer t;
 
   @override
   void initState() {
     super.initState();
+
+    Timer.run(() {
+      CircleLoader.showCustomDialog(context);
+    });
+    t = Timer(const Duration(seconds: 3), () {
+      Timer.run(() {
+        CircleLoader.hideLoader(context);
+      });
+    });
   }
 
   @override
@@ -47,18 +59,18 @@ class _NewsAndFeedPageState extends State<NewsAndFeedPage> {
               width: 1,
             ),
             Text(
-              "Nauru Judiciary",
+              "NAURU JUDICIARY",
               style: TextStyle(
                 fontFamily: "Roboto",
                 letterSpacing: 1.0,
-                fontSize: 20.0,
-                color: Color(0xFFffc000),
+                fontSize: 18.0,
+                color: Color(0xfffeb703),
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-        backgroundColor: Color.fromARGB(255, 1, 32, 96),
+        backgroundColor: Color(0xFF006de4),
       ),
       body: WebViewX(
         onWebViewCreated: (controller) async {
