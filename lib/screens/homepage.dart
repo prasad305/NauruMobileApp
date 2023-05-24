@@ -51,6 +51,13 @@ class _HomePageState extends State<HomePage> {
         .push(MaterialPageRoute(builder: (context) => WebViewPage(url:"https://"+url+'/'+path)));
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setTitle();
+  }
+
 
   void _ShowDatePicker(){
     showDatePicker(
@@ -156,7 +163,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 5,),
+          const SizedBox(height: 15,),
           const Text(
             'Ekamowir omo',
             style: TextStyle(
@@ -166,15 +173,16 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          const SizedBox(height: 5,),
           Text(
             title,
             style: const TextStyle(
-              color: Color.fromARGB(255, 0, 23, 147),
+              color: Color(0xFF006de4),
               fontFamily: "Roboto",
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          ),const SizedBox(height: 15,),
           const Padding(padding: EdgeInsets.only(left: 10.0,right: 10.0),child:
           Text(
             textAlign: TextAlign.center,
@@ -396,7 +404,10 @@ class _HomePageState extends State<HomePage> {
                               title: "Practice directions for lawyers",
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
-                          Spacer(),
+                          HomeCard(
+                              title: "",
+                              url:
+                              "",showImg: false,),
                         ]),
                       ])),
                 ],
@@ -412,7 +423,7 @@ class _HomePageState extends State<HomePage> {
                   height: 120.0,
                   child: DrawerHeader(
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 0, 23, 147),
+                      color: Color(0xFF006de4),
                     ),
                     child: Text(
                       'NAURU JUDICIARY',

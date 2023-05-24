@@ -4,11 +4,12 @@ import '../screens/webview.dart';
 
 class HomeCard extends StatelessWidget {
   final String title;
+  final bool showImg;
   final String url;
 
   const HomeCard(
       {Key? key,
-      required this.title, required this.url,})
+      required this.title, required this.url, this.showImg=true,})
       : super(key: key);
 
   @override
@@ -30,10 +31,10 @@ class HomeCard extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(1.0),
-                          child: Image.asset(
+                          child: showImg? Image.asset(
                             "assets/images/libra.jpg",
                             scale: 10.0,
-                          ),
+                          ):null,
                         ),
                         const SizedBox(
                           width: 10,

@@ -87,6 +87,7 @@ class _NauruAppState extends State<NauruApp>{
     //
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("notify done");
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       AppleNotification? ios = message.notification?.apple;
