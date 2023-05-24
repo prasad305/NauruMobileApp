@@ -1,5 +1,5 @@
-class Constant{
+class Constant {
 
-  static const  domain = "https://api.textware.lk";
+  static const domain = "https://api.textware.lk";
 
 }

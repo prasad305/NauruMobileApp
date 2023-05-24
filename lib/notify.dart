@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 void sendNotification({String? title, String? body}) async {
@@ -31,13 +32,15 @@ void sendNotification({String? title, String? body}) async {
       description: "This channel is for important notification",
       importance: Importance.max);
 
+
   flutterLocalNotificationsPlugin.show(
     0,
     title,
     body,
-    NotificationDetails(
-      android: AndroidNotificationDetails(channel.id, channel.name,
-          channelDescription: channel.description),
-      iOS: const DarwinNotificationDetails( threadIdentifier: "thread1",)
-  ));
+      NotificationDetails(
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              channelDescription: channel.description),
+          iOS: const DarwinNotificationDetails(
+            threadIdentifier: "thread1",
+          )));
 }

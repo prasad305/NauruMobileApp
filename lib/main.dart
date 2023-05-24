@@ -63,59 +63,86 @@ class _NauruAppState extends State<NauruApp>{
   void initState() {
     // TODO: implement initState
     super.initState();
+    //
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+    const LinuxInitializationSettings initializationSettingsLinux =
+        LinuxInitializationSettings(
+      defaultActionName: 'hello',
+    );
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS,
+            linux: initializationSettingsLinux);
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
+    //
 
-        var initialzationSettingsAndroid =
-            const AndroidInitializationSettings('@mipmap/ic_launcher');
-        var initializationSettings =
-            InitializationSettings(android: initialzationSettingsAndroid);
-        flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      AppleNotification? ios = message.notification?.apple;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(channel.id, channel.name,
+                  channelDescription: channel.description),
+            ));
+      }
 
-        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          RemoteNotification? notification = message.notification;
-          AndroidNotification? android = message.notification?.android;
-          if (notification != null && android != null) {
-            flutterLocalNotificationsPlugin.show(
-                notification.hashCode,
-                notification.title,
-                notification.body,
-                NotificationDetails(
-                  android: AndroidNotificationDetails(
-                    channel.id, channel.name,
-                    channelDescription: channel.description
-                  ),
-                ));
-          }
-        });
+      if (notification != null && ios != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            const NotificationDetails(
+              iOS: DarwinNotificationDetails(
+                threadIdentifier: "thread1",
+              ),
+            ));
+      }
+    });
 
-        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-          RemoteNotification? notification = message.notification;
-          AndroidNotification? android = message.notification?.android;
-          if (notification != null && android != null) {
-            print("app open");
-          }
-        });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        print("app open");
+      }
+    });
 
-        getToken();
+    getToken();
   }
 
   late String token;
-  getToken() async {
 
+  getToken() async {
     String? deviceId = await PlatformDeviceId.getDeviceId;
 
     token = (await FirebaseMessaging.instance.getToken())!;
     print(token);
 
-
     Map data = {
       "fcm_token": token,
       "unique_id": deviceId,
-      "platform": Platform.isAndroid ? "ANDROID":"IOS",
-      "created_datetime":"2023-05-23"
+      "platform": Platform.isAndroid ? "ANDROID" : "IOS",
+      "created_datetime": "2023-05-23"
     };
 
-    APIManager().postRequest("https://notification.naurujudiciary.gov.nr/fcm/api/v1/registeredDevices/new",data);
-
+    APIManager().postRequest(
+        "https://notification.naurujudiciary.gov.nr/fcm/api/v1/registeredDevices/new",
+        data);
   }
 
   @override
