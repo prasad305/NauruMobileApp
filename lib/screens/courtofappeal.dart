@@ -21,7 +21,7 @@ class _CourtOfAppealPageState extends State<CourtOfAppealPage>{
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color(0xFF006de4),
+          backgroundColor: Color.fromARGB(255, 0, 23, 147),
         ),
         body: SingleChildScrollView(
           child: Container(

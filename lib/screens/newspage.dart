@@ -70,7 +70,7 @@ class _NewsAndFeedPageState extends State<NewsAndFeedPage> {
             ),
           ],
         ),
-        backgroundColor: Color(0xFF006de4),
+        backgroundColor: Color.fromARGB(255, 0, 23, 147),
       ),
       body: WebViewX(
         onWebViewCreated: (controller) async {

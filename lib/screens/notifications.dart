@@ -4,6 +4,8 @@ import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:nauru_mobile_app/service/api.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components/noificaion_card.dart';
 import '../data/state_servies.dart';
@@ -30,30 +32,32 @@ class _NotifiationState extends State<Notifiation> {
   }
 
   loadUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    // await prefs.remove('idList');
-    final counter = prefs.getString('notification') ?? "null";
+    String? deviceId = await PlatformDeviceId.getDeviceId;
 
-    print("counter");
-    print(counter);
-
-    if (counter != "null") {
-      // Map m = new ObjectMapper().convertValue(json, Map.class);
-      for (var item in jsonDecode(counter)) {
-        setState(() {
-          notificationList.add(item['caseNo']);
+    Map data = {
+      "deviceId": deviceId,
+      "date": DateTime.now().toString().split(" ")[0],
+    };
+    APIManager()
+        .postRequest(
+            "https://api.textware.lk/nauru/v1/api/my/notification", data)
+        .then((value) {
+      print(value['notificationLogList']);
+      if (value['notificationLogList'].length != 0) {
+        for (var item in value['notificationLogList']) {
           setState(() {
-            body.add(NotificationCard(title: item['caseNo']));
+            setState(() {
+              body.add(
+                  NotificationCard(title: item['title'], body: item['body']));
+            });
           });
-
+        }
+      } else {
+        setState(() {
+          // body.add(const Text("empty"));
         });
       }
-    } else {
-      setState(() {
-        body.add(Text("Notifications is empty"));
-      });
-
-    }
+    });
   }
 
   Widget build(BuildContext context) {
@@ -66,20 +70,23 @@ class _NotifiationState extends State<Notifiation> {
             fontFamily: "Roboto",
             letterSpacing: 1.0,
             fontSize: 18.0,
+            color: Color(0xfffeb703),
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Color(0xFF006de4),
+        backgroundColor: Color.fromARGB(255, 0, 23, 147),
       ),
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
-        child: Container(
-          child: Center(
-              child: Column(
-            children: body,
+      body: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
+            child: Container(
+              child: Center(
+                  child: Column(
+                children: body,
+              )),
+            ),
           )),
-        ),
-      ),
     );
   }
 }

@@ -87,6 +87,15 @@ flutter:
     - assets/images/Vinay.jpg
     - assets/images/AkashAPrasad.jpg
     - assets/images/hummer.png
+    - assets/images/c1.png
+    - assets/images/c2.png
+    - assets/images/c3.png
+    - assets/images/c4.png
+    - assets/images/c5.png
+    - assets/images/c6.png
+    - assets/images/c7.png
+    - assets/images/c8.png
+    - assets/images/c9.png
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

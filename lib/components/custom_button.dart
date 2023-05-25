@@ -18,8 +18,9 @@ class CustomButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: selected
-              ? [Color(0xFFFEB703), Color(0xFFEFB208)]
-              : [Color(0xFF006DE4), Color(0xFF055DBD)],
+              ? [const Color(0xFFFEB703), const Color(0xFFEFB208)]
+              : [const Color.fromARGB(255, 0, 23, 147), const Color.fromARGB(
+          255, 4, 34, 193)],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
         ),
@@ -35,7 +36,7 @@ class CustomButton extends StatelessWidget {
           style: TextStyle(
             fontFamily: "Roboto",
             fontSize: 14.0,
-            color: selected ? Color(0xFF012557) : Colors.white,
+            color: selected ? const Color(0xFF012557) : Colors.white,
             letterSpacing: 1.0,
             fontWeight: FontWeight.bold,
           ),

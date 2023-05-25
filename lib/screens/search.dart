@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:nauru_mobile_app/constant.dart';
+import 'package:nauru_mobile_app/service/api.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/state_servies.dart';
 
@@ -19,12 +21,7 @@ class _CardPageState extends State<SearchPage>{
 
   int i = 0;//List Records Counter
   String? userSelected = "";
-  List<String> userSearchItems = []; //Select Item Holder
-
-  // obtain shared preferences
-
-// // set value
-//   await prefs.setInt('counter', counter);
+  List<String> userSelectedData = []; //Select Item Holder
 
   @override
   initState() {
@@ -34,66 +31,68 @@ class _CardPageState extends State<SearchPage>{
   }
 
   List<String> name = [];
+  List<dynamic> idList = [];
+  List<int> deleteIdList = [];
   List<dynamic> caseList = [];
   List<dynamic> selectedCaseList = [];
-
+  String? deviceId;
   loadUserData() async {
 
-    final prefs = await SharedPreferences.getInstance();
-// prefs.remove('idList');
-    final counter = prefs.getString('idList') ?? "null";
+    deviceId  = await PlatformDeviceId.getDeviceId;
+    userSelectedData = [];
+    deleteIdList = [];
 
-    if(counter!="null"){
-      selectedCaseList = jsonDecode(counter);
-      print("jsonDecode(counter))");
-      print(jsonDecode(counter));
-      for (var item in jsonDecode(counter)) {
+    Map data = {
+      'deviceId':deviceId
+    };
+    print("req");
+    print(data);
+
+    APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case", data).then((value) {
+      print("loaded");
+      print(value);
+
+      for (var item in value['userCaseList']) {
         print(item);
         setState(() {
-          userSearchItems.add(item['caseNo'] as String);
+          userSelectedData.add(item['caseId']['caseNo'] as String);
+          deleteIdList.add(item['caseId']['id'] as int);
         });
       }
-    }
+
+
+    });
+
+
   }
   loadData() async {
     StateService.reloadData(name);
     var now = new DateTime.now().toString();
-    print(now);
-    const url = Constant.domain+"/nauru/v1/api/case/list";
-    final uri = Uri.parse(url);
-    final response = await http.post(
-      uri,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'dateFrom': now.split(" ")[0]
-      }),
-    );
-    if(response.statusCode == 200){
-      print("response");//Check Response is success
-      print(response.body);//Check Response is success
-      final body = response.body;
-      final json = jsonDecode(body);
-
-
-      if(json['caseNameList'] != 0){
-        caseList = json['caseNameList'];
-        for (var item in json['caseNameList']) {
+    Map data = {
+      'dateFrom': now.split(" ")[0]
+    };
+    APIManager().postRequest(Constant.domain+"/nauru/v1/api/case/list", data).then((value) {
+      if(value['caseNameList'] != 0){
+        caseList = value['caseNameList'];
+        for (var item in value['caseNameList']) {
           name.add(item['caseNo']);
+          idList.add(item['id']);
         }
+        print(name);
+        print(idList);
         StateService.reloadData(name);
       }else{
         StateService.reloadData(name);
       }
-    }
+    });
+
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: Color(0xFF006de4),
+          backgroundColor: Color.fromARGB(255, 0, 23, 147),
           title: Padding(
             padding: const EdgeInsets.only(right: 0.0, top: 0, left: 0.0),
             child: SizedBox(
@@ -172,7 +171,7 @@ class _CardPageState extends State<SearchPage>{
                           return AlertDialog(
                             title: const Text('Add Item',
                               style: TextStyle(
-                                color: Color(0xFF006de4),
+                                color: Color.fromARGB(255, 0, 23, 147),
                                 fontFamily: "Roboto",
                                 fontSize: 18.0,
                                 letterSpacing: 1.0,
@@ -181,7 +180,7 @@ class _CardPageState extends State<SearchPage>{
                             ),
                             content: Text("Do You Want to add ${suggestion}?",
                               style: const TextStyle(
-                                color: Color(0xFF006de4),
+                                color: Color.fromARGB(255, 0, 23, 147),
                                 fontFamily: "Roboto",
                                 fontSize: 14.0,
                                 letterSpacing: 1.0,
@@ -195,42 +194,33 @@ class _CardPageState extends State<SearchPage>{
                                 ),
                                 child: const Text('Add',
                                   style: TextStyle(
-                                  color: Color(0xFF006de4),
+                                  color: Color.fromARGB(255, 0, 23, 147),
                                   fontFamily: "Roboto",
                                   fontSize: 14.0,
                                   letterSpacing: 1.0,
                                   fontWeight: FontWeight.bold,
                                 ),),
                                 onPressed: () async {
-                                  final prefs = await SharedPreferences.getInstance();
 
                                   var elementAt = caseList.elementAt(name.indexOf(suggestion));
-
                                   print("elementAt");
                                   print(elementAt);
+                                  print(idList[name.indexOf(suggestion)]);
 
-                                  if(userSearchItems.contains(suggestion)){
-                                    Navigator.of(context).pop();
+                                  Map data = {
+                                    'deviceId':deviceId,
+                                    'id':idList[name.indexOf(suggestion)]
+                                  };
+                                  print("data");
+                                  print(data);
+                                  APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/add", data);
+                                  Navigator.of(context).pop();
+                                  if(userSelectedData.contains(suggestion)){
                                   }else{
-
-                                    var counter = prefs.getString('idList') ?? "null";
-                                    List<dynamic> temp = [];
-                                    if(counter=="null"){
-                                      temp.add(json.encode(elementAt).toString());
-                                      await prefs.setString('idList',temp.toString());
-                                    }else{
-                                      counter = counter.replaceAll("[", "");
-                                      counter = counter.replaceAll("]", "");
-                                      temp.add(counter);
-                                      temp.add(json.encode(elementAt).toString());
-                                      await prefs.setString('idList',temp.toString());
-                                    }
-                                    selectedCaseList.add(elementAt);
                                     setState(() {
-                                      userSelected = suggestion;
-                                      userSearchItems.add(suggestion);
+                                      userSelectedData.add(suggestion);
+                                      deleteIdList.add(idList[name.indexOf(suggestion)] as int);
                                     });
-                                    Navigator.of(context).pop();
                                   }
                                 },
                               ),
@@ -240,7 +230,7 @@ class _CardPageState extends State<SearchPage>{
                                 ),
                                 child: const Text('Cancel',
                                   style: TextStyle(
-                                    color: Color(0xFF006de4),
+                                    color: Color.fromARGB(255, 0, 23, 147),
                                     fontFamily: "Roboto",
                                     fontSize: 14.0,
                                     letterSpacing: 1.0,
@@ -260,7 +250,7 @@ class _CardPageState extends State<SearchPage>{
                 )),
           ),
         ),
-        body: userSearchItems.length==0? Container(
+        body: userSelectedData.length==0? Container(
               padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
               child: Container(
                 child: Center(
@@ -288,7 +278,7 @@ class _CardPageState extends State<SearchPage>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "My Case List ("+userSearchItems.length.toString()+")",
+                    "My Case List ("+userSelectedData.length.toString()+")",
                     style: TextStyle(
                       fontFamily: "Roboto",
                       fontSize: 14.0,
@@ -301,10 +291,10 @@ class _CardPageState extends State<SearchPage>{
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 8.0),
-                      itemCount: userSearchItems.length,
+                      itemCount: userSelectedData.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
-                          color: const Color(0xFF006de4),
+                          color: const Color.fromARGB(255, 0, 23, 147),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -315,7 +305,7 @@ class _CardPageState extends State<SearchPage>{
                                   scale: 1.5,
                                 ),
                               title : Text(
-                                userSearchItems[index],
+                                userSelectedData[index],
                                 style: const TextStyle(
                                   color: Color.fromARGB(255, 255, 255, 255),
                                   fontFamily: "Roboto",
@@ -337,16 +327,16 @@ class _CardPageState extends State<SearchPage>{
                                                 return AlertDialog(
                                                   title: const Text('Delete',
                                                     style: TextStyle(
-                                                      color: Color(0xFF006de4),
+                                                      color: Color.fromARGB(255, 0, 23, 147),
                                                       fontFamily: "Roboto",
                                                       fontSize: 18.0,
                                                       letterSpacing: 1.0,
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-                                                  content: Text("Do You Want to delete ${userSearchItems[index]}?",
+                                                  content: Text("Do You Want to delete ${userSelectedData[index]}?",
                                                     style: TextStyle(
-                                                      color: Color(0xFF006de4),
+                                                      color: Color.fromARGB(255, 0, 23, 147),
                                                       fontFamily: "Roboto",
                                                       fontSize: 14.0,
                                                       letterSpacing: 1.0,
@@ -360,29 +350,26 @@ class _CardPageState extends State<SearchPage>{
                                                       ),
                                                       child: const Text('Delete',
                                                         style: TextStyle(
-                                                          color: Color(0xFF006de4),
+                                                          color: Color.fromARGB(255, 0, 23, 147),
                                                           fontFamily: "Roboto",
                                                           fontSize: 14.0,
                                                           letterSpacing: 1.0,
                                                           fontWeight: FontWeight.bold,
                                                         ),),
                                                       onPressed: () async {
+
+
+                                                        Map data = {
+                                                          'deviceId':deviceId,
+                                                          'id':deleteIdList[index]
+                                                        };
+                                                        APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/delete", data).then((value) => loadUserData());
+
+
+
+
                                                         print("selectedCaseList");
                                                         print(selectedCaseList);
-                                                        selectedCaseList.removeAt(index);
-
-                                                        final prefs = await SharedPreferences.getInstance();
-
-                                                        if(selectedCaseList.length==0){
-                                                          await prefs.remove('idList');
-                                                        }else{
-                                                          await prefs.setString('idList',json.encode(selectedCaseList).toString());
-
-                                                        }
-
-                                                        setState(() {
-                                                          userSearchItems.removeAt(index);
-                                                        });
 
                                                         Navigator.of(context).pop();
                                                       },
@@ -393,7 +380,7 @@ class _CardPageState extends State<SearchPage>{
                                                       ),
                                                       child: const Text('Cancel',
                                                         style: TextStyle(
-                                                          color: Color(0xFF006de4),
+                                                          color: Color.fromARGB(255, 0, 23, 147),
                                                           fontFamily: "Roboto",
                                                           fontSize: 14.0,
                                                           letterSpacing: 1.0,

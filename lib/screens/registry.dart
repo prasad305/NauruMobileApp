@@ -21,7 +21,7 @@ class _RegistryPageState extends State<RegistryPage>{
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color(0xFF006de4),
+          backgroundColor: Color.fromARGB(255, 0, 23, 147),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -46,7 +46,7 @@ class _RegistryPageState extends State<RegistryPage>{
                             letterSpacing: 1.0,
                             fontSize: 22.0,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF006de4),
+                            color: Color.fromARGB(255, 0, 23, 147),
                           ),
                         ),
                       ),
@@ -67,7 +67,7 @@ class _RegistryPageState extends State<RegistryPage>{
                       letterSpacing: 1.0,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF006de4),
+                      color: Color.fromARGB(255, 0, 23, 147),
                     ),
                   ),
                 ),
@@ -98,7 +98,7 @@ class _RegistryPageState extends State<RegistryPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF006de4),
+                            color: Color.fromARGB(255, 0, 23, 147),
                             height: 1.3
                           ),
                         ),
@@ -111,7 +111,7 @@ class _RegistryPageState extends State<RegistryPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF006de4),
+                            color: Color.fromARGB(255, 0, 23, 147),
                             height: 1.3
                           ),
                         ),
@@ -124,7 +124,7 @@ class _RegistryPageState extends State<RegistryPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF006de4),
+                            color: Color.fromARGB(255, 0, 23, 147),
                             height: 1.3
                           ),
                         ),
@@ -136,7 +136,7 @@ class _RegistryPageState extends State<RegistryPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF006de4),
+                            color: Color.fromARGB(255, 0, 23, 147),
                             height: 1.3
                           ),
                         ),
@@ -148,7 +148,7 @@ class _RegistryPageState extends State<RegistryPage>{
                             letterSpacing: 1.0,
                             fontSize: 14.0,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFF006de4),
+                            color: Color.fromARGB(255, 0, 23, 147),
                             height: 1.3
                           ),
                         ),
