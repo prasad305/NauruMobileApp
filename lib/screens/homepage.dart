@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:nauru_mobile_app/screens/contact.dart';
 import 'package:nauru_mobile_app/screens/courtofappeal.dart';
 import 'package:nauru_mobile_app/screens/districtcourt.dart';
+import 'package:nauru_mobile_app/screens/registryservices.dart';
 import 'package:nauru_mobile_app/screens/staffpage.dart';
 import 'package:nauru_mobile_app/screens/supremecourt.dart';
 import 'package:nauru_mobile_app/screens/webview.dart';
@@ -348,20 +349,22 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           const SizedBox(
-            height: 5.0,
+            height: 10.0,
           ), //S
           const Text(
             'GOING TO COURT',
             style: TextStyle(
               fontFamily: "Roboto",
               fontSize: 18.0,
-              color: Colors.black,
+              color: blue,
               letterSpacing: 1.0,
               fontWeight: FontWeight.bold,
             ),
           ),
+          const SizedBox(
+            height: 10.0,
+          ),
           Container(
-                      padding: const EdgeInsets.all(15),
                       child: Table(//table border
                           children: const [
                         TableRow(children: [
@@ -385,50 +388,48 @@ class _HomePageState extends State<HomePage> {
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/family-disputes/"),
                           HomeCard(
-                              img: "c4.png",
+                              img: "c5.png",
                               title: "Money claims",
                               url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/family-disputes/"),
+                                  "https://naurujudiciary.gov.nr/going-to-court/money-claims/"),
                         ]),
                         TableRow(children: [
                           HomeCard(
-                              img: "c5.png",
+                              img: "c6.png",
                               title: "Domestic and Family violence",
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/domestic-and-family-violence/"),
                           HomeCard(
-                              img: "c6.png",
+                              img: "c7.png",
                               title: "Land disputes",
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
                         ]),
                         TableRow(children: [
                           HomeCard(
-                              img: "c7.png",
+                              img: "c4.png",
                               title: "Appealing a decision",
                               url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                                  "https://naurujudiciary.gov.nr/going-to-court/appealing-a-decision/"),
                           HomeCard(
                               img: "c8.png",
                               title: "Legal advice",
                               url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                                  "https://naurujudiciary.gov.nr/going-to-court/legal-advice/"),
                         ]),
-                        TableRow(children: [
-                          HomeCard(
-                              img: "c9.png",
-                              title: "Practice directions for lawyers",
-                              url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
-                          HomeCard(
-                              img: "c1.png",
-                              title: "",
-                              url:
-                              "",showImg: false,),
-                        ]),
+
+
+
                       ])),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    HomeCard(
+                        img: "c9.png",
+                        title: "Practice directions for lawyers",
+                        url:
+                            "https://naurujudiciary.gov.nr/going-to-court/practice-directions-for-lawyers/"),
+                  ]),
                 ],
-      )),
+              )),
       endDrawer: Container(
         width: MediaQuery.of(context).size.width * 0.6,
         child: Drawer(
@@ -612,6 +613,27 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
+
+                  ListTile(
+                    title: const Text(
+                      'Registry Service',
+                      style: TextStyle(
+                        color: blue,
+                        fontFamily: "Roboto",
+                        fontSize: 18.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegistryServicePage(),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
 
@@ -675,7 +697,7 @@ class _HomePageState extends State<HomePage> {
               ),
               ListTile(
                 title: const Text(
-                  'Visit Site',
+                  'Visit Nauru Judiciary Website',
                   style: TextStyle(
                     color: blue,
                     fontFamily: "Roboto",
