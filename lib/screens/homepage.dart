@@ -17,6 +17,7 @@ import 'package:webviewx_plus/webviewx_plus.dart';
 import '../components/circle_loader.dart';
 import '../components/custom_button.dart';
 import '../components/home_line_card.dart';
+import '../components/home_line_card_v2.dart';
 import '../components/rounded_clickable_icon.dart';
 import 'about.dart';
 import 'cardpage.dart';
@@ -368,66 +369,71 @@ class _HomePageState extends State<HomePage> {
                       child: Table(//table border
                           children: const [
                         TableRow(children: [
-                          HomeCard(
+                          HomeCardV2(
                             img: "c1.png",
                             title: "Court room etiquette",
                             url:
                                 "https://naurujudiciary.gov.nr/going-to-court/court-room-etiquette/",
                           ),
-                          HomeCard(
+                          HomeCardV2(
                             img: "c2.png",
                             title: "Understanding bail",
                             url:
                                 "https://naurujudiciary.gov.nr/going-to-court/understanding-bail",
                           ),
-                        ]),
-                        TableRow(children: [
-                          HomeCard(
+                          HomeCardV2(
                               img: "c3.png",
                               title: "Family disputes",
                               url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/family-disputes/"),
-                          HomeCard(
+                              "https://naurujudiciary.gov.nr/going-to-court/family-disputes/"),
+                        ]),
+                        TableRow(children: [
+
+                          HomeCardV2(
                               img: "c5.png",
                               title: "Money claims",
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/money-claims/"),
-                        ]),
-                        TableRow(children: [
-                          HomeCard(
+                          HomeCardV2(
                               img: "c6.png",
                               title: "Domestic and Family violence",
                               url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/domestic-and-family-violence/"),
-                          HomeCard(
+                              "https://naurujudiciary.gov.nr/going-to-court/domestic-and-family-violence/"),
+                          HomeCardV2(
                               img: "c7.png",
                               title: "Land disputes",
                               url:
-                                  "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
+                              "https://naurujudiciary.gov.nr/going-to-court/land-disputes/"),
                         ]),
                         TableRow(children: [
-                          HomeCard(
+                          HomeCardV2(
                               img: "c4.png",
                               title: "Appealing a decision",
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/appealing-a-decision/"),
-                          HomeCard(
+                          HomeCardV2(
                               img: "c8.png",
                               title: "Legal advice",
                               url:
                                   "https://naurujudiciary.gov.nr/going-to-court/legal-advice/"),
+
+                          HomeCardV2(
+                                  img: "c9.png",
+                                  title: "Practice directions for lawyers",
+                                  url:
+                                      "https://naurujudiciary.gov.nr/going-to-court/practice-directions-for-lawyers/"),
                         ]),
 
 
 
                       ])),
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    HomeCard(
-                        img: "c9.png",
-                        title: "Practice directions for lawyers",
-                        url:
-                            "https://naurujudiciary.gov.nr/going-to-court/practice-directions-for-lawyers/"),
-                  ]),
+                  // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  //   HomeCard(
+                  //       img: "c9.png",
+                  //       title: "Practice directions for lawyers",
+                  //       url:
+                  //           "https://naurujudiciary.gov.nr/going-to-court/practice-directions-for-lawyers/"),
+                  // ]),
                 ],
               )),
       endDrawer: Container(
