@@ -1,19 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 
 import '../components/circle_loader.dart';
-import '../components/home_line_card.dart';
-import '../components/rounded_clickable_icon.dart';
-import 'cardpage.dart';
-import 'notifications.dart';
+
 
 class WebViewPage extends StatefulWidget {
   final String url;

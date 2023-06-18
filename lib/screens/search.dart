@@ -1,16 +1,11 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:nauru_mobile_app/constant.dart';
 import 'package:nauru_mobile_app/service/api.dart';
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../data/state_servies.dart';
 
 class SearchPage extends StatefulWidget {
-  //CardPage({required this.Data});
   SearchPage({Key? key,}) : super(key: key);
 
   @override
@@ -45,15 +40,10 @@ class _CardPageState extends State<SearchPage>{
     Map data = {
       'deviceId':deviceId
     };
-    print("req");
-    print(data);
 
     APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case", data).then((value) {
-      print("loaded");
-      print(value);
 
       for (var item in value['userCaseList']) {
-        print(item);
         setState(() {
           userSelectedData.add(item['caseId']['caseNo'] as String);
           deleteIdList.add(item['caseId']['id'] as int);
@@ -78,8 +68,6 @@ class _CardPageState extends State<SearchPage>{
           name.add(item['caseNo']);
           idList.add(item['id']);
         }
-        print(name);
-        print(idList);
         StateService.reloadData(name);
       }else{
         StateService.reloadData(name);
@@ -201,18 +189,10 @@ class _CardPageState extends State<SearchPage>{
                                   fontWeight: FontWeight.bold,
                                 ),),
                                 onPressed: () async {
-
-                                  var elementAt = caseList.elementAt(name.indexOf(suggestion));
-                                  print("elementAt");
-                                  print(elementAt);
-                                  print(idList[name.indexOf(suggestion)]);
-
                                   Map data = {
                                     'deviceId':deviceId,
                                     'id':idList[name.indexOf(suggestion)]
                                   };
-                                  print("data");
-                                  print(data);
                                   APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/add", data);
                                   Navigator.of(context).pop();
                                   if(userSelectedData.contains(suggestion)){
@@ -245,7 +225,6 @@ class _CardPageState extends State<SearchPage>{
                           );
                         }
                     );
-
                   },
                 )),
           ),
@@ -279,7 +258,7 @@ class _CardPageState extends State<SearchPage>{
                 children: [
                   Text(
                     "My Case List ("+userSelectedData.length.toString()+")",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: "Roboto",
                       fontSize: 14.0,
                       letterSpacing: 1.0,
@@ -335,7 +314,7 @@ class _CardPageState extends State<SearchPage>{
                                                     ),
                                                   ),
                                                   content: Text("Do You Want to delete ${userSelectedData[index]}?",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: Color.fromARGB(255, 0, 23, 147),
                                                       fontFamily: "Roboto",
                                                       fontSize: 14.0,
@@ -357,20 +336,11 @@ class _CardPageState extends State<SearchPage>{
                                                           fontWeight: FontWeight.bold,
                                                         ),),
                                                       onPressed: () async {
-
-
                                                         Map data = {
                                                           'deviceId':deviceId,
                                                           'id':deleteIdList[index]
                                                         };
                                                         APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/delete", data).then((value) => loadUserData());
-
-
-
-
-                                                        print("selectedCaseList");
-                                                        print(selectedCaseList);
-
                                                         Navigator.of(context).pop();
                                                       },
                                                     ),
@@ -396,7 +366,7 @@ class _CardPageState extends State<SearchPage>{
                                               }
                                           );
                                         },
-                                        icon: Icon(Icons.delete_forever, size: 30, color: Color(0xfffeb703)),
+                                        icon: const Icon(Icons.delete_forever, size: 30, color: Color(0xfffeb703)),
                                       )
                                     )
                                   ],

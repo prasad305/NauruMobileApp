@@ -1,40 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:nauru_mobile_app/components/case_side_card.dart';
+import 'package:nauru_mobile_app/constant.dart';
+import 'package:platform_device_id/platform_device_id.dart';
+
+import '../components/custom_button.dart';
+import '../service/api.dart';
 
 class CardPage extends StatefulWidget {
   List Data;
+
   //CardPage({required this.Data});
-  CardPage({Key? key,required this.Data}) : super(key: key);
+  CardPage({Key? key, required this.Data}) : super(key: key);
 
   @override
   _CardPageState createState() => _CardPageState(Data);
 }
 
-class _CardPageState extends State<CardPage>{
+class _CardPageState extends State<CardPage> {
   List Value;
+
   _CardPageState(this.Value);
 
-  int i = 0;//List Records Counter
+  int i = 0; //List Records Counter
+  String? deviceId;
 
-  Widget build(BuildContext context){
+  @override
+  initState() {
+    super.initState();
+    loadDeviceId();
+  }
+
+  loadDeviceId() async {
+    deviceId  = await PlatformDeviceId.getDeviceId;
+  }
+
+
+  addToList(id){
+
+
+
+    Map data = {
+      'deviceId':deviceId,
+      'id':id
+    };
+    print("data");
+    print(data);
+    APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/add", data);
+    showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Case Added'),
+            content: const Text('Please Check My Case List'),
+            actions: <Widget>[
+              TextButton(
+                style: TextButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.labelLarge,
+                ),
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Widget build(BuildContext context) {
     print(Value[0]);
     return Scaffold(
       appBar: AppBar(
-        title: Text(PageHeading(),
+        title: Text(
+          PageHeading(),
           style: const TextStyle(
             fontFamily: "Roboto",
             letterSpacing: 1.0,
             fontSize: 22.0,
             fontWeight: FontWeight.bold,
-          ),),
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 0, 23, 147),
+        backgroundColor: const Color.fromARGB(255, 0, 23, 147),
       ),
       body: ShowWidget(),
     );
   }
 
-  ShowWidget(){
-    if(Value[0]['type'] == "COURTOFAPPEAL"){
+  ShowWidget() {
+    if (Value[0]['type'] == "COURTOFAPPEAL") {
       return SingleChildScrollView(
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -55,65 +109,19 @@ class _CardPageState extends State<CardPage>{
                   BoxShadow(
                     color: Colors.grey.shade600,
                     blurRadius: 4,
-                    offset: Offset(0, 1), // Shadow position
+                    offset: const Offset(0, 1), // Shadow position
                   ),
                 ],
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12.0),
-                              bottomLeft: Radius.circular(12.0),
-                            ),
-                            child: Image.asset("assets/images/Pic.png",
-                              color: Colors.white.withOpacity(0.75),
-                              colorBlendMode: BlendMode.modulate,
-                              /*height: 120,
-                      width: double.infinity,*/
-                              //color: Colors.black.withOpacity(0.14),
-                              height: double.infinity,
-                              width: 120,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Center(
-                              child: Container(
-                                width: 120,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Case No : ",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w700
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Text(
-                                      "${Value.elementAt(index)['caseNo']}",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              )
-                          )
-                        ],
-                      )
-                  ),
-                  Padding(
+                  CaseSideCard(caseNo:"${Value.elementAt(index)['caseNo']}",onClick: (){
+                    addToList(Value.elementAt(index)['id']);
+                  },),
+            Container(
+            width: Constant.getWidthPartial(context, 60.0),
+            child:Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Center(
                       child: Column(
@@ -123,23 +131,21 @@ class _CardPageState extends State<CardPage>{
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Parties : ",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Container(
                                 width: 230,
                                 child: Text(
                                   "${Value.elementAt(index)['parties'].replaceAll("\n", " v ")}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -150,24 +156,22 @@ class _CardPageState extends State<CardPage>{
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Counsel : ",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Container(
-                                  width: 230,
+                                width: 230,
                                 //color: Colors.red,
                                 child: Text(
                                   "${Value.elementAt(index)['counsel']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -178,23 +182,21 @@ class _CardPageState extends State<CardPage>{
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Status of Cases : ",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Container(
                                 width: 230,
                                 child: Text(
                                   "${Value.elementAt(index)['caseStatus']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -202,15 +204,14 @@ class _CardPageState extends State<CardPage>{
                         ],
                       ),
                     ),
-                  ),
+                  ),),
                 ],
               ),
             );
           },
         ),
       );
-    }
-    else if (Value[0]['type'] == "DISTRICTCOURT"){
+    } else if (Value[0]['type'] == "DISTRICTCOURT") {
       return SingleChildScrollView(
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -238,58 +239,14 @@ class _CardPageState extends State<CardPage>{
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12.0),
-                              bottomLeft: Radius.circular(12.0),
-                            ),
-                            child: Image.asset("assets/images/Pic.png",
-                              color: Colors.white.withOpacity(0.2),
-                              colorBlendMode: BlendMode.modulate,
-                              /*height: 120,
-                      width: double.infinity,*/
-                              //color: Colors.black.withOpacity(0.14),
-                              height: double.infinity,
-                              width: 120,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Center(
-                              child: Container(
-                                width: 120,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Case No : ",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w700
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Text(
-                                      "${Value.elementAt(index)['caseNo']}",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              )
-                          )
-                        ],
-                      )
-                  ),
-                  Padding(
+                  CaseSideCard(caseNo:"${Value.elementAt(index)['caseNo']}",onClick: (){
+
+                    addToList(Value.elementAt(index)['id']);
+
+                  },),
+            Container(
+            width: Constant.getWidthPartial(context, 60.0),
+            child:Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Center(
                       child: Column(
@@ -299,23 +256,21 @@ class _CardPageState extends State<CardPage>{
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Case Title : ",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Container(
                                 width: 230,
                                 child: Text(
                                   "${Value.elementAt(index)['parties']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -326,23 +281,21 @@ class _CardPageState extends State<CardPage>{
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Counsel : ",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Container(
                                 width: 230,
                                 child: Text(
                                   "${Value.elementAt(index)['counsel']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -353,23 +306,21 @@ class _CardPageState extends State<CardPage>{
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 "Case Status : ",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
+                                    fontWeight: FontWeight.w700),
                               ),
                               Container(
                                 width: 230,
                                 child: Text(
                                   "${Value.elementAt(index)['caseStatus']}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -377,15 +328,14 @@ class _CardPageState extends State<CardPage>{
                         ],
                       ),
                     ),
-                  ),
+                  ),),
                 ],
               ),
             );
           },
         ),
       );
-    }
-    else if (Value[0]['type'] == "SUPREMECOURT"){
+    } else if (Value[0]['type'] == "SUPREMECOURT") {
       return SingleChildScrollView(
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -397,7 +347,6 @@ class _CardPageState extends State<CardPage>{
           itemCount: Value.length,
           itemBuilder: (_, index) {
             return Container(
-              height: 100,
               margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -413,198 +362,151 @@ class _CardPageState extends State<CardPage>{
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  CaseSideCard(caseNo: "${Value.elementAt(index)['caseNo']}",onClick: (){
+
+                    addToList(Value.elementAt(index)['id']);
+
+                  },),
                   Container(
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12.0),
-                              bottomLeft: Radius.circular(12.0),
+                    width: Constant.getWidthPartial(context, 60.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Parties : ",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Container(
+                                  width:
+                                      Constant.getWidthPartial(context, 55.0),
+                                  child: Text(
+                                    "${Value.elementAt(index)['parties']}",
+                                    style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
                             ),
-                            child: Image.asset("assets/images/Pic.png",
-                              color: Colors.white.withOpacity(0.13),
-                              colorBlendMode: BlendMode.modulate,
-                              /*height: 120,
-                      width: double.infinity,*/
-                              //color: Colors.black.withOpacity(0.14),
-                              height: double.infinity,
-                              width: 120,
-                              fit: BoxFit.cover,
+                            const SizedBox(
+                              height: 8.0,
                             ),
-                          ),
-                          Center(
-                              child: Container(
-                                width: 120,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Case No : ",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w700
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Text(
-                                      "${Value.elementAt(index)['caseNo']}",
-                                      style: TextStyle(
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w600
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              )
-                          )
-                        ],
-                      )
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Parties : ",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                              Container(
-                                width: 230,
-                                child: Text(
-                                  "${Value.elementAt(index)['parties']}",
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Pleaders : ",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Container(
+                                  width:
+                                      Constant.getWidthPartial(context, 55.0),
+                                  //color: Colors.red,
+                                  child: Text(
+                                    "${Value.elementAt(index)['pleaders']}",
+                                    style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Pleaders : ",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                              Container(
-                                width: 230,
-                                //color: Colors.red,
-                                child: Text(
-                                  "${Value.elementAt(index)['pleaders']}",
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Status of Cases : ",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Container(
+                                  width:
+                                      Constant.getWidthPartial(context, 55.0),
+                                  child: Text(
+                                    "${Value.elementAt(index)['statusOfCases']}",
+                                    style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Status of Cases : ",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                              Container(
-                                width: 230,
-                                child: Text(
-                                  "${Value.elementAt(index)['statusOfCases']}",
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Status of Def : ",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Container(
+                                  width:
+                                      Constant.getWidthPartial(context, 55.0),
+                                  child: Text(
+                                    "${Value.elementAt(index)['statusOfDef']}",
+                                    style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Status of Def : ",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                              Container(
-                                width: 230,
-                                child: Text(
-                                  "${Value.elementAt(index)['statusOfDef']}",
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Judge Assigned : ",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 0, 0, 0),
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Container(
+                                  width:
+                                      Constant.getWidthPartial(context, 55.0),
+                                  child: Text(
+                                    "${Value.elementAt(index)['judgeAssigned']}",
+                                    style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Judge Assigned : ",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700
-                                ),
-                              ),
-                              Container(
-                                width: 230,
-                                child: Text(
-                                  "${Value.elementAt(index)['judgeAssigned']}",
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -617,14 +519,12 @@ class _CardPageState extends State<CardPage>{
     }
   }
 
-  PageHeading(){
-    if (Value[0]['type'] == "COURTOFAPPEAL"){
+  PageHeading() {
+    if (Value[0]['type'] == "COURTOFAPPEAL") {
       return "Court of Appeal";
-    }
-    else if (Value[0]['type'] == "DISTRICTCOURT"){
+    } else if (Value[0]['type'] == "DISTRICTCOURT") {
       return "District Court";
-    }
-    else if (Value[0]['type'] == "SUPREMECOURT"){
+    } else if (Value[0]['type'] == "SUPREMECOURT") {
       return "Supreme Court";
     }
   }

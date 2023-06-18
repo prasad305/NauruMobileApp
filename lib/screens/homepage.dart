@@ -16,7 +16,6 @@ import 'package:webviewx_plus/webviewx_plus.dart';
 
 import '../components/circle_loader.dart';
 import '../components/custom_button.dart';
-import '../components/home_line_card.dart';
 import '../components/home_line_card_v2.dart';
 import '../components/rounded_clickable_icon.dart';
 import 'about.dart';
@@ -130,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                 scale:4.5,
               ),
             ),
-            SizedBox(width: 1,),
+            const SizedBox(width: 1,),
             const Text(
               "NAURU JUDICIARY",
               style: TextStyle(
@@ -200,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                   BoxShadow(
                     color: Colors.grey.shade600,
                     blurRadius: 4,
-                    offset: Offset(0, 1), // Shadow position
+                    offset: const Offset(0, 1), // Shadow position
                   ),
                 ],
               ),
@@ -211,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                   //Spacer
 
                   const Text("Check the upcoming cases"),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
                   Row(
                     children:  [
                       CustomButton(title: "District Court",selected: dcSelected,onClick: (){
@@ -223,8 +222,8 @@ class _HomePageState extends State<HomePage> {
                           SelectedValueHolder = "DISTRICTCOURT";
                         });
 
-                      },),
-                      SizedBox(width: 5,),
+                      },width: MediaQuery.of(context).size.width / 100 * 27.5,),
+                      const SizedBox(width: 5,),
                       CustomButton(title: "Supreme Court",selected: scSelected,onClick: (){
                         setState(() {
                           dcSelected = false;
@@ -233,8 +232,8 @@ class _HomePageState extends State<HomePage> {
                           SelectedValueHolder = "SUPREMECOURT";
                         });
 
-                      }),
-                      SizedBox(width: 5,),
+                      },width: MediaQuery.of(context).size.width / 100 * 27.5,),
+                      const SizedBox(width: 5,),
                       CustomButton(title: "Court of Appeal ",selected: coaSelected,onClick: (){
                         setState(() {
                           dcSelected = false;
@@ -242,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                           coaSelected= true;
                           SelectedValueHolder = "COURTOFAPPEAL";
                         });
-                      })
+                      },width: MediaQuery.of(context).size.width / 100 * 27.5,)
                     ],
                   ),
                   const SizedBox(
@@ -293,13 +292,13 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Container(
                           height: 55,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: blue,
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(6),
                                   bottomRight: Radius.circular(6))),
                           child: IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.calendar_month_rounded,
                                 size: 30,
                                 color: Colors.white,
@@ -311,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   //SizedBox(height: 10.0,),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ), //Spacer
 
@@ -427,13 +426,6 @@ class _HomePageState extends State<HomePage> {
 
 
                       ])),
-                  // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  //   HomeCard(
-                  //       img: "c9.png",
-                  //       title: "Practice directions for lawyers",
-                  //       url:
-                  //           "https://naurujudiciary.gov.nr/going-to-court/practice-directions-for-lawyers/"),
-                  // ]),
                 ],
               )),
       endDrawer: Container(
@@ -579,26 +571,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 children: <Widget>[
                   // todo reg services
-                  // ListTile(
-                  //   title: const Text(
-                  //     'Registrar',
-                  //     style: TextStyle(
-                  //       color: blue,
-                  //       fontFamily: "Roboto",
-                  //       fontSize: 18.0,
-                  //       letterSpacing: 1.0,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => RegistryPage(),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
                   ListTile(
                     title: const Text(
                       'Staff',
@@ -619,7 +591,6 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                   ),
-
                   ListTile(
                     title: const Text(
                       'Registry Service',
@@ -643,44 +614,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
 
-              // ListTile(
-              //   title: const Text(
-              //     'Going To Court',
-              //     style: TextStyle(
-              //       color: blue,
-              //       fontFamily: "Roboto",
-              //       fontSize: 18.0,
-              //       letterSpacing: 1.0,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              //   onTap: () {
-              //     // Update the state of the app
-              //     Navigator.pop(context);
-              //     openUrl('naurujudiciary.gov.nr',
-              //         'going-to-court/court-room-etiquette/');
-              //     // ...
-              //     // Then close the drawer
-              //   },
-              // ),
-              // ListTile(
-              //   title: const Text(
-              //     'Publications',
-              //     style: TextStyle(
-              //       color: blue,
-              //       fontFamily: "Roboto",
-              //       fontSize: 18.0,
-              //       letterSpacing: 1.0,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              //   onTap: () {
-              //     // Update the state of the app
-              //     Navigator.pop(context);
-              //     openUrl('naurujudiciary.gov.nr', 'annual-reports/');
-              //     // ...
-              //   },
-              // ),
               ListTile(
                 title: const Text(
                   'Contact us',
@@ -718,28 +651,7 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
               ),
-              // const AboutListTile(
-              //   // icon: Icon(
-              //   //   Icons.info,
-              //   //   color: blue,
-              //   // ),
-              //   child: Text(
-              //     'About App',
-              //     style: TextStyle(
-              //       color: blue,
-              //       fontFamily: "Roboto",
-              //       fontSize: 18.0,
-              //       letterSpacing: 1.0,
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //   ),
-              //   applicationIcon: Icon(
-              //     Icons.local_play,
-              //   ),
-              //   applicationName: 'Nauru Court App',
-              //   applicationVersion: '1.0.25',
-              //   applicationLegalese: '© 2023 Company',
-              // )
+
             ],
           ),
         ),
@@ -786,7 +698,6 @@ class _HomePageState extends State<HomePage> {
 
           notificationList.add(jsonEncode(item));
         }
-        print(notificationList.toString());
         prefs.setString("notification", notificationList.toString());
       }
     }
@@ -952,7 +863,7 @@ class _DropdownButtonExampleState extends State<DropdownList> {
     return Container(
       padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromARGB(255, 0, 23, 147), width: 2.0),
+        border: Border.all(color: const Color.fromARGB(255, 0, 23, 147), width: 2.0),
         borderRadius: BorderRadius.circular(5),
       ),
       height: 55,

@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
+  final double width;
   final bool selected;
   final dynamic onClick;
 
   const CustomButton({
     Key? key,
     required this.title,
-    required this.selected, this.onClick,
+    required this.selected, this.onClick, required this.width,
   }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 100 * 27.5,
+      width: width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: selected

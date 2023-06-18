@@ -13,7 +13,7 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Color.fromARGB(255, 0, 23, 147),
+      color: const Color.fromARGB(255, 0, 23, 147),
       elevation: 0,
       child: Padding(
           padding: const EdgeInsets.all(1.0),
