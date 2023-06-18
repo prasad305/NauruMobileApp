@@ -9,6 +9,7 @@ import Firebase
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     //
+      Thread.sleep(forTimeInterval: 3.0)
     FirebaseApp.configure()
     Messaging.messaging().delegate = self
     GeneratedPluginRegistrant.register(with: self) //old
