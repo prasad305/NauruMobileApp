@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:nauru_mobile_app/constant.dart';
 import 'package:nauru_mobile_app/service/api.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import '../components/circle_loader.dart';
 import '../data/state_servies.dart';
 
 class SearchPage extends StatefulWidget {
@@ -17,12 +20,17 @@ class _CardPageState extends State<SearchPage>{
   int i = 0;//List Records Counter
   String? userSelected = "";
   List<String> userSelectedData = []; //Select Item Holder
+  List<String> typeData = []; //Select Item Holder
 
   @override
   initState() {
     super.initState();
     loadUserData();
     loadData();
+      Timer.run(() {
+        CircleLoader.showCustomDialog(context);
+      });
+
   }
 
   List<String> name = [];
@@ -42,10 +50,19 @@ class _CardPageState extends State<SearchPage>{
     };
 
     APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case", data).then((value) {
-
+      CircleLoader.hideLoader(context);
       for (var item in value['userCaseList']) {
         setState(() {
           userSelectedData.add(item['caseId']['caseNo'] as String);
+          var type = item['caseId']['type'] as String;
+          if(type=="SUPREMECOURT"){
+            type = "Supreme Court";
+          }else if(type =="DISTRICTCOURT"){
+            type = "District Court";
+          }else{
+            type = "Court Of Appeal";
+          }
+          typeData.add(type);
           deleteIdList.add(item['caseId']['id'] as int);
         });
       }
@@ -189,6 +206,7 @@ class _CardPageState extends State<SearchPage>{
                                   fontWeight: FontWeight.bold,
                                 ),),
                                 onPressed: () async {
+                                  print("ssssssssssssssss");
                                   Map data = {
                                     'deviceId':deviceId,
                                     'id':idList[name.indexOf(suggestion)]
@@ -261,6 +279,7 @@ class _CardPageState extends State<SearchPage>{
                     style: const TextStyle(
                       fontFamily: "Roboto",
                       fontSize: 14.0,
+                      color: Color.fromARGB(255, 0, 0, 100),
                       letterSpacing: 1.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -273,105 +292,117 @@ class _CardPageState extends State<SearchPage>{
                       itemCount: userSelectedData.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
-                          color: const Color.fromARGB(255, 0, 23, 147),
+                          color: const Color.fromARGB(255, 239, 240, 250),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                             child: ListTile(
                               leading:
                                 Image.asset(
-                                  "assets/images/hummer.png",
-                                  scale: 1.5,
+                                  "assets/images/hammer.png",
+                                  scale: 3,
                                 ),
-                              title : Text(
-                                userSelectedData[index],
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontFamily: "Roboto",
-                                  fontSize: 18.0,
-                                  letterSpacing: 1.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Container(
-                                width: 35,
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: IconButton(
-                                        onPressed: (){
-                                          showDialog<void>(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AlertDialog(
-                                                  title: const Text('Delete',
-                                                    style: TextStyle(
-                                                      color: Color.fromARGB(255, 0, 23, 147),
-                                                      fontFamily: "Roboto",
-                                                      fontSize: 18.0,
-                                                      letterSpacing: 1.0,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  content: Text("Do You Want to delete ${userSelectedData[index]}?",
-                                                    style: const TextStyle(
-                                                      color: Color.fromARGB(255, 0, 23, 147),
-                                                      fontFamily: "Roboto",
-                                                      fontSize: 14.0,
-                                                      letterSpacing: 1.0,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      style: TextButton.styleFrom(
-                                                        textStyle: Theme.of(context).textTheme.labelLarge,
-                                                      ),
-                                                      child: const Text('Delete',
-                                                        style: TextStyle(
-                                                          color: Color.fromARGB(255, 0, 23, 147),
-                                                          fontFamily: "Roboto",
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 1.0,
-                                                          fontWeight: FontWeight.bold,
-                                                        ),),
-                                                      onPressed: () async {
-                                                        Map data = {
-                                                          'deviceId':deviceId,
-                                                          'id':deleteIdList[index]
-                                                        };
-                                                        APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/delete", data).then((value) => loadUserData());
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
-                                                    TextButton(
-                                                      style: TextButton.styleFrom(
-                                                        textStyle: Theme.of(context).textTheme.labelLarge,
-                                                      ),
-                                                      child: const Text('Cancel',
-                                                        style: TextStyle(
-                                                          color: Color.fromARGB(255, 0, 23, 147),
-                                                          fontFamily: "Roboto",
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 1.0,
-                                                          fontWeight: FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                          );
-                                        },
-                                        icon: const Icon(Icons.delete_forever, size: 30, color: Color(0xfffeb703)),
-                                      )
+                              title :
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                    Text(
+                                      userSelectedData[index],
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(255, 0, 0, 100),
+                                        fontFamily: "Roboto",
+                                        fontSize: 14.0,
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      typeData[index],
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(
+                                            255, 141, 140, 140),
+                                        fontFamily: "Roboto",
+                                        fontSize: 14.0,
+                                        letterSpacing: 1.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     )
-                                  ],
-                                ),
-                              ),
+                                  ],)
+
+                              ,
+
+                              trailing: SizedBox(
+                        child: IconButton(
+                                onPressed: (){
+                                  showDialog<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Delete',
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 0, 23, 147),
+                                              fontFamily: "Roboto",
+                                              fontSize: 18.0,
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          content: Text("Do You Want to delete ${userSelectedData[index]}?",
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(255, 0, 23, 147),
+                                              fontFamily: "Roboto",
+                                              fontSize: 14.0,
+                                              letterSpacing: 1.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: Theme.of(context).textTheme.labelLarge,
+                                              ),
+                                              child: const Text('Delete',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 0, 23, 147),
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),),
+                                              onPressed: () async {
+                                                Map data = {
+                                                  'deviceId':deviceId,
+                                                  'id':deleteIdList[index]
+                                                };
+                                                APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/delete", data).then((value) => loadUserData());
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: Theme.of(context).textTheme.labelLarge,
+                                              ),
+                                              child: const Text('Cancel',
+                                                style: TextStyle(
+                                                  color: Color.fromARGB(255, 0, 23, 147),
+                                                  fontFamily: "Roboto",
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                  );
+                                },
+                                icon: Image.asset("assets/images/bin.png",scale: 3.5),
+                              ),)
                             ),
 
                         );
