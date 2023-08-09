@@ -13,9 +13,10 @@ import '../service/api.dart';
 
 class CardPage extends StatefulWidget {
   List Data;
+  final bool showAddBtn;
 
   //CardPage({required this.Data});
-  CardPage({Key? key, required this.Data}) : super(key: key);
+  CardPage({Key? key, required this.Data, this.showAddBtn=true}) : super(key: key);
 
   @override
   _CardPageState createState() => _CardPageState(Data);
@@ -41,8 +42,6 @@ class _CardPageState extends State<CardPage> {
 
   addToList(id) {
     Map data = {'deviceId': deviceId, 'id': id};
-    print("data");
-    print(data);
     APIManager()
         .postRequest("https://api.textware.lk/nauru/v1/api/my/case/add", data);
     showDialog<void>(
@@ -67,7 +66,6 @@ class _CardPageState extends State<CardPage> {
   }
 
   Widget build(BuildContext context) {
-    print(Value[0]);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -100,6 +98,7 @@ class _CardPageState extends State<CardPage> {
             final bool isExpired = expirationDate.isBefore(now);
             //
             return HomeCaseCardCA(
+              showAddBtn: widget.showAddBtn,
                 caseNo:
                     "${Value.elementAt(index)['caseNo']!=null?Value.elementAt(index)['caseNo'].replaceAll("\n", " "):""}",
                 parties:
@@ -127,6 +126,7 @@ class _CardPageState extends State<CardPage> {
             //
             print(Value.elementAt(index));
             return HomeCaseCardDC(
+                showAddBtn: widget.showAddBtn,
                 caseNo: "${Value.elementAt(index)['caseNo']!=null?Value.elementAt(index)['caseNo'].replaceAll("\n", " "):""}",
                 title: "${Value.elementAt(index)['title']!=null?Value.elementAt(index)['title'].replaceAll("\n", " "):""}",
                 counsels: "${Value.elementAt(index)['counsel']!=null?Value.elementAt(index)['counsel'].replaceAll("\n", " "):""}",
@@ -150,6 +150,7 @@ class _CardPageState extends State<CardPage> {
             final bool isExpired = expirationDate.isBefore(now);
             //
             return HomeCaseCard(
+                showAddBtn: widget.showAddBtn,
                 caseNo: "${Value.elementAt(index)['caseNo']!=null?Value.elementAt(index)['caseNo'].replaceAll("\n", " "):""}",
                 parties: "${Value.elementAt(index)['parties']!=null?Value.elementAt(index)['parties'].replaceAll("\n", " "):""}",
                 pledger: "${Value.elementAt(index)['pleaders']!=null?Value.elementAt(index)['pleaders'].replaceAll("\n", " "):""}",

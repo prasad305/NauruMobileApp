@@ -42,13 +42,14 @@ class _NotifiationState extends State<Notifiation> {
         .postRequest(
             "https://api.textware.lk/nauru/v1/api/my/notification", data)
         .then((value) {
-      print(value['notificationLogList']);
       if (value['notificationLogList'].length != 0) {
         for (var item in value['notificationLogList']) {
+          List<dynamic> data = [];
+          data.add(item["caseId"]);
           setState(() {
             setState(() {
               body.add(
-                  NotificationCard(title: item['title'], body: item['body']));
+                  NotificationCard(title: item['title'], body: item['body'],data: data));
             });
           });
         }

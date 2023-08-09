@@ -1,54 +1,32 @@
+import 'package:nauru_mobile_app/data/upcoming_case.dart';
+
 class StateService {
 
   static List<String> states = [
-    'ANDAMAN AND NICOBAR ISLANDS',
-    'ANDHRA PRADESH',
-    'ARUNACHAL PRADESH',
-    'ASSAM',
-    'BIHAR',
-    'CHATTISGARH',
-    'CHANDIGARH',
-    'DAMAN AND DIU',
-    'DELHI',
-    'DADRA AND NAGAR HAVELI',
-    'GOA',
-    'GUJARAT',
-    'HIMACHAL PRADESH',
-    'HARYANA',
-    'JAMMU AND KASHMIR',
-    'JHARKHAND',
-    'KERALA',
-    'KARNATAKA',
-    'LAKSHADWEEP',
-    'MEGHALAYA',
-    'MAHARASHTRA',
-    'MANIPUR',
-    'MADHYA PRADESH',
-    'MIZORAM',
-    'NAGALAND',
-    'ORISSA',
-    'PUNJAB',
-    'PONDICHERRY',
-    'RAJASTHAN',
-    'SIKKIM',
-    'TAMIL NADU',
-    'TRIPURA',
-    'UTTARAKHAND',
-    'UTTAR PRADESH',
-    'WEST BENGAL',
-    'TELANGANA',
-    'LADAKH'
+    'ANDAMAN AND NICOBAR ISLANDS'
   ];
 
-  static List<String> getSuggestions(String query) {
-    List<String> matches = [];
-    matches.addAll(states);
-    matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+  static List<UpcomingCase> statesObj = [];
+
+  // static List<String> getSuggestions(String query) {
+  //   List<String> matches = [];
+  //   matches.addAll(states);
+  //   matches.retainWhere((s) => s.toLowerCase().contains(query.toLowerCase()));
+  //   return matches;
+  // }
+  static List<UpcomingCase> getSuggestions(String query) {
+    List<UpcomingCase> matches = [];
+    matches.addAll(statesObj);
+    matches.retainWhere((s) => s.parties.toLowerCase().contains(query.toLowerCase()));
     return matches;
   }
 
   static reloadData(data){
     states = data;
+  }
+
+  static reloadDataObj(data){
+    statesObj = data;
   }
 
 

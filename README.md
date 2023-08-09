@@ -1,6 +1,6 @@
 # nauru_mobile_app
 
-Nauru Mobile App Project.
+Nauru Judiciary App Project.
 
 ## Getting Started
 

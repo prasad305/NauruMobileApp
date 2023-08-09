@@ -9,6 +9,7 @@ class HomeCaseCardCA extends StatelessWidget {
   final String date;
   final dynamic onClick;
   final bool isExpired;
+  final bool showAddBtn;
 
   const HomeCaseCardCA({
     Key? key,
@@ -17,7 +18,7 @@ class HomeCaseCardCA extends StatelessWidget {
     required this.status,
     required this.date,
     required this.isExpired,
-    required this.counsels, required this.parties,
+    required this.counsels, required this.parties, this.showAddBtn=true,
   }) : super(key: key);
 
   @override
@@ -163,7 +164,7 @@ class HomeCaseCardCA extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          showAddBtn?SizedBox(
             width:  MediaQuery.of(context).size.height * 0.095,
             height: MediaQuery.of(context).size.height * 0.040,
             child: ElevatedButton(
@@ -183,7 +184,7 @@ class HomeCaseCardCA extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 0, 23, 147)),
             ),
-          )
+          ):SizedBox(width: 1,)
 
         ])
       ]),

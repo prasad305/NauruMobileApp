@@ -14,9 +14,10 @@ class APIManager{
       body: json.encode(data),
     );
     if(response.statusCode == 200){
-      // print("response");//Check Response is success
-      // print(response.body);//Check Response is success
       final body = response.body;
+      print("response"+url);//Check Response is success
+      print(jsonDecode(body));//Check Response is success
+
       return jsonDecode(body);
     }else{
       print("error");

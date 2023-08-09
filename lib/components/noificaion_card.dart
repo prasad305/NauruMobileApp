@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../screens/cardpage.dart';
+
 class NotificationCard extends StatelessWidget {
   final String title;
   final String body;
+  final dynamic data;
 
   const NotificationCard({
     Key? key,
     required this.title,
-    required this.body,
+    required this.body, this.data,
   }) : super(key: key);
 
   @override
@@ -22,6 +25,13 @@ class NotificationCard extends StatelessWidget {
               // Add what you want to do on tap
               // Navigator.of(context).push(MaterialPageRoute(
               //     builder: (context) => const Authenticate()));
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CardPage(Data: data,showAddBtn:false),
+                ),
+              );
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:nauru_mobile_app/constant.dart';
+import 'package:nauru_mobile_app/data/upcoming_case.dart';
 import 'package:nauru_mobile_app/service/api.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import '../components/circle_loader.dart';
@@ -19,31 +20,25 @@ class _CardPageState extends State<SearchPage>{
 
   int i = 0;//List Records Counter
   String? userSelected = "";
-  List<String> userSelectedData = []; //Select Item Holder
-  List<String> typeData = []; //Select Item Holder
+  // List<String> userSelectedData = []; //Select Item Holder
+  // List<String> typeData = []; //Select Item Holder
 
   @override
   initState() {
     super.initState();
     loadUserData();
     loadData();
-      Timer.run(() {
-        CircleLoader.showCustomDialog(context);
-      });
-
   }
-
-  List<String> name = [];
-  List<dynamic> idList = [];
-  List<int> deleteIdList = [];
-  List<dynamic> caseList = [];
-  List<dynamic> selectedCaseList = [];
+  List<UpcomingCase> allFilterList = [];
   String? deviceId;
+  List<UpcomingCase> userCaseList= [];
   loadUserData() async {
+    userCaseList = [];
+    Timer.run(() {
+      CircleLoader.showCustomDialog(context);
+    });
 
     deviceId  = await PlatformDeviceId.getDeviceId;
-    userSelectedData = [];
-    deleteIdList = [];
 
     Map data = {
       'deviceId':deviceId
@@ -51,19 +46,31 @@ class _CardPageState extends State<SearchPage>{
 
     APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case", data).then((value) {
       CircleLoader.hideLoader(context);
+      if(value['userCaseList'].length==0){
+        setState(() {
+          userCaseList = [];
+        });
+      }
       for (var item in value['userCaseList']) {
         setState(() {
-          userSelectedData.add(item['caseId']['caseNo'] as String);
+
           var type = item['caseId']['type'] as String;
+          var parties = '';
           if(type=="SUPREMECOURT"){
             type = "Supreme Court";
+            parties =item['caseId']['parties'] as String;
           }else if(type =="DISTRICTCOURT"){
             type = "District Court";
+            parties =item['caseId']['title'] as String;
           }else{
             type = "Court Of Appeal";
+            parties =item['caseId']['parties'] as String;
           }
-          typeData.add(type);
-          deleteIdList.add(item['caseId']['id'] as int);
+          userCaseList.add(UpcomingCase(id: item['caseId']['id'] as int,
+              title: item['caseId']['caseNo'] as String,
+              court: type,
+              parties:parties));
+
         });
       }
 
@@ -73,21 +80,33 @@ class _CardPageState extends State<SearchPage>{
 
   }
   loadData() async {
-    StateService.reloadData(name);
+    StateService.reloadDataObj(allFilterList);
     var now = new DateTime.now().toString();
     Map data = {
       'dateFrom': now.split(" ")[0]
     };
     APIManager().postRequest(Constant.domain+"/nauru/v1/api/case/list", data).then((value) {
+      // print("ssssxxsaas"+value);
       if(value['caseNameList'] != 0){
-        caseList = value['caseNameList'];
         for (var item in value['caseNameList']) {
-          name.add(item['caseNo']);
-          idList.add(item['id']);
+
+          print(item);
+          var parties = '';
+          if(item['type']=="SUPREMECOURT"){
+            parties =item['parties'] as String;
+          }else if(item['type'] =="DISTRICTCOURT"){
+            parties =item['title'] as String;
+          }else{
+            parties =item['parties'] as String;
+          }
+
+          allFilterList.add(UpcomingCase(id: item['id'] as int, title: item['caseNo'] as String,
+              court: item['type'],
+              parties: parties+item['caseNo'] as String));
         }
-        StateService.reloadData(name);
+        StateService.reloadDataObj(allFilterList);
       }else{
-        StateService.reloadData(name);
+        StateService.reloadDataObj(allFilterList);
       }
     });
 
@@ -149,7 +168,7 @@ class _CardPageState extends State<SearchPage>{
                   suggestionsCallback: (value) {
                     return StateService.getSuggestions(value);
                   },
-                  itemBuilder: (context, String suggestion) {
+                  itemBuilder: (context, UpcomingCase suggestion) {
                     return Row(
                       children: [
                         const SizedBox(
@@ -158,18 +177,27 @@ class _CardPageState extends State<SearchPage>{
                         Flexible(
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
-                            child: Text(
-                              suggestion,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+
+                              children: [Text(
+                              suggestion.title,
                               maxLines: 1,
                               // style: TextStyle(color: Colors.red),
                               overflow: TextOverflow.ellipsis,
-                            ),
+                            ),Text(
+                              '('+suggestion.parties+')',
+                              maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.grey,fontSize: 12),
+                            )],) ,
                           ),
                         )
                       ],
                     );
                   },
-                  onSuggestionSelected: (String suggestion) {
+                  onSuggestionSelected: (UpcomingCase suggestion) {
                     showDialog<void>(
                         context: context,
                         builder: (BuildContext context) {
@@ -183,7 +211,7 @@ class _CardPageState extends State<SearchPage>{
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            content: Text("Do You Want to add ${suggestion}?",
+                            content: Text("Do You Want to add ${suggestion.title}?",
                               style: const TextStyle(
                                 color: Color.fromARGB(255, 0, 23, 147),
                                 fontFamily: "Roboto",
@@ -206,18 +234,20 @@ class _CardPageState extends State<SearchPage>{
                                   fontWeight: FontWeight.bold,
                                 ),),
                                 onPressed: () async {
-                                  print("ssssssssssssssss");
                                   Map data = {
                                     'deviceId':deviceId,
-                                    'id':idList[name.indexOf(suggestion)]
+                                    'id':suggestion.id
                                   };
                                   APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/add", data);
                                   Navigator.of(context).pop();
-                                  if(userSelectedData.contains(suggestion)){
+
+                                  if(userCaseList.map((item) => item.title).contains(suggestion)){
                                   }else{
                                     setState(() {
-                                      userSelectedData.add(suggestion);
-                                      deleteIdList.add(idList[name.indexOf(suggestion)] as int);
+                                      // userSelectedData.add(suggestion);
+                                      // typeData.add(suggestion);
+                                      userCaseList.add(UpcomingCase(id: suggestion.id, title: suggestion.title, court: suggestion.court,parties: ""));
+                                      // deleteIdList.add(idList[name.indexOf(suggestion)] as int);
                                     });
                                   }
                                 },
@@ -247,7 +277,7 @@ class _CardPageState extends State<SearchPage>{
                 )),
           ),
         ),
-        body: userSelectedData.length==0? Container(
+        body: userCaseList.isEmpty? Container(
               padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
               child: Container(
                 child: Center(
@@ -275,7 +305,7 @@ class _CardPageState extends State<SearchPage>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "My Case List ("+userSelectedData.length.toString()+")",
+                    "My Case List ("+userCaseList.length.toString()+")",
                     style: const TextStyle(
                       fontFamily: "Roboto",
                       fontSize: 14.0,
@@ -289,7 +319,7 @@ class _CardPageState extends State<SearchPage>{
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 8.0),
-                      itemCount: userSelectedData.length,
+                      itemCount: userCaseList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Card(
                           color: const Color.fromARGB(255, 239, 240, 250),
@@ -308,7 +338,7 @@ class _CardPageState extends State<SearchPage>{
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                     Text(
-                                      userSelectedData[index],
+                                      userCaseList[index].title,
                                       style: const TextStyle(
                                         color: Color.fromARGB(255, 0, 0, 100),
                                         fontFamily: "Roboto",
@@ -318,7 +348,7 @@ class _CardPageState extends State<SearchPage>{
                                       ),
                                     ),
                                     Text(
-                                      typeData[index],
+                                      userCaseList[index].court,
                                       style: const TextStyle(
                                         color: Color.fromARGB(
                                             255, 141, 140, 140),
@@ -348,7 +378,7 @@ class _CardPageState extends State<SearchPage>{
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          content: Text("Do You Want to delete ${userSelectedData[index]}?",
+                                          content: Text("Do You Want to delete ${userCaseList[index].title}?",
                                             style: const TextStyle(
                                               color: Color.fromARGB(255, 0, 23, 147),
                                               fontFamily: "Roboto",
@@ -371,11 +401,17 @@ class _CardPageState extends State<SearchPage>{
                                                   fontWeight: FontWeight.bold,
                                                 ),),
                                               onPressed: () async {
+
+                                                // loadUserData();
                                                 Map data = {
                                                   'deviceId':deviceId,
-                                                  'id':deleteIdList[index]
+                                                  'id':userCaseList[index].id
                                                 };
-                                                APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/delete", data).then((value) => loadUserData());
+                                                APIManager().postRequest("https://api.textware.lk/nauru/v1/api/my/case/delete", data).then((value) =>
+                                                  {
+                                                    loadUserData()
+                                                  }
+                                                );
                                                 Navigator.of(context).pop();
                                               },
                                             ),

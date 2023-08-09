@@ -10,6 +10,7 @@ class HomeCaseCardDC extends StatelessWidget {
   final String date;
   final dynamic onClick;
   final bool isExpired;
+  final bool showAddBtn;
 
   const HomeCaseCardDC({
     Key? key,
@@ -20,7 +21,7 @@ class HomeCaseCardDC extends StatelessWidget {
     required this.isExpired,
     required this.title,
     required this.counsels,
-    required this.remark,
+    required this.remark, this.showAddBtn=true,
   }) : super(key: key);
 
   @override
@@ -187,7 +188,7 @@ class HomeCaseCardDC extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          showAddBtn ? SizedBox(
             width:  MediaQuery.of(context).size.height * 0.095,
             height: MediaQuery.of(context).size.height * 0.040,
             child: ElevatedButton(
@@ -207,7 +208,7 @@ class HomeCaseCardDC extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 23, 39, 125)),
             ),
-          )
+          ):SizedBox(width: 1,)
           // CustomButtonV2(
           //   title: "Add to My List",
           //   selected: false,

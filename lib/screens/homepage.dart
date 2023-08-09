@@ -732,7 +732,6 @@ class _HomePageState extends State<HomePage> {
           final json = jsonDecode(body);
           setState(() {
             data = json["upcomingCaseList"];
-            print(data);
           });
           if (data.length != 0) {
             Navigator.push(
@@ -741,7 +740,6 @@ class _HomePageState extends State<HomePage> {
                 builder: (context) => CardPage(Data: data),
               ),
             );
-            print("Move to the list page!");
           }else{
             showDialog<void>(
                 context: context,

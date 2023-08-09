@@ -11,8 +11,8 @@ class _DistrictCourtPageState extends State<DistrictCourtPage>{
   Widget build(BuildContext context){
     return Scaffold(
         appBar: AppBar(
-          title: Text("District Court",
-            style: const TextStyle(
+          title: const Text("District Court",
+            style: TextStyle(
               fontFamily: "Roboto",
               letterSpacing: 1.0,
               fontSize: 22.0,
@@ -39,8 +39,8 @@ class _DistrictCourtPageState extends State<DistrictCourtPage>{
                     children: [
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        child: Text("District Court",
-                          style: const TextStyle(
+                        child: const Text("District Court",
+                          style: TextStyle(
                             fontFamily: "Roboto",
                             letterSpacing: 1.0,
                             fontSize: 22.0,
@@ -60,9 +60,9 @@ class _DistrictCourtPageState extends State<DistrictCourtPage>{
                         padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
                         color: Color.fromARGB(205,228,246,255),
                         child: Column(
-                          children: [
+                          children: const [
                             Text("The District Court is governed by the District Court Act 2018 and is a court of summary jurisdiction. The District Court is subordinate to the Supreme Court and is presided by the Resident Magistrate Mr. Neil Rupasinghe.",
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontFamily: "Roboto",
                                   letterSpacing: 1.0,
                                   fontSize: 14.0,

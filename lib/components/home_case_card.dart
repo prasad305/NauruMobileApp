@@ -12,6 +12,7 @@ class HomeCaseCard extends StatelessWidget {
   final String date;
   final dynamic onClick;
   final bool isExpired;
+  final bool showAddBtn;
 
   const HomeCaseCard({
     Key? key,
@@ -22,7 +23,7 @@ class HomeCaseCard extends StatelessWidget {
     required this.status,
     required this.def,
     required this.judge,
-    required this.date, required this.isExpired,
+    required this.date, required this.isExpired, this.showAddBtn =true,
   }) : super(key: key);
 
 
@@ -189,7 +190,7 @@ class HomeCaseCard extends StatelessWidget {
                 ),
               ),
             ]),
-            Align(
+            showAddBtn ? Align(
               alignment: Alignment.topRight,
               child:   SizedBox(
                 width:  MediaQuery.of(context).size.height * 0.095,
@@ -213,7 +214,7 @@ class HomeCaseCard extends StatelessWidget {
                 ),
               ),
 
-            )
+            ):const SizedBox(width: 1,)
           ],
         )
 
