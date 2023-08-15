@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 
@@ -7,6 +8,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:nauru_mobile_app/service/api.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../components/circle_loader.dart';
 import '../components/noificaion_card.dart';
 import '../data/state_servies.dart';
 
@@ -32,6 +34,10 @@ class _NotifiationState extends State<Notifiation> {
   }
 
   loadUserData() async {
+    Timer.run(() {
+      CircleLoader.showCustomDialog(context);
+    });
+    body = [];
     String? deviceId = await PlatformDeviceId.getDeviceId;
 
     Map data = {
@@ -42,14 +48,16 @@ class _NotifiationState extends State<Notifiation> {
         .postRequest(
             "https://api.textware.lk/nauru/v1/api/my/notification", data)
         .then((value) {
+      Timer.run(() {
+        CircleLoader.hideLoader(context);
+      });
       if (value['notificationLogList'].length != 0) {
         for (var item in value['notificationLogList']) {
           List<dynamic> data = [];
           data.add(item["caseId"]);
           setState(() {
             setState(() {
-              body.add(
-                  NotificationCard(title: item['title'], body: item['body'],data: data));
+              body.add(NotificationCard(id:item['id'],title: item['title'], body: item['body'],data: data,reloadAll:loadUserData));
             });
           });
         }

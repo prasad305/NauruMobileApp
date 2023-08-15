@@ -280,10 +280,10 @@ class _CardPageState extends State<SearchPage>{
         body: userCaseList.isEmpty? Container(
               padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
               child: Container(
-                child: Center(
+                child: const Center(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "List your cases here to get notifications",
                           style: TextStyle(

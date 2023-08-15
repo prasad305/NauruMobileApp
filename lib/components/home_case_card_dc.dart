@@ -58,11 +58,11 @@ class HomeCaseCardDC extends StatelessWidget {
                             fontSize: 15.0, fontWeight: FontWeight.bold)),
                     Flexible(
                         child: Text(caseNo,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 15.0, fontWeight: FontWeight.bold)))
                   ]),
                 )),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Text(
@@ -79,7 +79,7 @@ class HomeCaseCardDC extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Row(children: [
-          Text(
+          const Text(
             "Case Title : ",
             style: TextStyle(
                 color: Color.fromARGB(255, 0, 0, 100),
@@ -90,7 +90,7 @@ class HomeCaseCardDC extends StatelessWidget {
           Flexible(
             child: Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromARGB(255, 61, 65, 198),
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
@@ -100,7 +100,7 @@ class HomeCaseCardDC extends StatelessWidget {
         ]),
         SizedBox(height: 10),
         Row(children: [
-          Text(
+          const Text(
             "Counsels : ",
             style: TextStyle(
                 color: Color.fromARGB(255, 0, 0, 100),
@@ -111,7 +111,7 @@ class HomeCaseCardDC extends StatelessWidget {
           Flexible(
             child: Text(
               counsels,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromARGB(255, 61, 65, 198),
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
@@ -121,7 +121,7 @@ class HomeCaseCardDC extends StatelessWidget {
         ]),
         SizedBox(height: 10),
         Row(children: [
-          Text(
+          const Text(
             "Status Of Case : ",
             style: TextStyle(
                 color: Color.fromARGB(255, 0, 0, 100),
@@ -140,9 +140,9 @@ class HomeCaseCardDC extends StatelessWidget {
             ),
           ),
         ]),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(children: [
-          Text(
+          const Text(
             "Remarks : ",
             style: TextStyle(
                 color: Color.fromARGB(255, 0, 0, 100),
@@ -153,7 +153,7 @@ class HomeCaseCardDC extends StatelessWidget {
           Flexible(
             child: Text(
               remark,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color.fromARGB(255, 61, 65, 198),
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
@@ -161,13 +161,13 @@ class HomeCaseCardDC extends StatelessWidget {
             ),
           ),
         ]),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Container(
             width: 210,
-            child: Row(
+            child: const Row(
               children: [
-                const Text(
+                Text(
                   " ",
                   style: TextStyle(
                       color: Color.fromARGB(255, 0, 0, 100),
